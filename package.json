@@ -13,10 +13,13 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
+    "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.16",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "axios": "^1.6.8",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "styled-components": "^6.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
