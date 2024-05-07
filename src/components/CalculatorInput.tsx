@@ -4,17 +4,14 @@ import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import { useState } from "react";
 
 const CalculatorInput = () => {
-  const [origin1, setOrigin1] = useState<boolean>(true);
-  const [origin2, setOrigin2] = useState<boolean>(false);
+  const [origin, setOrigin] = useState<boolean>(true);
 
   const clickOrigin1 = () => {
-    setOrigin1(true);
-    setOrigin2(false);
+    setOrigin(true);
   };
 
   const clickOrigin2 = () => {
-    setOrigin1(false);
-    setOrigin2(true);
+    setOrigin(false);
   };
 
   return (
@@ -41,15 +38,15 @@ const CalculatorInput = () => {
             size="small"
             style={{
               width: "198px",
-              backgroundColor: origin1 ? "#4F46E5" : "#F3F4F6",
+              backgroundColor: origin ? "#4F46E5" : "#F3F4F6",
             }}
             onClick={clickOrigin1}
           >
             <PublicOutlinedIcon
-              style={{ height: "20px", color: origin1 ? "white" : "#111827" }}
+              style={{ height: "20px", color: origin ? "white" : "#111827" }}
             />
             <Typography
-              color={origin1 ? "white" : "#111827"}
+              color={origin ? "white" : "#111827"}
               textTransform={"none"}
             >
               Natural
@@ -61,15 +58,15 @@ const CalculatorInput = () => {
             size="small"
             style={{
               width: "198px",
-              backgroundColor: origin2 ? "#4F46E5" : "#F3F4F6",
+              backgroundColor: origin ? "#F3F4F6" : "#4F46E5",
             }}
             onClick={clickOrigin2}
           >
             <ScienceOutlinedIcon
-              style={{ height: "20px", color: origin2 ? "white" : "#111827" }}
+              style={{ height: "20px", color: origin ? "#111827" : "white" }}
             />
             <Typography
-              color={origin2 ? "white" : "#111827"}
+              color={origin ? "#111827" : "white"}
               textTransform={"none"}
             >
               Lab Grown
