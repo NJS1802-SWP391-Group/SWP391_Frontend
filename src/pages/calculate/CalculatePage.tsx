@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import CalculatorInput from "../components/CalculatorInput";
+import CalculatorInput from "../../components/CalculatorInput";
 
 export type shapeDiamond = {
   id: number;
