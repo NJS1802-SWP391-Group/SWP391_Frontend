@@ -1,0 +1,67 @@
+.navbar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px 7%;
+    background-color: #03735C;
+}
+
+.logo{
+    width: 100px;
+    cursor: pointer;
+}
+
+ul{
+    flex: 1;
+    list-style: none;
+    text-align: center;
+}
+
+ul li{
+    display: inline-block;
+    margin: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    
+    padding: 10px 40px;
+    border-radius: 20px;
+    font-weight: 200;
+}
+
+.toogle-icon{
+    width: 50px;
+    cursor: pointer;
+    margin-left: 40px;
+}
+
+a{
+    text-decoration: none;
+     color: #111827;
+    
+}
+
+ul li:hover{
+    background-color: #4F46E5;
+    color: white;
+
+}
+
+.btn_login{
+    background-color: #f3f4f6; /* Green */
+    border: none;
+    border-radius: 20px;
+    color: #111827;
+    padding: 15px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.btn_login:hover{
+    background-color: #4F46E5;
+    color: white
+}
+
