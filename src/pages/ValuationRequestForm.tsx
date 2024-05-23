@@ -5,9 +5,6 @@ import Header from "../components/navbar/Navbar";
 const ValuationRequestForm = () => {
   return (
     <div>
-      <div style={{ marginBottom: "20px" }}>
-        <Header />
-      </div>
       <div>
         <ValuationForm />
       </div>
