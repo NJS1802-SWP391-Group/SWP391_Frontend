@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/header/Header";
 import ValuationForm from "../components/forms/ValuationForm";
+import Header from "../components/navbar/Navbar";
 
 const ValuationRequestForm = () => {
   return (
