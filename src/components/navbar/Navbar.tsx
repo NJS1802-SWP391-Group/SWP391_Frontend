@@ -19,8 +19,11 @@ function Navbar() {
         <Link to="/calculate">
           <li>Calculate</li>
         </Link>
-        <Link to="/About">
+        <Link to="/about">
           <li>About</li>
+        </Link>
+        <Link to="/contact">
+          <li>Contact</li>
         </Link>
       </ul>
 
