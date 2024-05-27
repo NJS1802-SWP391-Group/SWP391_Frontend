@@ -7,7 +7,7 @@
 }
 
 .container{
-    width: 100vw;
+    width: auto;
     min-height: 100vh;
     background: #F8F9FA;
 }
@@ -19,7 +19,6 @@
     background-attachment: fixed;
     background-size: cover;
 }  */
-
 
 .image-container {
     position: relative;
@@ -34,8 +33,8 @@
 
 .image-container .overlay-text {
     position: absolute;
-    top: 15%;
-    left: 40%;
+    top: 20%;
+    left: 20%;
     transform: translate(-50%, -50%);
     font-size: 24px;
     font-weight: bold;
@@ -50,13 +49,116 @@
 .overlay-text button{
     background-color: #07BC97;
     color: white;
-    margin-left: 10px;
     padding: 12px 20px;
-    border: 1px solid black;
+    border: none;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .overlay-text button:hover{
     background-color: #4F46E5;
 }
 
+.home-inforamation{
+    margin-top: -6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-inforamation ul{
+    border-top: 1px solid orange;
+    flex: 1;
+    list-style: none;
+    text-align: center;
+}
+
+.home-inforamation li{
+    display: inline-block;
+    margin: 10px 20px;
+    font-size: 18px;
+    padding: 10px 40px;
+    font-weight: 200;
+}
+
+.diavan-help{
+    margin-top: 50px;
+}
+
+.diavan-help-left{
+    width: 66%;
+    color: #2D5477;
+}
+
+.diavan-help-left h2{
+    width: 80%;
+    font-size: 48px;
+}
+
+.highlight{
+    color: #05A1BD;
+    background: #F8F9FA;
+}
+
+.diamond-icon{
+    background-color: white;
+    margin-right: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: normal;
+    border-radius: 15px;
+    padding: 10px 10px;
+}
+
+.diavan-help-left button{
+    padding: 5px 10px 5px 5px;
+    margin-left: 1px;
+    background-color: #6366F1;
+    color: white;
+    border: 1px;
+    border-radius: 15px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.diavan-help-left button:hover{
+    background-color: #190b5b;
+}
+
+.home-feedback{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-bottom: 50px;
+    
+}
+
+.feedback-list{
+    padding: 40px 32px;
+    margin: 0 0 0 16px;
+    border-radius: 25px;
+    width: 33%;
+}
+
+.rate{
+    color: #4F46E5;
+}
+
+.feedback-title{
+    color: #2D5477;
+    font-weight: bolder;
+    margin: 0 0 10px;
+}
+
+.feedback-comment{
+    font-size: 18px;
+    color: #2D5477;
+    font-weight: 700;
+    margin: 0 0 16px;
+}
+
+.feedback-author{
+    color: #0B735C;
+    font-size: 18px;
+    font-weight: 700;
+}

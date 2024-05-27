@@ -10,6 +10,7 @@ import CalculatePage from "./pages/calculate/CalculatePage";
 import DiamondCheckPage from "./pages/diamondCheck/DiamondCheckPage";
 import HomePage from "./pages/homePage/HomePage";
 import ManagerPage from "./pages/manager/managerPage";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
           </Routes>
         </div>
+        <Footer />
         <GlobalStyles />
       </BrowserRouter>
     </ErrorBoundary>
