@@ -2,6 +2,7 @@ import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import { ErrorBoundary } from "./components/errorboundary/errorBoundary";
+import Footer from "./components/footer/Footer";
 import Navbar from "./components/navbar/Navbar";
 import ConsultingStaffPage from "./pages/ConsultingStaffPage";
 import ValuationRequestForm from "./pages/ValuationRequestForm";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
           </Routes>
         </div>
+        <Footer />
         <GlobalStyles />
       </BrowserRouter>
     </ErrorBoundary>
