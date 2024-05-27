@@ -12,8 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import NoButton from "../../assets/NoButton.png";
-import YesButton from "../../assets/YesButton.png";
+import PlusButton from "../../assets/PlusButton.png";
 import { ManagerAssignResponse } from "../../interfaces/manager/managerResponse";
 
 const AssignManager = () => {
@@ -100,20 +99,11 @@ const AssignManager = () => {
                   <Box>
                     <IconButton onClick={() => handleOpen(managerResponse)}>
                       <img
-                        src={NoButton}
+                        src={PlusButton}
                         width="35"
                         height="35"
-                        alt="NoButton"
-                        className="Nobutton"
-                      />
-                    </IconButton>
-                    <IconButton>
-                      <img
-                        src={YesButton}
-                        width="35"
-                        height="35"
-                        alt="YesButton"
-                        className="YesButton"
+                        alt="PlusButton"
+                        className="Plusbutton"
                       />
                     </IconButton>
                   </Box>
