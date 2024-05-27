@@ -14,12 +14,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import * as yup from "yup";
 import {
@@ -120,151 +119,160 @@ const LoginForm = () => {
             console.log("default!");
         }
       }
-      if (response === "Cannot find user") {
-        toast.error("Login Failed! Wrong username or password!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      } else {
-        toast.error("Login Failed!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
-    } catch (error) {
-      console.log("Error at login Form", error);
-      toast.error("Login Failed!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      //   if (response === "Cannot find user") {
+      //     toast.error("Login Failed! Wrong username or password!", {
+      //       position: toast.,
+      //     });
+      //   } else {
+      //     toast.error("Login Failed!", {
+      //       position: toast.POSITION.TOP_CENTER,
+      //     });
+      //   }
+      // } catch (error) {
+      //   console.log("Error at login Form", error);
+      //   toast.error("Login Failed!", {
+      //     position: toast.POSITION.TOP_CENTER,
+      //   });
+      // }
+      // };
+
+      const onError = (error: any) => {
+        console.log(error);
+      };
+
+      const handleClickShowPassword = () =>
+        setShowPassword((show: any) => !show);
+      const handleMouseDownPassword = () => (event: any) => {
+        event.preventDefault();
+      };
+
+      return (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          style={{ width: "100%", marginTop: "80px" }}
+        >
+          <Box width={140} height={140} margin="0 auto">
+            <img width="100%" height="100%" src={DiavanImage} alt="Logo" />
+          </Box>
+          <Box width={450} height={240} margin="0 auto" marginTop={5}>
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
+              <Grid container={true} style={gridStyle}>
+                <Grid style={leftGridStyle} item xs={3}>
+                  <Typography style={titleStyle} sx={{ lineHeight: "56px" }}>
+                    Username
+                  </Typography>
+                </Grid>
+                <Grid item style={rightGridStyle} xs={9}>
+                  <Controller
+                    name="username"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        {...addErrorIntoField(errors["username"])}
+                        sx={{ lineHeight: "56px" }}
+                        {...register("username")}
+                        id="outlined-start-adornment"
+                        type="text"
+                        fullWidth
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <PersonIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                  {errors["username"] ? (
+                    <ErrorMessage message={errors["username"].message} />
+                  ) : null}
+                </Grid>
+              </Grid>
+              <Grid container={true} style={gridStyle}>
+                <Grid style={leftGridStyle} item xs={3}>
+                  <Typography style={titleStyle} sx={{ lineHeight: "56px" }}>
+                    Password
+                  </Typography>
+                </Grid>
+                <Grid item style={rightGridStyle} xs={9}>
+                  <Controller
+                    name="password"
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        {...addErrorIntoField(errors["password"])}
+                        sx={{ lineHeight: "56px" }}
+                        {...register("password")}
+                        id="outlined-start-adornment"
+                        type={showPassword ? "text" : "password"}
+                        fullWidth
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                  {errors["password"] ? (
+                    <ErrorMessage message={errors["password"].message} />
+                  ) : null}
+                </Grid>
+              </Grid>
+
+              <FormGroup sx={{ marginTop: "8px" }}>
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  sx={{ fontWeight: "bolder" }}
+                  label="Remember me?"
+                />
+              </FormGroup>
+
+              <Grid container justifyContent="center" alignItems="center">
+                <Button
+                  variant="contained"
+                  size="large"
+                  type="submit"
+                  style={{
+                    width: "50%",
+                    marginTop: "24px",
+                    backgroundColor: "#111827",
+                  }}
+                >
+                  Sign in
+                </Button>
+              </Grid>
+            </form>
+          </Box>
+          <ToastContainer
+            autoClose={2000}
+            style={{ marginTop: "50px", width: "350px" }}
+          />
+        </Grid>
+      );
+    } catch {
+      console.log("error");
     }
   };
-
-  const onError = (error: any) => {
-    console.log(error);
-  };
-
-  const handleClickShowPassword = () => setShowPassword((show: any) => !show);
-  const handleMouseDownPassword = () => (event: any) => {
-    event.preventDefault();
-  };
-
-  return (
-    <Grid2
-      container
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-      style={{ width: "100%", marginTop: "80px" }}
-    >
-      <Box width={140} height={140} margin="0 auto">
-        <img width="100%" height="100%" src={DiavanImage} alt="Logo" />
-      </Box>
-      <Box width={450} height={240} margin="0 auto" marginTop={5}>
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
-          <Grid container={true} style={gridStyle}>
-            <Grid style={leftGridStyle} item xs={3}>
-              <Typography style={titleStyle} sx={{ lineHeight: "56px" }}>
-                Username
-              </Typography>
-            </Grid>
-            <Grid item style={rightGridStyle} xs={9}>
-              <Controller
-                name="username"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    {...addErrorIntoField(errors["username"])}
-                    sx={{ lineHeight: "56px" }}
-                    {...register("username")}
-                    id="outlined-start-adornment"
-                    type="text"
-                    fullWidth
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <PersonIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-              {errors["username"] ? (
-                <ErrorMessage message={errors["username"].message} />
-              ) : null}
-            </Grid>
-          </Grid>
-          <Grid container={true} style={gridStyle}>
-            <Grid style={leftGridStyle} item xs={3}>
-              <Typography style={titleStyle} sx={{ lineHeight: "56px" }}>
-                Password
-              </Typography>
-            </Grid>
-            <Grid item style={rightGridStyle} xs={9}>
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    {...addErrorIntoField(errors["password"])}
-                    sx={{ lineHeight: "56px" }}
-                    {...register("password")}
-                    id="outlined-start-adornment"
-                    type={showPassword ? "text" : "password"}
-                    fullWidth
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-              {errors["password"] ? (
-                <ErrorMessage message={errors["password"].message} />
-              ) : null}
-            </Grid>
-          </Grid>
-
-          <FormGroup sx={{ marginTop: "8px" }}>
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              sx={{ fontWeight: "bolder" }}
-              label="Remember me?"
-            />
-          </FormGroup>
-
-          <Grid container justifyContent="center" alignItems="center">
-            <Button
-              variant="contained"
-              size="large"
-              type="submit"
-              style={{
-                width: "50%",
-                marginTop: "24px",
-                backgroundColor: "#111827",
-              }}
-            >
-              Sign in
-            </Button>
-          </Grid>
-        </form>
-      </Box>
-      <ToastContainer
-        autoClose={2000}
-        style={{ marginTop: "50px", width: "350px" }}
-      />
-    </Grid2>
-  );
 };
 
 export default LoginForm;
