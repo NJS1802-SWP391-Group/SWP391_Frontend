@@ -1,8 +1,8 @@
 import { Box, Grid, Paper } from "@mui/material";
-import ManagerList from "../../components/manager/managerResponse";
+import AssignManager from "../../components/manager/assignManager";
 import SearchBar from "../../components/manager/searchBar";
 
-const ManagerPage = () => {
+const ManagerAssignPage = () => {
   return (
     <Grid>
       <Box sx={{ marginLeft: "900px" }}>
@@ -12,13 +12,13 @@ const ManagerPage = () => {
         sx={{
           width: "1300px",
           marginLeft: "250px",
-          marginTop: "15px",
+          marginTop: "5px",
         }}
       >
-        <ManagerList />
+        <AssignManager />
       </Paper>
     </Grid>
   );
 };
 
-export default ManagerPage;
+export default ManagerAssignPage;

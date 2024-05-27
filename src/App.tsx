@@ -10,7 +10,7 @@ import AboutPage from "./pages/aboutPage/AboutPage";
 import CalculatePage from "./pages/calculate/CalculatePage";
 import DiamondCheckPage from "./pages/diamondCheck/DiamondCheckPage";
 import HomePage from "./pages/homePage/HomePage";
-import ManagerPage from "./pages/manager/managerPage";
+import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/" element={<ManagerPage />} />
+            <Route path="/" element={<ManagerAssignPage />} />
             <Route path="/Home" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />

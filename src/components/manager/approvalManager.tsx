@@ -18,7 +18,7 @@ import NoButton from "../../assets/NoButton.png";
 import YesButton from "../../assets/YesButton.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
 
-const ManagerList = () => {
+const ApprovalManager = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedManagerResponse, setSelectedManagerResponse] =
     React.useState<ManagerApprovalResponse | null>(null);
@@ -263,4 +263,4 @@ const ManagerList = () => {
   );
 };
 
-export default ManagerList;
+export default ApprovalManager;
