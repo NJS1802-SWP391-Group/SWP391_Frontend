@@ -10,6 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import DiamondCheckPage from "./pages/diamondCheck/DiamondCheckPage";
 import CalculatePage from "./pages/calculate/CalculatePage";
 import AboutPage from "./pages/aboutPage/AboutPage";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
           </Routes>
         </div>
+        <Footer />
         <GlobalStyles />
       </BrowserRouter>
     </ErrorBoundary>
