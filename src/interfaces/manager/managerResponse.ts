@@ -1,5 +1,5 @@
 export interface ManagerApprovalResponse {
-  orderDetail: string;
+  diamond: string;
   service: string;
   valuationStaff: string;
   valuingPrice: string;

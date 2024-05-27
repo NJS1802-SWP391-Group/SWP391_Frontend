@@ -14,7 +14,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import ManagerPage from "../../pages/manager/managerPage";
+import ManagerPage from "../../pages/manager/managerApprovalPage";
 
 const drawerWidth = 240;
 
