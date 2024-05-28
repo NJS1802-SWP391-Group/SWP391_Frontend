@@ -11,6 +11,8 @@ import CalculatePage from "./pages/calculate/CalculatePage";
 import DiamondCheckPage from "./pages/diamondCheck/DiamondCheckPage";
 import HomePage from "./pages/homePage/HomePage";
 import ManagerPage from "./pages/manager/managerPage";
+import LoginPage from "./pages/loginPage";
+import FormResult from "./components/forms/FormResult";
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/form-result" element={<FormResult />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />

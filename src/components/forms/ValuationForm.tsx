@@ -1,14 +1,11 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
-import React from "react";
+import { Alert, AlertTitle, Button, Container, TextField } from "@mui/material";
+import React, { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { Padding } from "@mui/icons-material";
 
 const textFieldStyle = {
   width: "100%",
@@ -18,11 +15,7 @@ const textFieldStyle = {
 };
 
 const ValuationForm = () => {
-  const [service, setService] = React.useState("");
-
-  const handleServiceChange = (event: SelectChangeEvent) => {
-    setService(event.target.value);
-  };
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs);
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
       <form>
@@ -57,28 +50,26 @@ const ValuationForm = () => {
           <TextField fullWidth label="Quantity"></TextField>
         </div>
         <div style={textFieldStyle}>
-          <FormControl fullWidth>
-            <InputLabel id="Service-select">Service</InputLabel>
-            <Select
-              id="Service-select"
-              value={service}
-              label="Service"
-              onChange={handleServiceChange}
-            >
-              <MenuItem value={0}>
-                <em>Standard</em>
-              </MenuItem>
-              <MenuItem value={1}>5h</MenuItem>
-              <MenuItem value={2}>24h</MenuItem>
-              <MenuItem value={3}>48h</MenuItem>
-            </Select>
-          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date"
+              slotProps={{
+                textField: {
+                  helperText: "MM/DD/YYYY",
+                  fullWidth: true,
+                },
+              }}
+              value={value}
+              onChange={(newValue) => setValue(newValue)}
+              closeOnSelect={true}
+            />
+          </LocalizationProvider>
         </div>
         <div style={textFieldStyle}>
           <Button
             variant="contained"
             style={{
-              backgroundColor: "#806B1F",
+              backgroundColor: "#4F46E5",
               borderRadius: "30px",
               width: "30%",
               height: "40px",
