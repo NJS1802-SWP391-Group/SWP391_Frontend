@@ -11,4 +11,5 @@ export interface ManagerAssignResponse {
   diamond: string;
   service: string;
   price: string;
+  valuationStaff: { id: string; name: string } | null;
 }
