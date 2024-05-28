@@ -1,0 +1,29 @@
+.header{
+    font-size: 40px;
+    font-weight: 700;
+}
+.icon-success{
+    color: green;
+}
+
+.subtitle{
+    font-style: italic;
+    font-size: 20px;
+    margin: 20px 0px;
+}
+
+.list-infor{
+    font-size: 30px;
+    font-weight: 500;
+    background-color: aqua;
+    background-color: #f1f1f1;
+    border: 10px solid #f1f1f1;
+    border-radius: 25px;
+    width: 60%;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 0;
+}
+.list-infor ul{
+    list-style: none;
+}
