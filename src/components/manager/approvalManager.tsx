@@ -14,6 +14,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
 import YesButton from "../../assets/YesButton.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
@@ -45,6 +46,14 @@ const ApprovalManager = () => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigateToCertificate = (
+    managerResponse: ManagerApprovalResponse
+  ) => {
+    navigate("/certificate", { state: { managerResponse } });
   };
 
   const styleTableHead = {
@@ -195,7 +204,11 @@ const ApprovalManager = () => {
                         className="Nobutton"
                       />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                      onClick={() =>
+                        handleNavigateToCertificate(managerResponse)
+                      }
+                    >
                       <img
                         src={YesButton}
                         width="35"
