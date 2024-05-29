@@ -34,14 +34,16 @@ const AssignManager = () => {
       border: 0,
     },
   }));
-  // Handle pagination
+
   const [selectedManagerResponse, setSelectedManagerResponse] =
-    React.useState<ManagerAssignResponse | null>(null);
+    useState<ManagerAssignResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
+
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -49,7 +51,6 @@ const AssignManager = () => {
     setPage(0);
   };
 
-  // Handle mo dong cua modal
   const [open, setOpen] = useState(false);
   const handleOpen = (managerResponse: ManagerAssignResponse) => {
     setSelectedManagerResponse(managerResponse);
@@ -60,8 +61,11 @@ const AssignManager = () => {
     setSelectedManagerResponse(null);
   };
 
-  // Handle phan dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: 0 });
   const [searchQuery, setSearchQuery] = useState("");
   const [managers, setManagers] = useState([
     { id: "7749", name: "Nguyen Gia Bao" },
@@ -118,7 +122,6 @@ const AssignManager = () => {
     },
   ]);
 
-  //Handle cho phan assign
   const handleManagerSelect = (valuationStaff: {
     id: string;
     name: string;
@@ -141,6 +144,7 @@ const AssignManager = () => {
   ) => {
     setAnchorEl(event.currentTarget);
     setSelectedManagerResponse(managerResponse);
+    setMenuPosition({ top: event.clientY, left: event.clientX });
   };
 
   const handleCloseMenu = () => {
@@ -233,9 +237,10 @@ const AssignManager = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
-        PaperProps={{ style: { width: "300px" } }}
+        anchorReference="anchorPosition"
+        anchorPosition={{ top: menuPosition.top, left: menuPosition.left }}
       >
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 2, height: "60px" }}>
           <TextField
             variant="outlined"
             placeholder="Search Valuation Staff"
@@ -257,7 +262,8 @@ const AssignManager = () => {
               ),
               sx: {
                 height: "45px",
-                borderRadius: "25px",
+                width: "250px",
+                borderRadius: "65px",
                 border: "0.5px solid #000",
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "transparent",
@@ -301,7 +307,6 @@ const AssignManager = () => {
       <Modal open={open} onClose={handleClose}>
         <Paper
           sx={{
-            backgroundColor: "white",
             borderRadius: "10px",
             width: "300px",
             padding: 2,
@@ -330,7 +335,8 @@ const AssignManager = () => {
                 ),
                 sx: {
                   height: "45px",
-                  borderRadius: "25px",
+                  width: "250px",
+                  borderRadius: "15px",
                   border: "0.5px solid #000",
                   "& .MuiOutlinedInput-notchedOutline": {
                     borderColor: "transparent",
