@@ -2,10 +2,6 @@ import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import { ErrorBoundary } from "./components/errorboundary/errorBoundary";
-<<<<<<< HEAD
-import Navbar from "./components/navbar/Navbar";
-=======
->>>>>>> 52eb96d (System Link)
 import ValuationRequestForm from "./pages/ValuationRequestForm";
 import AboutPage from "./pages/aboutPage/AboutPage";
 import CalculatePage from "./pages/calculate/CalculatePage";
@@ -20,6 +16,7 @@ import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
+import LoginPage from "./pages/loginPage";
 
 function App() {
   return (
@@ -56,7 +53,6 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
-            {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
           </Routes>
         </div>
 
