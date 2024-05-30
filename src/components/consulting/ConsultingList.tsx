@@ -1,3 +1,11 @@
+// import React from "react";
+// import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
+// import Consulting from "./Consulting";
+// import { Container, Typography } from "@mui/material";
+
+// type Props = {
+//   consultingList: consultingType[];
+// };
 // // import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
 // import { Container, Typography } from "@mui/material";
 // import Consulting from "./Consulting";
