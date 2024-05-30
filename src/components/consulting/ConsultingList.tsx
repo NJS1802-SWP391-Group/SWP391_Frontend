@@ -1,7 +1,6 @@
-import React from "react";
-import { consultingType } from "../../pages/ConsultingStaffPage";
-import Consulting from "./Consulting";
+// import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
 import { Container, Typography } from "@mui/material";
+import Consulting from "./Consulting";
 
 type Props = {
   consultingList: consultingType[];
@@ -13,7 +12,6 @@ const ConsultingList = ({ consultingList }: Props) => {
       style={{
         backgroundColor: "#F3DAA4",
         padding: "20px",
-        marginTop: "32px",
         borderRadius: "30px",
       }}
     >
