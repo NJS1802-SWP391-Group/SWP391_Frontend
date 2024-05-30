@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import { ErrorBoundary } from "./components/errorboundary/errorBoundary";
 import Navbar from "./components/navbar/Navbar";
-import ConsultingStaffPage from "./pages/ConsultingStaffPage";
+import ConsultingStaffPage from "./pages/consulting/ConsultingStaffPage";
 import ValuationRequestForm from "./pages/ValuationRequestForm";
 import AboutPage from "./pages/aboutPage/AboutPage";
 import CalculatePage from "./pages/calculate/CalculatePage";
