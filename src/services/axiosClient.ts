@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 
 // const token = localStorage.getItem(USER_TOKEN_KEY);
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://localhost:44356/api",
   headers: {
     "Content-Type": "application/json",
   },

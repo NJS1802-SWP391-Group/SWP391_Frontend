@@ -1,0 +1,8 @@
+.consulting-page{
+    display: flex;
+    justify-content: center;
+}
+
+.consulting-list{
+   margin: 10px 0;
+}

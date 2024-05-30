@@ -4,7 +4,7 @@ import GlobalStyles from "./GlobalStyles";
 import { ErrorBoundary } from "./components/errorboundary/errorBoundary";
 import Footer from "./components/footer/Footer";
 import Navbar from "./components/navbar/Navbar";
-import ConsultingStaffPage from "./pages/ConsultingStaffPage";
+import ConsultingStaffPage from "./pages/consulting/ConsultingStaffPage";
 import ValuationRequestForm from "./pages/ValuationRequestForm";
 import AboutPage from "./pages/aboutPage/AboutPage";
 import CalculatePage from "./pages/calculate/CalculatePage";
