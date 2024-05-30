@@ -11,7 +11,6 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
-import NavBarSystem from "./components/system/NavBarSystem";
 
 function App() {
   return (
@@ -33,7 +32,6 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
-            <Route path="/navbar" element={<NavBarSystem />} />
           </Routes>
         </div>
 
