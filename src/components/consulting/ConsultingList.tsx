@@ -1,46 +1,40 @@
-<<<<<<< HEAD
-import React from "react";
-import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
-import Consulting from "./Consulting";
-=======
-// import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
->>>>>>> 5825e3d (merging)
-import { Container, Typography } from "@mui/material";
-import Consulting from "./Consulting";
+// // import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
+// import { Container, Typography } from "@mui/material";
+// import Consulting from "./Consulting";
 
-type Props = {
-  consultingList: consultingType[];
-};
+// // type Props = {
+// //   consultingList: consultingType[];
+// // };
 
-const ConsultingList = ({ consultingList }: Props) => {
-  return (
-    <Container
-      style={{
-        backgroundColor: "#F3DAA4",
-        padding: "20px",
-        borderRadius: "30px",
-      }}
-    >
-      <Typography
-        fontSize={32}
-        fontWeight="bold"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        Consulting List
-      </Typography>
-      {consultingList.map((consultings) => {
-        return (
-          <Consulting
-            key={consultings.id}
-            owner={consultings.owner}
-            code={consultings.code}
-            phone={consultings.phone}
-            receivedDay={consultings.receivedDay}
-          />
-        );
-      })}
-    </Container>
-  );
-};
+// const ConsultingList = ({ consultingList }: Props) => {
+//   return (
+//     <Container
+//       style={{
+//         backgroundColor: "#F3DAA4",
+//         padding: "20px",
+//         borderRadius: "30px",
+//       }}
+//     >
+//       <Typography
+//         fontSize={32}
+//         fontWeight="bold"
+//         style={{ display: "flex", justifyContent: "center" }}
+//       >
+//         Consulting List
+//       </Typography>
+//       {consultingList.map((consultings) => {
+//         return (
+//           <Consulting
+//             key={consultings.id}
+//             owner={consultings.owner}
+//             code={consultings.code}
+//             phone={consultings.phone}
+//             receivedDay={consultings.receivedDay}
+//           />
+//         );
+//       })}
+//     </Container>
+//   );
+// };
 
-export default ConsultingList;
+// export default ConsultingList;
