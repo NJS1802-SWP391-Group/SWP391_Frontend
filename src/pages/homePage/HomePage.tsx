@@ -1,10 +1,11 @@
-import React from "react";
-import "./HomePage.css";
-import { Card, Container, Typography } from "@mui/material";
-import Banner from "../../assets/2022_LE-GuidetoDiamonds-LP-TILE-1-Desktop 2.png";
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
-import { Link } from "react-router-dom";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import { Card, Container, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import Banner from "../../assets/2022_LE-GuidetoDiamonds-LP-TILE-1-Desktop 2.png";
+import Footer from "../../components/footer/Footer";
+import Navbar from "../../components/navbar/Navbar";
+import "./HomePage.css";
 
 const HomePage = () => {
   const listInfor = [
@@ -61,6 +62,7 @@ const HomePage = () => {
 
   return (
     <div className="container">
+      <Navbar />
       <div className="image-container">
         <img src={Banner} alt="Mô tả ảnh" />
         <div className="overlay-text">
@@ -149,6 +151,7 @@ const HomePage = () => {
           })}
         </div>
       </Container>
+      <Footer />
     </div>
   );
 };
