@@ -1,5 +1,5 @@
 export interface ManagerApprovalResponse {
-  orderDetail: string;
+  diamond: string;
   service: string;
   valuationStaff: string;
   valuingPrice: string;
@@ -11,4 +11,5 @@ export interface ManagerAssignResponse {
   diamond: string;
   service: string;
   price: string;
+  valuationStaff: { id: string; name: string } | null;
 }

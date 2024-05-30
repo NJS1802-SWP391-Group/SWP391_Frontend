@@ -14,11 +14,12 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
 import YesButton from "../../assets/YesButton.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
 
-const ManagerList = () => {
+const ApprovalManager = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedManagerResponse, setSelectedManagerResponse] =
     React.useState<ManagerApprovalResponse | null>(null);
@@ -45,6 +46,14 @@ const ManagerList = () => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigateToCertificate = (
+    managerResponse: ManagerApprovalResponse
+  ) => {
+    navigate("/certificate", { state: { managerResponse } });
   };
 
   const styleTableHead = {
@@ -195,7 +204,11 @@ const ManagerList = () => {
                         className="Nobutton"
                       />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                      onClick={() =>
+                        handleNavigateToCertificate(managerResponse)
+                      }
+                    >
                       <img
                         src={YesButton}
                         width="35"
@@ -227,7 +240,7 @@ const ManagerList = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "50%",
+            width: "40%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -242,8 +255,9 @@ const ManagerList = () => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "right",
               marginTop: "20px",
+              paddingRight: "20px",
             }}
           >
             <IconButton onClick={handleClose}>
@@ -263,4 +277,4 @@ const ManagerList = () => {
   );
 };
 
-export default ManagerList;
+export default ApprovalManager;
