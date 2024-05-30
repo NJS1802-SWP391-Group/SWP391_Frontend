@@ -6,6 +6,13 @@
 // type Props = {
 //   consultingList: consultingType[];
 // };
+// // import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
+// import { Container, Typography } from "@mui/material";
+// import Consulting from "./Consulting";
+
+// // type Props = {
+// //   consultingList: consultingType[];
+// // };
 
 // const ConsultingList = ({ consultingList }: Props) => {
 //   return (
