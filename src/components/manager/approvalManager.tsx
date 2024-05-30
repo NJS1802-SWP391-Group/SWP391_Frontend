@@ -240,7 +240,7 @@ const ApprovalManager = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "50%",
+            width: "40%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -255,8 +255,9 @@ const ApprovalManager = () => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "right",
               marginTop: "20px",
+              paddingRight: "20px",
             }}
           >
             <IconButton onClick={handleClose}>

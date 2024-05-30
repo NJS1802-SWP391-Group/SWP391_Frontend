@@ -9,6 +9,7 @@ const CertificatePage = () => {
           width: "1300px",
           marginLeft: "250px",
           marginTop: "5px",
+          backgroundColor: "red",
         }}
       >
         <Certificate />

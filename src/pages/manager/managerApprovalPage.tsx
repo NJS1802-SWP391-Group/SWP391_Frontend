@@ -1,5 +1,6 @@
 import { Box, Grid, Paper } from "@mui/material";
-import ManagerList from "../../components/manager/managerResponse";
+
+import ApprovalManager from "../../components/manager/approvalManager";
 import SearchBar from "../../components/manager/searchBar";
 
 const ManagerApprovalPage = () => {
@@ -15,7 +16,7 @@ const ManagerApprovalPage = () => {
           marginTop: "15px",
         }}
       >
-        <ManagerList />
+        <ApprovalManager />
       </Paper>
     </Grid>
   );
