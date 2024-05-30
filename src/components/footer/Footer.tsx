@@ -67,7 +67,7 @@ const Footer = () => {
 
         <Divider variant="middle" sx={{ margin: "10px 0 10px 0" }} />
         <div className="footer-information">
-          © 2024 StoneAlgo, Inc. All rights reserved.
+          © 2024 Diavan, Inc. All rights reserved.
         </div>
       </footer>
     </div>
