@@ -1,7 +1,6 @@
 import { Box, Paper } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import BackButton from "../components/buttons/backButton";
-import LoginForm from "../components/forms/loginForm";
 
 const paperStyle = {
   width: 600,
@@ -24,7 +23,7 @@ const LoginPage = () => {
       <Paper elevation={20} style={paperStyle}>
         <Box display="flex" flexDirection="column">
           <BackButton />
-          <LoginForm />
+          {/* <LoginForm /> */}
         </Box>
       </Paper>
     </Grid2>
