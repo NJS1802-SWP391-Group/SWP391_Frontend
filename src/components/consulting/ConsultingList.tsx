@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import React from "react";
 import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
 import Consulting from "./Consulting";
+=======
+// import { consultingType } from "../../pages/consulting/ConsultingStaffPage";
+>>>>>>> 5825e3d (merging)
 import { Container, Typography } from "@mui/material";
+import Consulting from "./Consulting";
 
 type Props = {
   consultingList: consultingType[];
