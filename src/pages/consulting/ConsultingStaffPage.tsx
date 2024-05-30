@@ -7,6 +7,8 @@ import React, {
 import "./ConsultingStaffPage.css";
 import orderApi from "../../services/orderApi";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
+import NavBarSystem from "../../components/system/NavBarSystem";
+import { Container } from "@mui/material";
 
 // const StyledTableCell = styled(TableCell)(({ theme }) => ({
 //   [`&.${tableCellClasses.head}`]: {
@@ -74,7 +76,10 @@ const ConsultingStaffPage = () => {
     //     {/* Hiển thị thông tin của selectedOrder */}
     //   </div>
     // )}
-    <>Consulting staff page</>
+    <>
+      <NavBarSystem marginBottom="100px" />
+      <Container>Consulting staff page</Container>
+    </>
   );
 };
 
