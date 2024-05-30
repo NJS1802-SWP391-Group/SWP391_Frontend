@@ -2,10 +2,8 @@ import { Alert, AlertTitle, Button, Container, TextField } from "@mui/material";
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { Padding } from "@mui/icons-material";
 
 const textFieldStyle = {
   width: "100%",
@@ -73,6 +71,7 @@ const ValuationForm = () => {
               borderRadius: "30px",
               width: "30%",
               height: "40px",
+              marginBottom: "20px",
             }}
           >
             Send

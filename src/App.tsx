@@ -15,6 +15,7 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
+import NavBarSystem from "./components/system/NavBarSystem";
 
 function App() {
   return (
@@ -31,12 +32,12 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/form-result" element={<FormResult />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
-
             <Route path="/contact" element={<ValuationRequestForm />} />
-            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
+            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+            <Route path="/navbar" element={<NavBarSystem />} />
           </Routes>
         </div>
 
