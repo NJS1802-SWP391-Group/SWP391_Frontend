@@ -1,7 +1,15 @@
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import SearchButton from "../../assets/Search.png";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  searchQuery: string;
+  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  searchQuery,
+  handleSearchChange,
+}) => {
   return (
     <Box
       sx={{
@@ -18,6 +26,8 @@ const SearchBar = () => {
         variant="outlined"
         placeholder="Search order detail code"
         fullWidth
+        value={searchQuery}
+        onChange={handleSearchChange}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
