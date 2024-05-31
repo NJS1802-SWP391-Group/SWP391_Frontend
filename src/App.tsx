@@ -11,7 +11,8 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
-import NavBarSystem from "./components/system/NavBarSystem";
+import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
+import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<ManagerAssignPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/Login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
@@ -28,12 +29,19 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/form-result" element={<FormResult />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
+
             <Route path="/contact" element={<ValuationRequestForm />} />
+            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+
+            {/* ManagerPath */}
+            <Route path="/managerA" element={<ManagerApprovalPage />} />
+            <Route path="/managerAssign" element={<ManagerAssignPage />} />
+            <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
-            <Route path="/navbar" element={<NavBarSystem />} />
+            {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
           </Routes>
         </div>
 
