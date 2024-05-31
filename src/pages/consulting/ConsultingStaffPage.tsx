@@ -1,41 +1,46 @@
-import { Container } from "@mui/material";
-import { useEffect, useState } from "react";
-import NavBarSystem from "../../components/system/NavBarSystem";
-import { OrderInterface } from "../../interfaces/order/orderInterface";
-import orderApi from "../../services/orderApi";
+import React, { SetStateAction, useEffect, useState } from "react";
 import "./ConsultingStaffPage.css";
 
-// const StyledTableCell = styled(TableCell)(({ theme }) => ({
-//   [`&.${tableCellClasses.head}`]: {
-//     backgroundColor: theme.palette.common.black,
-//     color: theme.palette.common.white,
-//   },
-//   [`&.${tableCellClasses.body}`]: {
-//     fontSize: 14,
-//   },
-// }));
-
-// const StyledTableRow = styled(TableRow)(({ theme }) => ({
-//   "&:nth-of-type(odd)": {
-//     backgroundColor: theme.palette.action.hover,
-//   },
-//   // hide last border
-//   "&:last-child td, &:last-child th": {
-//     border: 0,
-//   },
-// }));
+import NavBarSystem from "../../components/system/NavBarSystem";
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
+import SearchBar from "../../components/manager/searchBar";
+import orderApi from "../../services/orderApi";
+import { OrderInterface } from "../../interfaces/order/orderInterface";
+import OrderList from "../../components/consulting/OrderList";
+import OrderDetail from "../../components/consulting/OrderDetail";
 
 const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState<OrderInterface | null>(
-    null
-  );
+  const [open, setOpen] = React.useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
 
-  // const handleOrderClick = (
-  //   order: any
-  // ): MouseEventHandler<HTMLTableRowElement> | undefined => {
-  //   setSelectedOrder(order);
-  // };
+  const handleOrderClick = (orderID: number) => {
+    setSelectedOrderId(orderID);
+  };
+
+  const selectedOrder =
+    orders.find((order) => order.orderID === selectedOrderId) || null;
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const closeOrderDetailModal = () => {
+    setSelectedOrderId(null);
+  };
 
   useEffect(() => {
     const fectOrders = async () => {
@@ -49,31 +54,82 @@ const ConsultingStaffPage = () => {
     fectOrders();
   }, []);
   console.log(orders);
-
-  // const options: MUIDataTableOptions = {
-  //   onRowClick: (rowData, rowMeta) => {
-  //     const orderIndex = rowMeta.dataIndex;
-  //     const selected = orders[orderIndex];
-  //     setSelectedOrder(selected);
-  //   },
-  // };
-
   return (
-    // <MUIDataTable
-    //     title="Consulting List"
-    //     data={orders}
-    //     columns={columns}
-    //     options={options}
-    //   />
-    // {selectedOrder && (
-    //   <div>
-    //     <h2>Selected Order</h2>
-    //     {/* Hiển thị thông tin của selectedOrder */}
-    //   </div>
-    // )}
     <>
       <NavBarSystem marginBottom="100px" />
-      <Container>Consulting staff page</Container>
+      <Container>
+        <div
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            onClick={handleClickOpen}
+            sx={{
+              borderRadius: "25px",
+              height: "50px",
+            }}
+            variant="contained"
+          >
+            New Order
+          </Button>
+          <SearchBar />
+        </div>
+        <OrderList orders={orders} onOrderClick={handleOrderClick} />
+        <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          PaperProps={{
+            component: "form",
+            onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const formJson = Object.fromEntries((formData as any).entries());
+              const email = formJson.email;
+              console.log(email);
+              handleClose();
+            },
+          }}
+        >
+          <DialogTitle>Add new order</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To add new order to order list, please enter customer's
+              information here. We will send updates occasionally.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="customer-name"
+              name="customer-name"
+              label="Customer name"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="quantity"
+              name="quantity"
+              label="Quantity"
+              type="number"
+              fullWidth
+              variant="outlined"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button type="submit">Ađd order</Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
     </>
   );
 };
