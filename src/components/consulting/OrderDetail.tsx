@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import Modal from "react-modal";
 import DiavanLogo from "../../assets/Diavan.png";
@@ -9,25 +9,87 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Paper,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
+  styled,
+  tableCellClasses,
 } from "@mui/material";
+import { ServiceDetail } from "../../interfaces/serviceDeteail/ServiceDetail";
+import { Service } from "../../interfaces/servicess/Service";
+
 type Props = {
   order: OrderInterface | null;
   closeModal: () => void;
+  serviceDetails: ServiceDetail[];
+  services: Service[];
 };
-function OrderDetail({ order, closeModal }: Props) {
-  const [value, setValue] = React.useState("direct");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "20%",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function OrderDetail({ order, closeModal, serviceDetails, services }: Props) {
+  const [payment, setPayment] = useState("direct");
+  const [service, setService] = useState("1");
+  const [size, setSize] = React.useState("");
+
+  const handleChangeSize = (event: SelectChangeEvent) => {
+    setSize(event.target.value);
   };
+
+  const handleChangeService = (event: SelectChangeEvent) => {
+    setService(event.target.value);
+  };
+
+  const handleChangePayment = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPayment((event.target as HTMLInputElement).value);
+  };
+
   return (
     <div>
       {order != null ? (
-        <Modal isOpen={true} onRequestClose={closeModal}>
-          <div style={{ marginTop: "50px" }}>
+        <Modal isOpen={true} onRequestClose={closeModal} style={customStyles}>
+          <div style={{ marginTop: "20px" }}>
             <div className="recepit-bill-header">
               <span>
                 <img src={DiavanLogo} alt="" width="75px" height="75px"></img>
@@ -37,7 +99,6 @@ function OrderDetail({ order, closeModal }: Props) {
                 <h2>Receipt bill</h2>
               </div>
             </div>
-
             <div className="receipt-bill-info">
               Order Code: {order.orderID} <br />
               Customer name: {order.customer} <br />
@@ -45,12 +106,86 @@ function OrderDetail({ order, closeModal }: Props) {
               Date: {order.time.toString()}
             </div>
             <Divider />
-            <div className="receipt-bill-service">Table choose service</div>
+            <div className="receipt-bill-service">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="left">STT</StyledTableCell>
+                      <StyledTableCell align="center">Service</StyledTableCell>
+                      <StyledTableCell align="center">Size(mm)</StyledTableCell>
+                      <StyledTableCell align="center">Price</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[...Array(order.quantity)].map((_, index) => {
+                      return (
+                        <StyledTableRow key={index}>
+                          <StyledTableCell component="th" scope="row">
+                            {index + 1}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <FormControl sx={{ minWidth: 120 }} size="small">
+                              <InputLabel id="service">Service</InputLabel>
+                              <Select
+                                labelId="service"
+                                id="service"
+                                value={service}
+                                label="Service"
+                                onChange={handleChangeService}
+                              >
+                                {services.map((item) => {
+                                  return (
+                                    <MenuItem
+                                      key={item.serviceID}
+                                      value={item.serviceID}
+                                    >
+                                      {item.name}
+                                    </MenuItem>
+                                  );
+                                })}
+                              </Select>
+                            </FormControl>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <FormControl
+                              sx={{ m: 1, minWidth: 120 }}
+                              size="small"
+                            >
+                              <InputLabel id="size">Size</InputLabel>
+                              <Select
+                                labelId="size"
+                                id="size"
+                                value={size}
+                                label="Size"
+                                onChange={handleChangeSize}
+                              >
+                                {serviceDetails.map((item) => {
+                                  return (
+                                    <MenuItem
+                                      key={item.serviceDetailID}
+                                      value={item.serviceDetailID}
+                                    >
+                                      {item.minRange}-{item.maxRange}
+                                    </MenuItem>
+                                  );
+                                })}
+                              </Select>
+                            </FormControl>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">50</StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
             <Divider />
             <div className="receipt-bill-payment">
               <FormControl>
                 <FormLabel id="radio-payment">Payment</FormLabel>
-                <RadioGroup row value={value} onChange={handleChange}>
+                <RadioGroup row value={payment} onChange={handleChangePayment}>
                   <FormControlLabel
                     value="direct"
                     control={<Radio />}
