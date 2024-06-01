@@ -22,6 +22,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   styled,
   tableCellClasses,
 } from "@mui/material";
@@ -143,24 +144,13 @@ function OrderDetail({ order, closeModal, services }: Props) {
                             </FormControl>
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            <FormControl
-                              sx={{ m: 1, minWidth: 120 }}
+                            <TextField
+                              id="size"
+                              label="Size"
+                              variant="outlined"
+                              type="number"
                               size="small"
-                            >
-                              <InputLabel id="size">Size</InputLabel>
-                              <Select
-                                labelId="size"
-                                id="size"
-                                value={size}
-                                label="Size"
-                                onChange={handleChangeSize}
-                              >
-                                <MenuItem value={"0-3"}>0-3(mm)</MenuItem>
-                                <MenuItem value={"3.1-5"}>3.1-5(mm)</MenuItem>
-                                <MenuItem value={"5.1-8"}>5.1-8</MenuItem>
-                                <MenuItem value={"8+"}>8+(mm)</MenuItem>
-                              </Select>
-                            </FormControl>
+                            />
                           </StyledTableCell>
                         </StyledTableRow>
                       );
