@@ -10,7 +10,6 @@ import {
   FormControlLabel,
   FormLabel,
   InputLabel,
-  Menu,
   MenuItem,
   Paper,
   Radio,
@@ -23,17 +22,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   styled,
   tableCellClasses,
 } from "@mui/material";
-import { ServiceDetail } from "../../interfaces/serviceDeteail/ServiceDetail";
 import { Service } from "../../interfaces/servicess/Service";
 
 type Props = {
   order: OrderInterface | null;
   closeModal: () => void;
-  serviceDetails: ServiceDetail[];
   services: Service[];
 };
 
@@ -68,7 +64,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function OrderDetail({ order, closeModal, serviceDetails, services }: Props) {
+function OrderDetail({ order, closeModal, services }: Props) {
   const [payment, setPayment] = useState("direct");
   const [service, setService] = useState("1");
   const [size, setSize] = React.useState("");
@@ -114,7 +110,6 @@ function OrderDetail({ order, closeModal, serviceDetails, services }: Props) {
                       <StyledTableCell align="left">STT</StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
-                      <StyledTableCell align="center">Price</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -160,20 +155,13 @@ function OrderDetail({ order, closeModal, serviceDetails, services }: Props) {
                                 label="Size"
                                 onChange={handleChangeSize}
                               >
-                                {serviceDetails.map((item) => {
-                                  return (
-                                    <MenuItem
-                                      key={item.serviceDetailID}
-                                      value={item.serviceDetailID}
-                                    >
-                                      {item.minRange}-{item.maxRange}
-                                    </MenuItem>
-                                  );
-                                })}
+                                <MenuItem value={"0-3"}>0-3(mm)</MenuItem>
+                                <MenuItem value={"3.1-5"}>3.1-5(mm)</MenuItem>
+                                <MenuItem value={"5.1-8"}>5.1-8</MenuItem>
+                                <MenuItem value={"8+"}>8+(mm)</MenuItem>
                               </Select>
                             </FormControl>
                           </StyledTableCell>
-                          <StyledTableCell align="center">50</StyledTableCell>
                         </StyledTableRow>
                       );
                     })}
