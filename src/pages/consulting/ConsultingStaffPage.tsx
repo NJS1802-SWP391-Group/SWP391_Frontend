@@ -17,8 +17,6 @@ import orderApi from "../../services/orderApi";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import OrderList from "../../components/consulting/OrderList";
 import OrderDetail from "../../components/consulting/OrderDetail";
-import serviceDetailApi from "../../services/serviceDetailApi";
-import { ServiceDetail } from "../../interfaces/serviceDeteail/ServiceDetail";
 import serviceApi from "../../services/service";
 import { Service } from "../../interfaces/servicess/Service";
 
@@ -26,7 +24,6 @@ const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
   const [open, setOpen] = React.useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
-  const [serviceDetails, setServiceDetails] = useState<ServiceDetail[]>([]);
   const [services, setServices] = useState<Service[]>([]);
 
   const handleOrderClick = (orderID: number) => {
@@ -54,9 +51,6 @@ const ConsultingStaffPage = () => {
         const orderList: any = await orderApi.getAll();
         setOrders(orderList);
 
-        const serviceDetails: any = await serviceDetailApi.getAll();
-        setServiceDetails(serviceDetails);
-
         const serviceList: any = await serviceApi.getAll();
         setServices(serviceList);
       } catch (error) {
@@ -66,7 +60,6 @@ const ConsultingStaffPage = () => {
     fectOrders();
   }, []);
   console.log("Orders: ", orders);
-  console.log("Service Detail: ", serviceDetails);
   console.log("Service: ", services);
   return (
     <>
@@ -96,7 +89,6 @@ const ConsultingStaffPage = () => {
         <OrderDetail
           order={selectedOrder}
           closeModal={closeOrderDetailModal}
-          serviceDetails={serviceDetails}
           services={services}
         />
         <Dialog
