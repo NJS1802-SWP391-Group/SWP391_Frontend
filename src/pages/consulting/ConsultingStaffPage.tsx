@@ -59,8 +59,8 @@ const ConsultingStaffPage = () => {
     };
     fectOrders();
   }, []);
-  console.log("Orders: ", orders);
-  console.log("Service: ", services);
+  // console.log("Orders: ", orders);
+  // console.log("Service: ", services);
   return (
     <>
       <NavBarSystem marginBottom="100px" />
