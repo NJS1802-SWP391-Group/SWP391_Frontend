@@ -62,7 +62,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
               </StyledTableCell>
               <StyledTableCell align="left">{item.code}</StyledTableCell>
               <StyledTableCell align="left">
-                {item.lastName + " " + item.firstName}{" "}
+                {item.firstName + " " + item.lastName}{" "}
               </StyledTableCell>
               <StyledTableCell align="left">{item.quantity}</StyledTableCell>
               <StyledTableCell align="left">{item.status}</StyledTableCell>

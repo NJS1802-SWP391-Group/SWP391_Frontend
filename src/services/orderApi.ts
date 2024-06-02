@@ -7,7 +7,7 @@ const orderApi = {
     return axiosClient.get(url);
   },
   sendRequest(data: OrderRequest) {
-    const url = "/Orders/Update";
+    const url = "/Orders/Submit";
     return axiosClient.post(url, data);
   },
 };
