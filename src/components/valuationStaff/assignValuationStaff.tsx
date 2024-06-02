@@ -14,11 +14,13 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PlusButton from "../../assets/PlusButton.png";
 import SendButton from "../../assets/SendButton.png";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
 
 const AssignValuationStaff = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedValuationStaffResponse, setSelectedValuationStaffResponse] =
     React.useState<AssignValuationStaffResponse | null>(null);
@@ -47,6 +49,10 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
+  const handlePlusButtonClick = (orderCode: string) => {
+    navigate(`/diamond/${orderCode}`);
+  };
+
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -72,11 +78,72 @@ const AssignValuationStaff = () => {
     setAssignValuationStaffResponseList,
   ] = useState<AssignValuationStaffResponse[]>([
     {
-      orderCode: "1234567789",
+      orderCode: "1",
       diamond: "DIA01",
       service: "24h",
       finalPrice: "18,234$",
     },
+    {
+      orderCode: "2",
+      diamond: "DIA02",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "3",
+      diamond: "DIA03",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "4",
+      diamond: "DIA04",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "5",
+      diamond: "DIA05",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "6",
+      diamond: "DIA06",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "7",
+      diamond: "DIA07",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "8",
+      diamond: "DIA08",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "9",
+      diamond: "DIA09",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "10",
+      diamond: "DIA010",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    {
+      orderCode: "11",
+      diamond: "DIA011",
+      service: "24h",
+      finalPrice: "18,234$",
+    },
+    // other data
   ]);
 
   const paginatedAssignValuationStaffResponseList =
@@ -108,6 +175,9 @@ const AssignValuationStaff = () => {
               (valuationStaffResponse) => (
                 <StyledTableRow key={valuationStaffResponse.orderCode}>
                   <StyledTableCell>
+                    {valuationStaffResponse.orderCode}
+                  </StyledTableCell>
+                  <StyledTableCell>
                     {valuationStaffResponse.diamond}
                   </StyledTableCell>
                   <StyledTableCell>
@@ -119,12 +189,16 @@ const AssignValuationStaff = () => {
                   <StyledTableCell>
                     <Box>
                       <IconButton
-                        onClick={() => handleOpen(valuationStaffResponse)}
+                        onClick={() =>
+                          handlePlusButtonClick(
+                            valuationStaffResponse.orderCode
+                          )
+                        }
                       >
                         <img
                           src={PlusButton}
-                          width="35"
-                          height="35"
+                          width="30"
+                          height="30"
                           alt="PlusButton"
                           className="Plusbutton"
                         />
@@ -138,8 +212,8 @@ const AssignValuationStaff = () => {
                       >
                         <img
                           src={SendButton}
-                          width="35"
-                          height="35"
+                          width="30"
+                          height="30"
                           alt="SendButton"
                           className="Sendbutton"
                         />
@@ -168,7 +242,7 @@ const AssignValuationStaff = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "50%",
+            width: "40%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -176,15 +250,19 @@ const AssignValuationStaff = () => {
             outline: "none",
           }}
         >
+          <Typography sx={{ fontWeight: "bold " }}>
+            (Order Code:
+            {selectedValuationStaffResponse?.orderCode})
+          </Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Diamond:{" "}
-            {selectedValuationStaffResponse?.diamond} with Price:{" "}
+            Do you want to send Diamond:
+            {selectedValuationStaffResponse?.diamond} with Price:
             {selectedValuationStaffResponse?.finalPrice}?
           </Typography>
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "right",
               marginTop: "20px",
             }}
           >
