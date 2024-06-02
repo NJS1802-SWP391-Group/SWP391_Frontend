@@ -7,10 +7,12 @@ export interface ManagerApprovalResponse {
 }
 
 export interface ManagerAssignResponse {
-  orderDetail: string;
-  diamond: string;
-  service: string;
-  price: string;
+  orderCode: string;
+  orderDetailCode: string;
+  serviceName: string;
   estimateLength: number;
+  servicePrice: string;
+  status: string;
+  resultPrice: null;
   valuationStaff: { id: string; name: string } | null;
 }
