@@ -83,6 +83,7 @@ const AssignManager = () => {
       diamond: "DIA01",
       service: "5h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
     {
@@ -90,6 +91,7 @@ const AssignManager = () => {
       diamond: "DIA02",
       service: "24h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
     {
@@ -97,6 +99,7 @@ const AssignManager = () => {
       diamond: "DIA01",
       service: "5h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
     {
@@ -104,6 +107,7 @@ const AssignManager = () => {
       diamond: "DIA02",
       service: "5h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
     {
@@ -111,6 +115,7 @@ const AssignManager = () => {
       diamond: "DIA01",
       service: "48h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
     {
@@ -118,6 +123,7 @@ const AssignManager = () => {
       diamond: "DIA02",
       service: "24h",
       price: "50$",
+      estimateLength: 3.5,
       valuationStaff: null,
     },
   ]);
@@ -188,6 +194,16 @@ const AssignManager = () => {
                 Price
               </StyledTableCell>
               <StyledTableCell
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  color: "black",
+                  width: "20%",
+                }}
+              >
+                Estimate Length
+              </StyledTableCell>
+              <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
                 Assign
@@ -201,6 +217,9 @@ const AssignManager = () => {
                 <StyledTableCell>{managerResponse.diamond}</StyledTableCell>
                 <StyledTableCell>{managerResponse.service}</StyledTableCell>
                 <StyledTableCell>{managerResponse.price}</StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.estimateLength}
+                </StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.valuationStaff ? (
                     managerResponse.valuationStaff.name

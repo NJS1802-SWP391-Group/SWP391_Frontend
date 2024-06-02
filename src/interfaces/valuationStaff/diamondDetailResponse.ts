@@ -14,4 +14,5 @@ export interface DiamondDetail {
   clarityCharacteristics: string;
   inscription: string;
   comments: string;
+  valuatingPrice: string;
 }

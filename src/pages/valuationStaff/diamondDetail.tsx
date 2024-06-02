@@ -1,10 +1,11 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import DetailImage from "../../assets/DetailImage.png";
 import NavBarSystem from "../../components/system/NavBarSystem";
 import { DiamondDetail } from "../../interfaces/valuationStaff/diamondDetailResponse";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
+import axiosClient from "../../services/axiosClient";
 
 const Container = styled(Box)({
   maxWidth: "800px",
@@ -31,8 +32,8 @@ const FieldContainer = styled(Box)({
 
 const DiamondForm = () => {
   const [selectedValuationStaffResponse, setSelectedValuationStaffResponse] =
-    React.useState<AssignValuationStaffResponse | null>(null);
-  const [diamondData, setDiamondData] = useState<DiamondDetail>({
+    useState<AssignValuationStaffResponse | null>(null);
+  const [diamondDetail, setDiamondDetail] = useState<DiamondDetail>({
     certificateDate: "",
     reportNumber: "",
     shape: "",
@@ -48,17 +49,27 @@ const DiamondForm = () => {
     clarityCharacteristics: "",
     inscription: "",
     comments: "",
+    valuatingPrice: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setDiamondData({ ...diamondData, [name]: value });
+    setDiamondDetail({ ...diamondDetail, [name]: value });
+  };
+
+  const addDiamondDetail = async (data: DiamondDetail) => {
+    try {
+      const response = await axiosClient.post("/your-api-endpoint", data);
+      console.log("Diamond data added:", response.data);
+    } catch (error) {
+      console.error("There was an error adding the diamond data!", error);
+    }
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send data to API)
-    console.log("Diamond Data Submitted:", diamondData);
+    addDiamondDetail(diamondDetail);
+    console.log("Diamond Data Submitted:", diamondDetail);
   };
 
   return (
@@ -110,7 +121,7 @@ const DiamondForm = () => {
               fullWidth
               label="Certificate Date"
               name="certificateDate"
-              value={diamondData.certificateDate}
+              value={diamondDetail.certificateDate}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -119,7 +130,7 @@ const DiamondForm = () => {
               fullWidth
               label="Report Number"
               name="reportNumber"
-              value={diamondData.reportNumber}
+              value={diamondDetail.reportNumber}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -128,7 +139,7 @@ const DiamondForm = () => {
               fullWidth
               label="Shape"
               name="shape"
-              value={diamondData.shape}
+              value={diamondDetail.shape}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -137,7 +148,7 @@ const DiamondForm = () => {
               fullWidth
               label="Measurements"
               name="measurements"
-              value={diamondData.measurements}
+              value={diamondDetail.measurements}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -160,7 +171,7 @@ const DiamondForm = () => {
               fullWidth
               label="Carat Weight"
               name="caratWeight"
-              value={diamondData.caratWeight}
+              value={diamondDetail.caratWeight}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -169,7 +180,7 @@ const DiamondForm = () => {
               fullWidth
               label="Color Grade"
               name="colorGrade"
-              value={diamondData.colorGrade}
+              value={diamondDetail.colorGrade}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -178,7 +189,7 @@ const DiamondForm = () => {
               fullWidth
               label="Clarity Grade"
               name="clarityGrade"
-              value={diamondData.clarityGrade}
+              value={diamondDetail.clarityGrade}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -187,7 +198,7 @@ const DiamondForm = () => {
               fullWidth
               label="Cut Grade"
               name="cutGrade"
-              value={diamondData.cutGrade}
+              value={diamondDetail.cutGrade}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -196,7 +207,7 @@ const DiamondForm = () => {
               fullWidth
               label="Cut Score"
               name="cutScore"
-              value={diamondData.cutScore}
+              value={diamondDetail.cutScore}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -219,7 +230,7 @@ const DiamondForm = () => {
               fullWidth
               label="Polish"
               name="polish"
-              value={diamondData.polish}
+              value={diamondDetail.polish}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -228,7 +239,7 @@ const DiamondForm = () => {
               fullWidth
               label="Symmetry"
               name="symmetry"
-              value={diamondData.symmetry}
+              value={diamondDetail.symmetry}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -237,7 +248,7 @@ const DiamondForm = () => {
               fullWidth
               label="Fluorescence"
               name="fluorescence"
-              value={diamondData.fluorescence}
+              value={diamondDetail.fluorescence}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -246,7 +257,7 @@ const DiamondForm = () => {
               fullWidth
               label="Clarity Characteristics"
               name="clarityCharacteristics"
-              value={diamondData.clarityCharacteristics}
+              value={diamondDetail.clarityCharacteristics}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -255,7 +266,7 @@ const DiamondForm = () => {
               fullWidth
               label="Inscription(s)"
               name="inscription"
-              value={diamondData.inscription}
+              value={diamondDetail.inscription}
               onChange={handleChange}
             />
           </FieldContainer>
@@ -264,7 +275,30 @@ const DiamondForm = () => {
               fullWidth
               label="Comments"
               name="comments"
-              value={diamondData.comments}
+              value={diamondDetail.comments}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+        </Section>
+        <Section sx={{ width: "94%", marginLeft: "26px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              marginTop: "5px",
+              marginBottom: "5px",
+            }}
+          >
+            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+              VALUATING PRICING
+            </Typography>
+          </Box>
+          <FieldContainer>
+            <TextField
+              fullWidth
+              label="Diamond Value"
+              name="valuatingPrice" // fixed this name to match the diamondDetail property
+              value={diamondDetail.valuatingPrice}
               onChange={handleChange}
             />
           </FieldContainer>
