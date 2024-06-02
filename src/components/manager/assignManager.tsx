@@ -77,56 +77,7 @@ const AssignManager = () => {
 
   const [managerAssignList, setManagerAssignList] = useState<
     ManagerAssignResponse[]
-  >([
-    {
-      orderDetail: "001",
-      diamond: "DIA01",
-      service: "5h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "002",
-      diamond: "DIA02",
-      service: "24h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "003",
-      diamond: "DIA01",
-      service: "5h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "004",
-      diamond: "DIA02",
-      service: "5h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "005",
-      diamond: "DIA01",
-      service: "48h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "006",
-      diamond: "DIA02",
-      service: "24h",
-      price: "50$",
-      estimateLength: 3.5,
-      valuationStaff: null,
-    },
-  ]);
+  >([]);
 
   const handleManagerSelect = (valuationStaff: {
     id: string;
@@ -135,7 +86,7 @@ const AssignManager = () => {
     if (selectedManagerResponse) {
       setManagerAssignList((prevList) =>
         prevList.map((item) =>
-          item.orderDetail === selectedManagerResponse.orderDetail
+          item.orderCode === selectedManagerResponse.orderCode
             ? { ...item, valuationStaff }
             : item
         )
@@ -212,11 +163,17 @@ const AssignManager = () => {
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.orderDetail}>
-                <StyledTableCell>{managerResponse.orderDetail}</StyledTableCell>
-                <StyledTableCell>{managerResponse.diamond}</StyledTableCell>
-                <StyledTableCell>{managerResponse.service}</StyledTableCell>
-                <StyledTableCell>{managerResponse.price}</StyledTableCell>
+              <StyledTableRow key={managerResponse.orderCode}>
+                <StyledTableCell>
+                  {managerResponse.orderDetailCode}
+                </StyledTableCell>
+                <StyledTableCell>{managerResponse.serviceName}</StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.servicePrice}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.estimateLength}
+                </StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.estimateLength}
                 </StyledTableCell>
