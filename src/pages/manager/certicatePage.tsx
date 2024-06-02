@@ -4,13 +4,13 @@ import NavBarSystem from "../../components/system/NavBarSystem";
 
 const CertificatePage = () => {
   return (
-    <Grid sx={{ height: "40%" }}>
+    <Grid sx={{ height: "100%" }}>
       <NavBarSystem marginBottom="100px" />
       <Paper
         sx={{
           width: "1300px",
           marginLeft: "250px",
-          marginTop: "5px",
+
           backgroundColor: "white",
         }}
       >
