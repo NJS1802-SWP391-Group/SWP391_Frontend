@@ -77,6 +77,19 @@ const AssignValuationStaff = () => {
     assignValuationStaffResponseList,
     setAssignValuationStaffResponseList,
   ] = useState<AssignValuationStaffResponse[]>([
+    // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
+    // useEffect(() => {
+    //   const getOrderList = async () => {
+    //     const response: any = await orderApi.getAll();
+    //     if (response && response.length > 0) {
+    //       setOrderList(response);
+    //     }
+    //   };
+    //   const initUseEffect = async () => {
+    //     await getOrderList();
+    //   };
+    //   initUseEffect();
+    // }, []);
     {
       orderCode: "1",
       diamond: "DIA01",
@@ -143,9 +156,7 @@ const AssignValuationStaff = () => {
       service: "24h",
       finalPrice: "18,234$",
     },
-    // other data
   ]);
-
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
       page * rowsPerPage,

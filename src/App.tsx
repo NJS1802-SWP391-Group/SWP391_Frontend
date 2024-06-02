@@ -14,7 +14,6 @@ import LoginSystem from "./pages/System/loginSystem";
 
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
-import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<AssignedValuationStaffPage />} />
+            <Route path="/" element={<ManagerAssignPage />} />
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/Login" element={<HomePage />} />
