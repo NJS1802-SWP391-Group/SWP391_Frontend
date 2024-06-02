@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import {
   DetailValuation,
   OrderInterface,
@@ -28,6 +28,9 @@ import {
 } from "@mui/material";
 import { Service } from "../../interfaces/servicess/Service";
 import orderApi from "../../services/orderApi";
+import { formatDate } from "../../utils/utils";
+import { OrderResponse } from "../../interfaces/order/orderResponse";
+import RecepitBill from "./RecepitBill";
 
 type Props = {
   order: OrderInterface | null;
@@ -85,6 +88,15 @@ const serviceInit = [
   },
 ];
 
+interface OrderContextType {
+  responseOrder?: OrderResponse;
+  setResponseOrder: (order: OrderResponse) => void;
+}
+
+export const OrderContext = createContext<OrderContextType | undefined>(
+  undefined
+);
+
 function OrderDetail({ order, closeModal, services }: Props) {
   const [detailValuations, setDetailValuations] = useState<DetailValuation[]>(
     []
@@ -93,6 +105,12 @@ function OrderDetail({ order, closeModal, services }: Props) {
     []
   );
   const [sizes, setSizes] = useState<string[]>([]);
+  const [responseOrder, setResponseOrder] = useState<OrderResponse>();
+
+  const contextValue: OrderContextType = {
+    responseOrder,
+    setResponseOrder,
+  };
 
   const handleChangeService = (
     event: SelectChangeEvent<{
@@ -135,28 +153,27 @@ function OrderDetail({ order, closeModal, services }: Props) {
       },
     ]);
   };
-  console.log("ServiceId", service);
-  console.log("Size", sizes);
   console.log(detailValuations);
 
   const orderRequest: OrderRequest = {
     orderID: order?.orderID,
     consultingStaffName: "Vo Mong Luan",
-    time: new Date(),
+    time: formatDate(new Date()),
     detailValuations: detailValuations,
   };
-  console.log(orderRequest.time);
 
   const sendOrderRequets = () => {
     const data = orderRequest;
     orderApi.sendRequest(data).then(
-      (response) => {
-        console.log(response);
+      (response: any) => {
+        setResponseOrder(response);
+        console.log("Response: ", responseOrder);
       },
       (error) => {
         console.log(error);
       }
     );
+    closeModal();
   };
 
   return (
@@ -329,6 +346,9 @@ function OrderDetail({ order, closeModal, services }: Props) {
       ) : (
         <div></div>
       )}
+      <OrderContext.Provider value={contextValue}>
+        <RecepitBill />
+      </OrderContext.Provider>
     </div>
   );
 }
