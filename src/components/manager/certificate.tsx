@@ -1,76 +1,47 @@
-// const Certificate = () => {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-//   const { managerResponse } = location.state || {};
+import { Box, Button, Typography } from "@mui/material";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import Diavan from "../../assets/Diavan.png";
 
-//   const certificateRef = useRef<HTMLDivElement | null>(null);
+const Certificate = () => {
+  const componentRef = useRef<HTMLDivElement>(null); // Set initial type to null
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current!,
+    documentTitle: "emp-data",
+    onAfterPrint: () => alert("Print success"), // 'onAfterPrint' corrected
+  });
 
-//   useEffect(() => {
-//     // Kiểm tra nếu không có managerResponse, navigate về trang chủ
-//     if (!managerResponse) {
-//       navigate("/");
-//     }
-//   }, [managerResponse, navigate]); // Thêm managerResponse và navigate vào dependency array
+  return (
+    <Box
+      ref={componentRef}
+      style={{ width: "100%", height: window.innerHeight }}
+      sx={{ padding: 3, width: "60%", height: "40%" }}
+    >
+      <Box>
+        <Typography variant="h4" gutterBottom>
+          DIAVAN Certificate
+        </Typography>
+        <Box>
+          <img
+            src={Diavan}
+            width="35"
+            height="35"
+            alt="Diavan"
+            className="Diavan"
+          />
+        </Box>
+        <Typography sx={{ fontFamily: "revert-layer", fontStyle: "italic" }}>
+          Determine the accurate value and reimburse the diamond's actual worth.
+        </Typography>
+        <Typography variant="h6">Diamond: </Typography>
+        <Typography variant="h6">Service: </Typography>
+        <Typography variant="h6">Valuation Staff: </Typography>
+        <Typography variant="h6">Valuing Price: </Typography>
+        <Typography variant="h6">Status: </Typography>
+      </Box>
+      <Button onClick={handlePrint}>Print this out</Button>
+    </Box>
+  );
+};
 
-//   const generatePDF = () => {
-//     const input = certificateRef.current;
-//     if (input) {
-//       const doc = new jsPDF();
-//       doc.html(input, {
-//         callback: function (doc) {
-//           doc.save("certificate.pdf");
-//         },
-//       });
-//     }
-//   };
-
-//   return (
-//     <Box>
-//       {managerResponse && ( // Kiểm tra nếu có managerResponse thì render certificate
-//         <>
-//           <Box ref={certificateRef} id="certificate" sx={{ padding: 3 }}>
-//             <Typography variant="h4" gutterBottom>
-//               DIAVAN Certificate
-//             </Typography>
-//             <Typography variant="h6">Diamond: {managerResponse.diamond}</Typography>
-//             <Typography variant="h6">Service: {managerResponse.service}</Typography>
-//             <Typography variant="h6">
-//               Valuation Staff: {managerResponse.valuationStaff}
-//             </Typography>
-//             <Typography variant="h6">
-//               Valuing Price: {managerResponse.valuingPrice}
-//             </Typography>
-//             <Typography variant="h6">Status: {managerResponse.status}</Typography>
-//           </Box>
-//           <Button variant="contained" onClick={generatePDF} sx={{ marginTop: 3 }}>
-//             Download PDF
-//           </Button>
-//         </>
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default Certificate;
-
-// const Certificate = () => {
-//   return (
-//     <Box>
-//       <Box sx={{ padding: 3 }}>
-//         <Typography variant="h4" gutterBottom>
-//           DIAVAN Certificate
-//         </Typography>
-//         <Typography variant="h6">Diamond: </Typography>
-//         <Typography variant="h6">Service: </Typography>
-//         <Typography variant="h6">Valuation Staff: </Typography>
-//         <Typography variant="h6">Valuing Price: </Typography>
-//         <Typography variant="h6">Status: </Typography>
-//       </Box>
-//       <Button variant="contained" sx={{ marginTop: 3 }}>
-//         Download PDF
-//       </Button>
-//     </Box>
-//   );
-// };
-
-// export default Certificate;
+export default Certificate;
