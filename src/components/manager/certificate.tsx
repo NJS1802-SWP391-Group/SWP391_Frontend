@@ -12,35 +12,86 @@ const Certificate = () => {
   });
 
   return (
-    <Box
-      ref={componentRef}
-      style={{ width: "100%", height: window.innerHeight }}
-      sx={{ padding: 3, width: "60%", height: "40%" }}
-    >
-      <Box>
-        <Typography variant="h4" gutterBottom>
-          DIAVAN Certificate
-        </Typography>
+    <>
+      <Box
+        ref={componentRef}
+        sx={{ padding: 3, width: "60%", height: "100vh" }} // Set height to 100vh to fit one page
+      >
         <Box>
-          <img
-            src={Diavan}
-            width="35"
-            height="35"
-            alt="Diavan"
-            className="Diavan"
-          />
+          <Box
+            sx={{
+              paddingBottom: "20px",
+              display: "flex",
+              paddingLeft: "70px",
+              paddingTop: "40px",
+            }}
+          >
+            <Box>
+              <Typography sx={{ fontWeight: "bold", fontSize: "35px" }}>
+                DIAVAN
+              </Typography>
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: "60px",
+                  fontFamily: "revert",
+                  fontStyle: "italic",
+                }}
+              >
+                Certificate
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                paddingLeft: "30px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={Diavan}
+                width="90"
+                height="90"
+                alt="Diavan"
+                className="Diavan"
+              />
+
+              <Typography
+                sx={{
+                  fontFamily: "revert-layer",
+                  fontStyle: "italic",
+                  fontSize: "23px",
+                  paddingLeft: "190px",
+                  width: "800px",
+                }}
+              >
+                Determine the accurate value and reimburse the diamond's actual
+                worth.
+              </Typography>
+            </Box>
+          </Box>
+          <Typography variant="h6">Diamond: </Typography>
+          <Typography variant="h6">Service: </Typography>
+          <Typography variant="h6">Valuation Staff: </Typography>
+          <Typography variant="h6">Valuing Price: </Typography>
+          <Typography variant="h6">Status: </Typography>
         </Box>
-        <Typography sx={{ fontFamily: "revert-layer", fontStyle: "italic" }}>
-          Determine the accurate value and reimburse the diamond's actual worth.
-        </Typography>
-        <Typography variant="h6">Diamond: </Typography>
-        <Typography variant="h6">Service: </Typography>
-        <Typography variant="h6">Valuation Staff: </Typography>
-        <Typography variant="h6">Valuing Price: </Typography>
-        <Typography variant="h6">Status: </Typography>
       </Box>
-      <Button onClick={handlePrint}>Print this out</Button>
-    </Box>
+
+      <Button
+        sx={{
+          marginLeft: "1090px",
+          marginBottom: "5px",
+          borderRadius: "30px",
+          width: "150px",
+          backgroundColor: "#4F46E5",
+          color: "white",
+        }}
+        onClick={handlePrint}
+      >
+        Print this out
+      </Button>
+    </>
   );
 };
 

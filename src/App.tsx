@@ -16,6 +16,7 @@ import HomePage from "./pages/homePage/HomePage";
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
 
+import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
@@ -27,7 +28,7 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<ManagerAssignPage />} />
+            <Route path="/" element={<CertificatePage />} />
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/Login" element={<HomePage />} />
