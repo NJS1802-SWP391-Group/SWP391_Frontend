@@ -48,7 +48,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
           <TableRow>
             <StyledTableCell>Order Id</StyledTableCell>
             <StyledTableCell align="left">Order Code</StyledTableCell>
-            <StyledTableCell align="left">Customer Id</StyledTableCell>
+            <StyledTableCell align="left">Customer</StyledTableCell>
             <StyledTableCell align="left">Quantity</StyledTableCell>
             <StyledTableCell align="left">Status</StyledTableCell>
             <StyledTableCell align="left">Detail</StyledTableCell>
@@ -61,11 +61,16 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                 {item.orderID}
               </StyledTableCell>
               <StyledTableCell align="left">{item.code}</StyledTableCell>
-              <StyledTableCell align="left">{item.customerId}</StyledTableCell>
+              <StyledTableCell align="left">
+                {item.lastName + " " + item.firstName}{" "}
+              </StyledTableCell>
               <StyledTableCell align="left">{item.quantity}</StyledTableCell>
               <StyledTableCell align="left">{item.status}</StyledTableCell>
               <StyledTableCell align="left">
-                <Button onClick={() => onOrderClick(item.orderID)}>
+                <Button
+                  onClick={() => onOrderClick(item.orderID)}
+                  variant="contained"
+                >
                   Detail
                 </Button>
               </StyledTableCell>
