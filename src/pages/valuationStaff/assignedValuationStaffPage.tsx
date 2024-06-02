@@ -1,16 +1,15 @@
 import { Box, Grid, Paper } from "@mui/material";
-import { useState } from "react";
-import AssignManager from "../../components/manager/assignManager";
+import React, { useState } from "react";
 import SearchBar from "../../components/manager/searchBar";
 import NavBarSystem from "../../components/system/NavBarSystem";
+import AssignValuationStaff from "../../components/valuationStaff/assignValuationStaff";
 
-const ManagerAssignPage = () => {
+const AssignedValuationStaffPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
-
   return (
     <Grid>
       <NavBarSystem marginBottom="100px" />
@@ -27,10 +26,10 @@ const ManagerAssignPage = () => {
           marginTop: "5px",
         }}
       >
-        <AssignManager />
+        <AssignValuationStaff />
       </Paper>
     </Grid>
   );
 };
 
-export default ManagerAssignPage;
+export default AssignedValuationStaffPage;
