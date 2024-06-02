@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { OrderInterface } from "../../interfaces/order/orderInterface";
+import {
+  DetailValuation,
+  OrderInterface,
+  OrderRequest,
+} from "../../interfaces/order/orderInterface";
 import Modal from "react-modal";
 import DiavanLogo from "../../assets/Diavan.png";
 import "./OrderDetail.css";
@@ -7,13 +11,9 @@ import {
   Button,
   Divider,
   FormControl,
-  FormControlLabel,
-  FormLabel,
   InputLabel,
   MenuItem,
   Paper,
-  Radio,
-  RadioGroup,
   Select,
   SelectChangeEvent,
   Table,
@@ -27,6 +27,7 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import { Service } from "../../interfaces/servicess/Service";
+import orderApi from "../../services/orderApi";
 
 type Props = {
   order: OrderInterface | null;
@@ -65,21 +66,97 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const serviceInit = [
+  {
+    serviceID: 1,
+    name: "Standard Valuation",
+  },
+  {
+    serviceID: 2,
+    name: "Quick Valuation 48h",
+  },
+  {
+    serviceID: 3,
+    name: "Quick Valuation 24h",
+  },
+  {
+    serviceID: 4,
+    name: "Quick Valuation 6h",
+  },
+];
+
 function OrderDetail({ order, closeModal, services }: Props) {
-  const [payment, setPayment] = useState("direct");
-  const [service, setService] = useState("1");
-  const [size, setSize] = React.useState("");
+  const [detailValuations, setDetailValuations] = useState<DetailValuation[]>(
+    []
+  );
+  const [service, setService] = useState<{ serviceID: number; name: string }[]>(
+    []
+  );
+  const [sizes, setSizes] = useState<string[]>([]);
 
-  const handleChangeSize = (event: SelectChangeEvent) => {
-    setSize(event.target.value);
+  const handleChangeService = (
+    event: SelectChangeEvent<{
+      serviceID: number;
+      name: string;
+    }>,
+    index: number
+  ) => {
+    const selectedServiceId = parseInt(event.target.value);
+    setService((prevServices) => {
+      const updatedServices = [...prevServices];
+      updatedServices[index] = {
+        serviceID: selectedServiceId,
+        name:
+          services.find((service) => service.serviceID === selectedServiceId)
+            ?.name || "",
+      };
+      return updatedServices;
+    });
   };
 
-  const handleChangeService = (event: SelectChangeEvent) => {
-    setService(event.target.value);
+  const handleChangeSize = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) => {
+    const newSize = event.target.value;
+    setSizes((prevSizes) => {
+      const updatedSizes = [...prevSizes];
+      updatedSizes[index] = newSize;
+      return updatedSizes;
+    });
   };
 
-  const handleChangePayment = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPayment((event.target as HTMLInputElement).value);
+  const handleSave = () => {
+    setDetailValuations((prevDetailValuations) => [
+      ...prevDetailValuations,
+      {
+        serviceId: service[service.length - 1].serviceID,
+        estimateLength: parseFloat(sizes[sizes.length - 1]),
+      },
+    ]);
+  };
+  console.log("ServiceId", service);
+  console.log("Size", sizes);
+  console.log(detailValuations);
+
+  const orderRequest: OrderRequest = {
+    orderID: order?.orderID,
+    consultingStaffName: "Vo Mong Luan",
+    time: new Date(),
+    detailValuations: detailValuations,
+  };
+  console.log(orderRequest.time);
+
+  const sendOrderRequets = () => {
+    const data = orderRequest;
+    orderApi.sendRequest(data).then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   return (
@@ -97,10 +174,10 @@ function OrderDetail({ order, closeModal, services }: Props) {
               </div>
             </div>
             <div className="receipt-bill-info">
-              Order Code: {order.orderID} <br />
-              Customer name: {order.customer} <br />
-              Consulting staff: {order.code} <br />
-              Date: {order.time.toString()}
+              Order Code: {order.code} <br />
+              Customer name: {order.lastName + " " + order.firstName} <br />
+              Consulting staff: <br />
+              Date Created: {order.time.toString()}
             </div>
             <Divider />
             <div className="receipt-bill-service">
@@ -111,6 +188,7 @@ function OrderDetail({ order, closeModal, services }: Props) {
                       <StyledTableCell align="left">STT</StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
+                      <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -122,15 +200,39 @@ function OrderDetail({ order, closeModal, services }: Props) {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <FormControl sx={{ minWidth: 120 }} size="small">
-                              <InputLabel id="service">Service</InputLabel>
+                              <InputLabel id={`service-${index}`}>
+                                Service
+                              </InputLabel>
                               <Select
-                                labelId="service"
-                                id="service"
-                                value={service}
+                                labelId={`service-${index}`}
+                                id={`service-${index}`}
+                                value={service[index]}
                                 label="Service"
-                                onChange={handleChangeService}
+                                onChange={(event) => {
+                                  const selectedServiceId = parseInt(
+                                    event.target.value as string
+                                  );
+                                  handleChangeService(event, index);
+                                  setDetailValuation((prevDetailValuations) => {
+                                    const updatedDetailValuations = [
+                                      ...prevDetailValuations,
+                                    ];
+                                    if (
+                                      updatedDetailValuations.length <= index
+                                    ) {
+                                      updatedDetailValuations.push({
+                                        serviceId: selectedServiceId,
+                                        estimateLength: 0,
+                                      });
+                                    } else {
+                                      updatedDetailValuations[index].serviceId =
+                                        selectedServiceId;
+                                    }
+                                    return updatedDetailValuations;
+                                  });
+                                }}
                               >
-                                {services.map((item) => {
+                                {serviceInit.map((item) => {
                                   return (
                                     <MenuItem
                                       key={item.serviceID}
@@ -145,12 +247,45 @@ function OrderDetail({ order, closeModal, services }: Props) {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <TextField
-                              id="size"
+                              value={sizes[index] || ""}
+                              onChange={(event) => {
+                                const newSize = parseFloat(event.target.value);
+                                handleChangeSize(event, index);
+                                setDetailValuation((prevDetailValuations) => {
+                                  const updatedDetailValuations = [
+                                    ...prevDetailValuations,
+                                  ];
+                                  if (updatedDetailValuations.length <= index) {
+                                    updatedDetailValuations.push({
+                                      serviceId: 0,
+                                      estimateLength: newSize,
+                                    });
+                                  } else {
+                                    updatedDetailValuations[
+                                      index
+                                    ].estimateLength = newSize;
+                                  }
+                                  return updatedDetailValuations;
+                                });
+                              }}
+                              id={`size-${index}`}
                               label="Size"
                               variant="outlined"
-                              type="number"
+                              type="text"
                               size="small"
+                              InputProps={{
+                                inputProps: { min: 0 },
+                              }}
                             />
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Button
+                              key={index}
+                              onClick={handleSave}
+                              variant="contained"
+                            >
+                              Save
+                            </Button>
                           </StyledTableCell>
                         </StyledTableRow>
                       );
@@ -160,7 +295,7 @@ function OrderDetail({ order, closeModal, services }: Props) {
               </TableContainer>
             </div>
             <Divider />
-            <div className="receipt-bill-payment">
+            {/* <div className="receipt-bill-payment">
               <FormControl>
                 <FormLabel id="radio-payment">Payment</FormLabel>
                 <RadioGroup row value={payment} onChange={handleChangePayment}>
@@ -176,12 +311,16 @@ function OrderDetail({ order, closeModal, services }: Props) {
                   />
                 </RadioGroup>
               </FormControl>
-            </div>
+            </div> */}
             <div className="receipt-bill-action">
               <Button onClick={closeModal} variant="contained" color="inherit">
                 Cancel
               </Button>
-              <Button variant="contained" color="secondary">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={sendOrderRequets}
+              >
                 Submit
               </Button>
             </div>
