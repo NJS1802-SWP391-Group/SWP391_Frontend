@@ -17,14 +17,11 @@ import orderApi from "../../services/orderApi";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import OrderList from "../../components/consulting/OrderList";
 import OrderDetail from "../../components/consulting/OrderDetail";
-import serviceApi from "../../services/service";
-import { Service } from "../../interfaces/servicess/Service";
 
 const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
   const [open, setOpen] = React.useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
-  const [services, setServices] = useState<Service[]>([]);
 
   const handleOrderClick = (orderID: number) => {
     setSelectedOrderId(orderID);
@@ -50,9 +47,6 @@ const ConsultingStaffPage = () => {
       try {
         const orderList: any = await orderApi.getAll();
         setOrders(orderList);
-
-        const serviceList: any = await serviceApi.getAll();
-        setServices(serviceList);
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +54,6 @@ const ConsultingStaffPage = () => {
     fectOrders();
   }, []);
   // console.log("Orders: ", orders);
-  // console.log("Service: ", services);
   return (
     <>
       <NavBarSystem marginBottom="100px" />
@@ -86,11 +79,7 @@ const ConsultingStaffPage = () => {
           <SearchBar />
         </div>
         <OrderList orders={orders} onOrderClick={handleOrderClick} />
-        <OrderDetail
-          order={selectedOrder}
-          closeModal={closeOrderDetailModal}
-          services={services}
-        />
+        <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />
         <Dialog
           open={open}
           onClose={handleClose}

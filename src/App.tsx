@@ -11,6 +11,7 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
+import RecepitBill from "./components/consulting/RecepitBill";
 
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
@@ -53,6 +54,7 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+            <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
           </Routes>
         </div>
 
