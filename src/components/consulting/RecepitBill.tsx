@@ -23,8 +23,10 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import Loading from "../Loading";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { OrderResponse } from "../../interfaces/order/orderResponse";
+import orderApi from "../../services/orderApi";
+import SuccessfullAlert from "../SuccessfullAlert";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,14 +50,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const RecepitBill: React.FC = () => {
   const [payment, setPayment] = useState("direct");
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
   };
+
   const location = useLocation();
   const data: OrderResponse = location.state;
   const fetchData: OrderResponse = data;
-  console.log("Data:", data);
+  // console.log("Data:", data);
+
+  const onSubmitPrintBill = () => {
+    const orderId = fetchData.orderID;
+    orderApi.pay(orderId, payment).then(
+      (response: any) => {
+        console.log("Response", response);
+        setShowAlert(true);
+        setTimeout(() => {
+          navigate("/consulting-page");
+        }, 2000);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
 
   return (
     <div>
@@ -181,6 +202,7 @@ const RecepitBill: React.FC = () => {
             >
               <Button
                 variant="contained"
+                onClick={onSubmitPrintBill}
                 sx={{
                   backgroundColor: "#4F46E5",
                   borderRadius: "25px",
@@ -192,6 +214,9 @@ const RecepitBill: React.FC = () => {
             </div>
           </div>
         </Card>
+      )}
+      {showAlert && (
+        <SuccessfullAlert message="Successfully print bill, you will back Order List Page" />
       )}
     </div>
   );
