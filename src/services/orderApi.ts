@@ -10,6 +10,10 @@ const orderApi = {
     const url = "/Orders/Submit";
     return axiosClient.post(url, data);
   },
+  pay(orderId: number, payment: string) {
+    const url = `/Orders/Pay/Id=${orderId}`;
+    return axiosClient.put(url, payment);
+  },
 };
 
 export default orderApi;
