@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { OrderContext } from "./OrderDetail";
 import DiavanLogo from "../../assets/Diavan.png";
 import "./OrderDetail.css";
 import {
@@ -24,6 +23,8 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import Loading from "../Loading";
+import { useLocation } from "react-router-dom";
+import { OrderResponse } from "../../interfaces/order/orderResponse";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -51,11 +52,14 @@ const RecepitBill: React.FC = () => {
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
   };
-  const context = useContext(OrderContext);
+  const location = useLocation();
+  const data: OrderResponse = location.state;
+  const fetchData: OrderResponse = data;
+  console.log("Data:", data);
 
   return (
     <div>
-      {context?.responseOrder == undefined ? (
+      {data == undefined ? (
         <Card sx={{ margin: "20px 0", padding: "10px 5%" }}>
           <div style={{ marginTop: "20px" }}>
             <div className="recepit-bill-header">
@@ -86,13 +90,13 @@ const RecepitBill: React.FC = () => {
               </div>
             </div>
             <div className="receipt-bill-info">
-              Order Code: {context?.responseOrder?.code}
+              Order Code: {fetchData.code}
               <br />
-              Customer name: {context?.responseOrder?.customerId}
+              Customer name: {fetchData.customerId}
               <br />
               Consulting staff: Vo Mong Luan
               <br />
-              Date Created: {context?.responseOrder?.time}
+              Date Created: {fetchData.time}
             </div>
             <Divider />
             <div className="receipt-bill-service">
@@ -109,8 +113,8 @@ const RecepitBill: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {context?.responseOrder?.detailValuations.map((item) => (
-                      <StyledTableRow key={context?.responseOrder?.orderID}>
+                    {fetchData.detailValuations.map((item) => (
+                      <StyledTableRow key={fetchData.orderID}>
                         <StyledTableCell align="left">
                           {item.orderDetailId}
                         </StyledTableCell>
@@ -144,7 +148,7 @@ const RecepitBill: React.FC = () => {
                 variant="h5"
                 textAlign={"center"}
               >
-                Total Price: {context?.responseOrder?.totalPay}
+                Total Price: {fetchData.totalPay} $
               </Typography>
             </Box>
             <div className="receipt-bill-payment">
@@ -165,7 +169,7 @@ const RecepitBill: React.FC = () => {
               </FormControl>
             </div>
             <Divider />
-            <Typography textAlign={"center"} fontStyle={"italic"}>
+            <Typography textAlign={"center"} fontStyle={"italic"} margin=" 0">
               Thank you! See you next time
             </Typography>
             <div
