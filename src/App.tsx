@@ -11,6 +11,7 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
+import RecepitBill from "./components/consulting/RecepitBill";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+            <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
           </Routes>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import {
   DetailValuation,
   OrderInterface,
@@ -26,16 +26,15 @@ import {
   styled,
   tableCellClasses,
 } from "@mui/material";
-import { Service } from "../../interfaces/servicess/Service";
 import orderApi from "../../services/orderApi";
 import { formatDate } from "../../utils/utils";
 import { OrderResponse } from "../../interfaces/order/orderResponse";
-import RecepitBill from "./RecepitBill";
+
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   order: OrderInterface | null;
   closeModal: () => void;
-  services: Service[];
 };
 
 const customStyles = {
@@ -69,91 +68,52 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const serviceInit = [
-  {
-    serviceID: 1,
-    name: "Standard Valuation",
-  },
-  {
-    serviceID: 2,
-    name: "Quick Valuation 48h",
-  },
-  {
-    serviceID: 3,
-    name: "Quick Valuation 24h",
-  },
-  {
-    serviceID: 4,
-    name: "Quick Valuation 6h",
-  },
-];
+// interface OrderContextType {
+//   responseOrder?: OrderResponse;
+//   setResponseOrder: (order: OrderResponse) => void;
+// }
 
-interface OrderContextType {
-  responseOrder?: OrderResponse;
-  setResponseOrder: (order: OrderResponse) => void;
-}
+// export const OrderContext = createContext<OrderContextType | undefined>(
+//   undefined
+// );
 
-export const OrderContext = createContext<OrderContextType | undefined>(
-  undefined
-);
-
-function OrderDetail({ order, closeModal, services }: Props) {
+function OrderDetail({ order, closeModal }: Props) {
   const [detailValuations, setDetailValuations] = useState<DetailValuation[]>(
     []
   );
-  const [service, setService] = useState<{ serviceID: number; name: string }[]>(
-    []
-  );
-  const [sizes, setSizes] = useState<string[]>([]);
+  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
+  const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
   const [responseOrder, setResponseOrder] = useState<OrderResponse>();
+  const navigate = useNavigate();
 
-  const contextValue: OrderContextType = {
-    responseOrder,
-    setResponseOrder,
+  // const contextValue: OrderContextType = {
+  //   responseOrder,
+  //   setResponseOrder,
+  // };
+
+  const handleServiceIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = parseInt(e.target.value);
+    setSelectedServiceId(selectedId);
   };
 
-  const handleChangeService = (
-    event: SelectChangeEvent<{
-      serviceID: number;
-      name: string;
-    }>,
-    index: number
+  const handleEstimateLengthChange = (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const selectedServiceId = parseInt(event.target.value);
-    setService((prevServices) => {
-      const updatedServices = [...prevServices];
-      updatedServices[index] = {
-        serviceID: selectedServiceId,
-        name:
-          services.find((service) => service.serviceID === selectedServiceId)
-            ?.name || "",
-      };
-      return updatedServices;
-    });
+    const length = parseFloat(e.target.value);
+    setInputEstimateLength(length);
   };
 
-  const handleChangeSize = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
-    const newSize = event.target.value;
-    setSizes((prevSizes) => {
-      const updatedSizes = [...prevSizes];
-      updatedSizes[index] = newSize;
-      return updatedSizes;
+  const handleAddButtonClick = () => {
+    const updatedDetailValuations = [...detailValuations];
+    updatedDetailValuations.push({
+      serviceId: selectedServiceId,
+      estimateLength: inputEstimateLength,
     });
+    setDetailValuations(updatedDetailValuations);
+    setSelectedServiceId(0);
+    setInputEstimateLength(0);
   };
-
-  const handleSave = () => {
-    setDetailValuations((prevDetailValuations) => [
-      ...prevDetailValuations,
-      {
-        serviceId: service[service.length - 1].serviceID,
-        estimateLength: parseFloat(sizes[sizes.length - 1]),
-      },
-    ]);
-  };
-  console.log(detailValuations);
+  console.log("DetailValuaitons: ", detailValuations);
 
   const orderRequest: OrderRequest = {
     orderID: order?.orderID,
@@ -166,13 +126,17 @@ function OrderDetail({ order, closeModal, services }: Props) {
     const data = orderRequest;
     orderApi.sendRequest(data).then(
       (response: any) => {
-        setResponseOrder(response);
-        console.log("Response: ", responseOrder);
+        setResponseOrder(response.data);
+        // console.log(response);
+        navigate(`/receipt-bill/${data.orderID}`, {
+          state: response,
+        });
       },
       (error) => {
         console.log(error);
       }
     );
+
     closeModal();
   };
 
@@ -202,111 +166,55 @@ function OrderDetail({ order, closeModal, services }: Props) {
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell align="left">STT</StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {[...Array(order.quantity)].map((_, index) => {
-                      return (
-                        <StyledTableRow key={index}>
-                          <StyledTableCell component="th" scope="row">
-                            {index + 1}
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <FormControl sx={{ minWidth: 120 }} size="small">
-                              <InputLabel id={`service-${index}`}>
-                                Service
-                              </InputLabel>
-                              <Select
-                                labelId={`service-${index}`}
-                                id={`service-${index}`}
-                                value={service[index]}
-                                label="Service"
-                                onChange={(event) => {
-                                  const selectedServiceId = parseInt(
-                                    event.target.value as string
-                                  );
-                                  handleChangeService(event, index);
-                                  setDetailValuation((prevDetailValuations) => {
-                                    const updatedDetailValuations = [
-                                      ...prevDetailValuations,
-                                    ];
-                                    if (
-                                      updatedDetailValuations.length <= index
-                                    ) {
-                                      updatedDetailValuations.push({
-                                        serviceId: selectedServiceId,
-                                        estimateLength: 0,
-                                      });
-                                    } else {
-                                      updatedDetailValuations[index].serviceId =
-                                        selectedServiceId;
-                                    }
-                                    return updatedDetailValuations;
-                                  });
-                                }}
-                              >
-                                {serviceInit.map((item) => {
-                                  return (
-                                    <MenuItem
-                                      key={item.serviceID}
-                                      value={item.serviceID}
-                                    >
-                                      {item.name}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </Select>
-                            </FormControl>
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <TextField
-                              value={sizes[index] || ""}
-                              onChange={(event) => {
-                                const newSize = parseFloat(event.target.value);
-                                handleChangeSize(event, index);
-                                setDetailValuation((prevDetailValuations) => {
-                                  const updatedDetailValuations = [
-                                    ...prevDetailValuations,
-                                  ];
-                                  if (updatedDetailValuations.length <= index) {
-                                    updatedDetailValuations.push({
-                                      serviceId: 0,
-                                      estimateLength: newSize,
-                                    });
-                                  } else {
-                                    updatedDetailValuations[
-                                      index
-                                    ].estimateLength = newSize;
-                                  }
-                                  return updatedDetailValuations;
-                                });
-                              }}
-                              id={`size-${index}`}
-                              label="Size"
-                              variant="outlined"
-                              type="text"
-                              size="small"
-                              InputProps={{
-                                inputProps: { min: 0 },
-                              }}
-                            />
-                          </StyledTableCell>
-                          <StyledTableCell align="center">
-                            <Button
-                              key={index}
-                              onClick={handleSave}
-                              variant="contained"
-                            >
-                              Save
-                            </Button>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      );
-                    })}
+                    <StyledTableRow>
+                      <StyledTableCell align="center">
+                        <select
+                          style={{ padding: "10px 20px" }}
+                          value={selectedServiceId}
+                          onChange={handleServiceIdChange}
+                        >
+                          <option value={1}>Standard Valuaiton</option>
+                          <option value={2}>Quick Valuation 48h</option>
+                          <option value={3}>Quick Valuation 24h</option>
+                          <option value={4}>Quick Valuation 6h</option>
+                        </select>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <input
+                          style={{ padding: "10px 20px" }}
+                          type="number"
+                          step="0.1"
+                          value={inputEstimateLength}
+                          onChange={handleEstimateLengthChange}
+                          min={0}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Button
+                          onClick={handleAddButtonClick}
+                          variant="contained"
+                        >
+                          Add
+                        </Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+
+                    {detailValuations.map((item) => (
+                      <StyledTableRow>
+                        <StyledTableCell align="center">
+                          {item.serviceId}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {item.estimateLength}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -346,9 +254,9 @@ function OrderDetail({ order, closeModal, services }: Props) {
       ) : (
         <div></div>
       )}
-      <OrderContext.Provider value={contextValue}>
+      {/* <OrderContext.Provider value={contextValue}>
         <RecepitBill />
-      </OrderContext.Provider>
+      </OrderContext.Provider> */}
     </div>
   );
 }
