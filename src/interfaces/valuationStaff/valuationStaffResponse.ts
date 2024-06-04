@@ -4,3 +4,11 @@ export interface AssignValuationStaffResponse {
   service: string;
   finalPrice: string;
 }
+
+export interface ValuationStaffResponse {
+  accountId: number;
+  userName: string;
+  password: string;
+  status: string;
+  roleName: string;
+}

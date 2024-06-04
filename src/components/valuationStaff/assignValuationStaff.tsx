@@ -14,11 +14,13 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PlusButton from "../../assets/PlusButton.png";
 import SendButton from "../../assets/SendButton.png";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
 
 const AssignValuationStaff = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedValuationStaffResponse, setSelectedValuationStaffResponse] =
     React.useState<AssignValuationStaffResponse | null>(null);
@@ -47,6 +49,10 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
+  const handlePlusButtonClick = (orderCode: string) => {
+    navigate(`/diamond/${orderCode}`);
+  };
+
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -70,14 +76,20 @@ const AssignValuationStaff = () => {
   const [
     assignValuationStaffResponseList,
     setAssignValuationStaffResponseList,
-  ] = useState<AssignValuationStaffResponse[]>([
-    {
-      orderCode: "1234567789",
-      diamond: "DIA01",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-  ]);
+  ] = useState<AssignValuationStaffResponse[]>([]);
+  // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
+  // useEffect(() => {
+  //   const getOrderList = async () => {
+  //     const response: any = await orderApi.getAll();
+  //     if (response && response.length > 0) {
+  //       setOrderList(response);
+  //     }
+  //   };
+  //   const initUseEffect = async () => {
+  //     await getOrderList();
+  //   };
+  //   initUseEffect();
+  // }, []);
 
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
@@ -108,6 +120,9 @@ const AssignValuationStaff = () => {
               (valuationStaffResponse) => (
                 <StyledTableRow key={valuationStaffResponse.orderCode}>
                   <StyledTableCell>
+                    {valuationStaffResponse.orderCode}
+                  </StyledTableCell>
+                  <StyledTableCell>
                     {valuationStaffResponse.diamond}
                   </StyledTableCell>
                   <StyledTableCell>
@@ -119,12 +134,16 @@ const AssignValuationStaff = () => {
                   <StyledTableCell>
                     <Box>
                       <IconButton
-                        onClick={() => handleOpen(valuationStaffResponse)}
+                        onClick={() =>
+                          handlePlusButtonClick(
+                            valuationStaffResponse.orderCode
+                          )
+                        }
                       >
                         <img
                           src={PlusButton}
-                          width="35"
-                          height="35"
+                          width="30"
+                          height="30"
                           alt="PlusButton"
                           className="Plusbutton"
                         />
@@ -138,8 +157,8 @@ const AssignValuationStaff = () => {
                       >
                         <img
                           src={SendButton}
-                          width="35"
-                          height="35"
+                          width="30"
+                          height="30"
                           alt="SendButton"
                           className="Sendbutton"
                         />
@@ -168,7 +187,7 @@ const AssignValuationStaff = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "50%",
+            width: "40%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -176,15 +195,19 @@ const AssignValuationStaff = () => {
             outline: "none",
           }}
         >
+          <Typography sx={{ fontWeight: "bold " }}>
+            (Order Code:
+            {selectedValuationStaffResponse?.orderCode})
+          </Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Diamond:{" "}
-            {selectedValuationStaffResponse?.diamond} with Price:{" "}
+            Do you want to send Diamond:
+            {selectedValuationStaffResponse?.diamond} with Price:
             {selectedValuationStaffResponse?.finalPrice}?
           </Typography>
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "right",
               marginTop: "20px",
             }}
           >
