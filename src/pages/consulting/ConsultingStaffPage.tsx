@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import OrderDetail from "../../components/consulting/OrderDetail";
 import OrderList from "../../components/consulting/OrderList";
-import SearchBar from "../../components/manager/searchBar";
+
 import NavBarSystem from "../../components/system/NavBarSystem";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import orderApi from "../../services/orderApi";
@@ -76,7 +76,6 @@ const ConsultingStaffPage = () => {
           >
             New Order
           </Button>
-          <SearchBar />
         </div>
         <OrderList orders={orders} onOrderClick={handleOrderClick} />
         <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />

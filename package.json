@@ -23,7 +23,6 @@
     "data-generator-helpdesk": "^1.0.1",
     "dayjs": "^1.11.11",
     "jspdf": "^2.5.1",
-    "jspdf": "^2.5.1",
     "mui-datatables": "^4.3.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-admin": "^4.16.18",
