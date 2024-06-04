@@ -15,12 +15,15 @@ import {
   TextField,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlusButton from "../../assets/PlusButton.png";
 import SearchButton from "../../assets/Search.png";
 import { ManagerAssignResponse } from "../../interfaces/manager/managerResponse";
+import { ValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
+import managerAssignsApi from "../../services/managerService/managerApi";
+import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
-const AssignManager = () => {
+const AssignManager: React.FC = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: "center",
@@ -39,7 +42,54 @@ const AssignManager = () => {
     useState<ManagerAssignResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: 0 });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSelection, setShowSelection] = useState(false);
 
+  const handleShow = () => {
+    setShowSelection(true);
+  };
+
+  const [managers, setManagers] = useState<ValuationStaffResponse[]>([]);
+  useEffect(() => {
+    const fetchValuationStaffList = async () => {
+      const res: any = await valuationStaffApi.getValuationStaff();
+      console.log("ValuationList:", res);
+      if (res && res.length > 0) {
+        setManagers(res);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchValuationStaffList();
+    };
+    initUseEffect();
+  }, []);
+
+  const [managerAssignList, setManagerAssignList] = useState<
+    ManagerAssignResponse[]
+  >([]);
+
+  useEffect(() => {
+    const fetchManagerAssignList = async () => {
+      const response: any = await managerAssignsApi.getAll();
+      console.log("FetchData:", response);
+      if (response && response.length > 0) {
+        setManagerAssignList(response);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchManagerAssignList();
+    };
+    initUseEffect();
+  }, []);
+  console.log("fetchData", managerAssignList);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -51,89 +101,31 @@ const AssignManager = () => {
     setPage(0);
   };
 
-  const [open, setOpen] = useState(false);
   const handleOpen = (managerResponse: ManagerAssignResponse) => {
     setSelectedManagerResponse(managerResponse);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setSelectedManagerResponse(null);
   };
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [menuPosition, setMenuPosition] = useState<{
-    top: number;
-    left: number;
-  }>({ top: 0, left: 0 });
-  const [searchQuery, setSearchQuery] = useState("");
-  const [managers, setManagers] = useState([
-    { id: "7749", name: "Nguyen Gia Bao" },
-    { id: "7750", name: "Nguyen Gia Tri" },
-    { id: "7755", name: "Nguyen Gia Linh" },
-    { id: "7777", name: "Nguyen Gia Bi" },
-    { id: "7779", name: "Nguyen Gia Bo" },
-  ]);
-
-  const [managerAssignList, setManagerAssignList] = useState<
-    ManagerAssignResponse[]
-  >([
-    {
-      orderDetail: "001",
-      diamond: "DIA01",
-      service: "5h",
-      price: "50$",
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "002",
-      diamond: "DIA02",
-      service: "24h",
-      price: "50$",
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "003",
-      diamond: "DIA01",
-      service: "5h",
-      price: "50$",
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "004",
-      diamond: "DIA02",
-      service: "5h",
-      price: "50$",
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "005",
-      diamond: "DIA01",
-      service: "48h",
-      price: "50$",
-      valuationStaff: null,
-    },
-    {
-      orderDetail: "006",
-      diamond: "DIA02",
-      service: "24h",
-      price: "50$",
-      valuationStaff: null,
-    },
-  ]);
-
-  const handleManagerSelect = (valuationStaff: {
-    id: string;
-    name: string;
-  }) => {
+  const handleManagerSelect = (accountId: number) => {
     if (selectedManagerResponse) {
-      setManagerAssignList((prevList) =>
-        prevList.map((item) =>
-          item.orderDetail === selectedManagerResponse.orderDetail
-            ? { ...item, valuationStaff }
-            : item
-        )
+      const selectedManager = managers.find(
+        (manager) => manager.accountId === accountId
       );
+      const updatedManagerList = managerAssignList.map((item) =>
+        item.orderDetailCode === selectedManagerResponse.orderDetailCode
+          ? {
+              ...item,
+              accountId,
+              valuationStaffName: selectedManager?.userName ?? null,
+            }
+          : item
+      );
+      setManagerAssignList(updatedManagerList);
       handleCloseMenu();
     }
   };
@@ -153,7 +145,7 @@ const AssignManager = () => {
   };
 
   const filteredValuationStaffs = managers.filter((valuationStaff) =>
-    valuationStaff.name.toLowerCase().includes(searchQuery.toLowerCase())
+    valuationStaff.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const paginatedManagerResponseList = managerAssignList.slice(
@@ -175,17 +167,22 @@ const AssignManager = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Diamond
+                Diamond code
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Service
+                Service Name
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
                 Price
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
+              >
+                Estimate Length
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
@@ -196,14 +193,21 @@ const AssignManager = () => {
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.orderDetail}>
-                <StyledTableCell>{managerResponse.orderDetail}</StyledTableCell>
-                <StyledTableCell>{managerResponse.diamond}</StyledTableCell>
-                <StyledTableCell>{managerResponse.service}</StyledTableCell>
-                <StyledTableCell>{managerResponse.price}</StyledTableCell>
+              <StyledTableRow key={managerResponse.orderCode}>
+                <StyledTableCell>{managerResponse.orderCode}</StyledTableCell>
                 <StyledTableCell>
-                  {managerResponse.valuationStaff ? (
-                    managerResponse.valuationStaff.name
+                  {managerResponse.orderDetailCode}
+                </StyledTableCell>
+                <StyledTableCell>{managerResponse.serviceName}</StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.servicePrice}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.estimateLength}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.valuationStaffName ? (
+                    managerResponse.valuationStaffName
                   ) : (
                     <IconButton
                       onClick={(event) =>
@@ -279,7 +283,7 @@ const AssignManager = () => {
         <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
           {filteredValuationStaffs.map((valuationStaff) => (
             <Box
-              key={valuationStaff.id}
+              key={valuationStaff.accountId}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -291,13 +295,12 @@ const AssignManager = () => {
                   backgroundColor: "#f0f0f0",
                 },
               }}
-              onClick={() => handleManagerSelect(valuationStaff)}
+              onClick={() => handleManagerSelect(valuationStaff.accountId)}
             >
-              <Box>
-                <Box>ID: {valuationStaff.id}</Box>
-                <Box>{valuationStaff.name}</Box>
-              </Box>
-              <IconButton>
+              <Box>{valuationStaff.userName}</Box>
+              <IconButton
+                onClick={() => handleManagerSelect(valuationStaff.accountId)}
+              >
                 <img src={PlusButton} width="20" height="20" alt="PlusButton" />
               </IconButton>
             </Box>
@@ -352,7 +355,7 @@ const AssignManager = () => {
           <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
             {filteredValuationStaffs.map((valuationStaff) => (
               <Box
-                key={valuationStaff.id}
+                key={valuationStaff.accountId}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -364,11 +367,10 @@ const AssignManager = () => {
                     backgroundColor: "#f0f0f0",
                   },
                 }}
-                onClick={() => handleManagerSelect(valuationStaff)}
+                onClick={() => handleManagerSelect(valuationStaff.accountId)}
               >
                 <Box>
-                  <Box>ID: {valuationStaff.id}</Box>
-                  <Box>{valuationStaff.name}</Box>
+                  <Box>{valuationStaff.userName}</Box>
                 </Box>
                 <IconButton>
                   <img

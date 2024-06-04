@@ -1,7 +1,6 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ConsultingStaffPage.css";
 
-import NavBarSystem from "../../components/system/NavBarSystem";
 import {
   Button,
   Container,
@@ -12,11 +11,12 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import SearchBar from "../../components/manager/searchBar";
-import orderApi from "../../services/orderApi";
-import { OrderInterface } from "../../interfaces/order/orderInterface";
-import OrderList from "../../components/consulting/OrderList";
 import OrderDetail from "../../components/consulting/OrderDetail";
+import OrderList from "../../components/consulting/OrderList";
+import SearchBar from "../../components/manager/searchBar";
+import NavBarSystem from "../../components/system/NavBarSystem";
+import { OrderInterface } from "../../interfaces/order/orderInterface";
+import orderApi from "../../services/orderApi";
 
 const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
