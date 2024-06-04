@@ -28,8 +28,15 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<CertificatePage />} />
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
+            <Route path="/certificate" element={<CertificatePage />} />
+            <Route
+              path="/certificate/:resultId"
+              element={<CertificatePage />}
+            />
             <Route path="/home" element={<HomePage />} />
             <Route path="/Login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
