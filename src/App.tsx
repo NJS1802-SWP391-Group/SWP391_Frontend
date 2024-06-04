@@ -11,6 +11,8 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
+import RecepitBill from "./components/consulting/RecepitBill";
+import RegisterPage from "./pages/register.tsx/RegisterPage";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/Login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />
@@ -32,6 +35,7 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+            <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
           </Routes>
         </div>
 
