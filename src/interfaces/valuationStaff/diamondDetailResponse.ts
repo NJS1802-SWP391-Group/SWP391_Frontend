@@ -1,4 +1,4 @@
-export interface DiamondDetail {
+export interface DiamondDetailResponse {
   certificateDate: string;
   reportNumber: string;
   shape: string;
@@ -12,7 +12,5 @@ export interface DiamondDetail {
   symmetry: string;
   fluorescence: string;
   clarityCharacteristics: string;
-  inscription: string;
-  comments: string;
   valuatingPrice: string;
 }

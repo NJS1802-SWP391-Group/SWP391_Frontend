@@ -13,11 +13,12 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
 import YesButton from "../../assets/YesButton.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
+import managerAssignsApi from "../../services/managerService/managerApi";
 
 const ApprovalManager = () => {
   const [open, setOpen] = React.useState(false);
@@ -78,85 +79,20 @@ const ApprovalManager = () => {
 
   const [managerResponseList, setManagerResponseList] = useState<
     ManagerApprovalResponse[]
-  >([
-    {
-      diamond: "DIA01",
-      service: "5h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "18,254$",
-      status: "Submitted",
-    },
-    {
-      diamond: "DIA02",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA03",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Submitted",
-    },
-    {
-      diamond: "DIA04",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Submitted",
-    },
-    {
-      diamond: "DIA05",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA06",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA07",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA08",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA09",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA10",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-    {
-      diamond: "DIA11",
-      service: "24h",
-      valuationStaff: "Nguyen Gia Tri",
-      valuingPrice: "20,000$",
-      status: "Pending",
-    },
-  ]);
+  >([]);
+  useEffect(() => {
+    const fetchManagerApprovalList = async () => {
+      const response: any = await managerAssignsApi.getAll();
+      if (response && response.length > 0) {
+        setManagerResponseList(response);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchManagerApprovalList();
+    };
+    initUseEffect();
+  }, []);
 
   const paginatedManagerResponseList = managerResponseList.slice(
     page * rowsPerPage,
@@ -183,15 +119,15 @@ const ApprovalManager = () => {
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.diamond}>
-                <StyledTableCell>{managerResponse.diamond}</StyledTableCell>
-                <StyledTableCell>{managerResponse.service}</StyledTableCell>
+              <StyledTableRow key={managerResponse.orderDetailCode}>
                 <StyledTableCell>
-                  {managerResponse.valuationStaff}
+                  {managerResponse.orderDetailCode}
                 </StyledTableCell>
+                <StyledTableCell>{managerResponse.serviceName}</StyledTableCell>
                 <StyledTableCell>
-                  {managerResponse.valuingPrice}
+                  {managerResponse.valuationStaffName}
                 </StyledTableCell>
+                <StyledTableCell>{managerResponse.resultPrice}</StyledTableCell>
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
@@ -249,8 +185,9 @@ const ApprovalManager = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Diamond: {selectedManagerResponse?.diamond}{" "}
-            with Price: {selectedManagerResponse?.valuingPrice}?
+            Do you want to decline Diamond:{" "}
+            {selectedManagerResponse?.orderDetailCode} with Price:{" "}
+            {selectedManagerResponse?.resultPrice}?
           </Typography>
           <Box
             sx={{

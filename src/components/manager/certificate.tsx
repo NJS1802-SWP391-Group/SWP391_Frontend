@@ -2,10 +2,11 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import styled from "styled-components";
+import ClarityImage from "../../assets/ClarityImage.png";
 import Diavan from "../../assets/Diavan.png";
 import DiavanSign from "../../assets/DiavanSign.png";
-// import PinpointImage from "../../assets/PinpointImage.png";
-import ClarityImage from "../../assets/ClarityImage.png";
+import FeatherImage from "../../assets/FeatherImage.png";
+import PinpointImage from "../../assets/PinpointImage.png";
 import PropotionImage from "../../assets/PropotionImage.png";
 
 const Certificate = () => {
@@ -40,15 +41,6 @@ const Certificate = () => {
     color: "#4F46E5",
   });
 
-  const FieldContainer = styled(Box)({
-    marginBottom: "10px",
-  });
-
-  const ProportionsImage = styled("img")({
-    width: "100%",
-    maxHeight: "200px",
-  });
-
   const data = {
     certificateDate: "04/26/2022",
     reportNumber: "6431153187",
@@ -63,8 +55,7 @@ const Certificate = () => {
     symmetry: "Excellent",
     fluorescence: "Medium",
     clarityCharacteristics: "Pinpoint, Feather",
-    inscription: "GIA 6431153187",
-    comments: "None",
+    price: "18,354$",
   };
   return (
     <Grid>
@@ -78,7 +69,7 @@ const Certificate = () => {
               paddingBottom: "20px",
               display: "flex",
               paddingLeft: "70px",
-              paddingTop: "10px",
+              paddingTop: "30px",
               height: "40%",
             }}
           >
@@ -129,59 +120,12 @@ const Certificate = () => {
           <Container
             sx={{
               width: "1100px",
-              marginTop: "35px",
+              marginTop: "55px",
               marginLeft: "70px",
               height: "550px",
             }}
           >
             <Section sx={{ height: "180px" }}>
-              <SectionTitle
-                sx={{
-                  backgroundColor: "#2D5477",
-                  fontWeight: "bold",
-                  color: "white",
-                  paddingLeft: "10px",
-                }}
-              >
-                REPORT DETAILS
-              </SectionTitle>
-              <Box sx={{ paddingLeft: "15px" }}>
-                <Typography>
-                  Certificate Date: {data.certificateDate}
-                </Typography>
-
-                <Typography>Report Number: {data.reportNumber}</Typography>
-
-                <Typography>Shape: {data.shape}</Typography>
-
-                <Typography>Measurements: {data.measurements}</Typography>
-              </Box>
-            </Section>
-
-            <Section sx={{ height: "180px" }}>
-              <SectionTitle
-                sx={{
-                  backgroundColor: "#2D5477",
-                  fontWeight: "bold",
-                  color: "white",
-                  paddingLeft: "10px",
-                }}
-              >
-                Proportions
-              </SectionTitle>
-
-              <Box sx={{ marginLeft: "140px" }}>
-                <img
-                  src={PropotionImage}
-                  width="250"
-                  height="140"
-                  alt="PropotionImage"
-                  className="PropotionImage"
-                />
-              </Box>
-            </Section>
-
-            <Section sx={{ height: "170px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
@@ -205,7 +149,30 @@ const Certificate = () => {
               </Box>
             </Section>
 
-            <Section sx={{ height: "155px" }}>
+            <Section sx={{ height: "180px" }}>
+              <SectionTitle
+                sx={{
+                  backgroundColor: "#2D5477",
+                  fontWeight: "bold",
+                  color: "white",
+                  paddingLeft: "10px",
+                }}
+              >
+                Proportions
+              </SectionTitle>
+
+              <Box sx={{ marginLeft: "130px" }}>
+                <img
+                  src={PropotionImage}
+                  width="230"
+                  height="140"
+                  alt="PropotionImage"
+                  className="PropotionImage"
+                />
+              </Box>
+            </Section>
+
+            <Section sx={{ height: "150px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
@@ -229,7 +196,31 @@ const Certificate = () => {
               </Box>
             </Section>
 
-            <Section sx={{ height: "100px" }}>
+            <Section sx={{ height: "150px" }}>
+              <SectionTitle
+                sx={{
+                  backgroundColor: "#2D5477",
+                  fontWeight: "bold",
+                  color: "white",
+                  paddingLeft: "10px",
+                }}
+              >
+                Report Details
+              </SectionTitle>
+              <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
+                <Typography>
+                  Certificate Date: {data.certificateDate}
+                </Typography>
+
+                <Typography>Report Number: {data.reportNumber}</Typography>
+
+                <Typography>Shape: {data.shape}</Typography>
+
+                <Typography>Measurements: {data.measurements}</Typography>
+              </Box>
+            </Section>
+
+            <Section sx={{ height: "120px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
@@ -240,8 +231,8 @@ const Certificate = () => {
               >
                 Diamond Value
               </SectionTitle>
-              <Box sx={{ paddingLeft: "15px" }}>
-                <Typography>Polish: {data.polish}</Typography>
+              <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
+                <Typography>Valuing Price: {data.price}</Typography>
               </Box>
             </Section>
 
@@ -249,8 +240,6 @@ const Certificate = () => {
               sx={{
                 height: "125px",
                 marginBottom: "20px",
-                position: "relative",
-                bottom: "25px",
               }}
             >
               <SectionTitle
@@ -263,14 +252,55 @@ const Certificate = () => {
               >
                 Clarity Characteristics
               </SectionTitle>
-              <Box sx={{ marginLeft: "50px" }}>
-                <img
-                  src={ClarityImage}
-                  width="170"
-                  height="80"
-                  alt="Clarity Image"
-                  className="Clarity Image"
-                />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "20px",
+                  marginLeft: "50px",
+                }}
+              >
+                <Box>
+                  <img
+                    src={ClarityImage}
+                    width="170"
+                    height="80"
+                    alt="ClarityImage"
+                    className="ClarityImage"
+                  />
+                </Box>
+                <Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+                  >
+                    <Box sx={{ backgroundColor: "#f8f9fa", width: "60px" }}>
+                      <img
+                        src={PinpointImage}
+                        width="25"
+                        height="25"
+                        alt="PinpointImage"
+                        className="PinpointImage"
+                      />
+                    </Box>
+                    <Typography>Pinpoint</Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+                  >
+                    <Box sx={{ backgroundColor: "#f8f9fa", width: "60px" }}>
+                      <img
+                        src={FeatherImage}
+                        width="25"
+                        height="25"
+                        alt="FeatherImage"
+                        className="FeatherImage"
+                      />
+                    </Box>
+                    <Typography>Feather</Typography>
+                  </Box>
+                </Box>
               </Box>
             </Section>
           </Container>
@@ -280,7 +310,7 @@ const Certificate = () => {
             </Typography>
             <img
               src={DiavanSign}
-              width="370"
+              width="450"
               height="150"
               alt="DiavanSign"
               className="DiavanSign"

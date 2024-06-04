@@ -76,87 +76,21 @@ const AssignValuationStaff = () => {
   const [
     assignValuationStaffResponseList,
     setAssignValuationStaffResponseList,
-  ] = useState<AssignValuationStaffResponse[]>([
-    // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
-    // useEffect(() => {
-    //   const getOrderList = async () => {
-    //     const response: any = await orderApi.getAll();
-    //     if (response && response.length > 0) {
-    //       setOrderList(response);
-    //     }
-    //   };
-    //   const initUseEffect = async () => {
-    //     await getOrderList();
-    //   };
-    //   initUseEffect();
-    // }, []);
-    {
-      orderCode: "1",
-      diamond: "DIA01",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "2",
-      diamond: "DIA02",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "3",
-      diamond: "DIA03",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "4",
-      diamond: "DIA04",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "5",
-      diamond: "DIA05",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "6",
-      diamond: "DIA06",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "7",
-      diamond: "DIA07",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "8",
-      diamond: "DIA08",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "9",
-      diamond: "DIA09",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "10",
-      diamond: "DIA010",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-    {
-      orderCode: "11",
-      diamond: "DIA011",
-      service: "24h",
-      finalPrice: "18,234$",
-    },
-  ]);
+  ] = useState<AssignValuationStaffResponse[]>([]);
+  // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
+  // useEffect(() => {
+  //   const getOrderList = async () => {
+  //     const response: any = await orderApi.getAll();
+  //     if (response && response.length > 0) {
+  //       setOrderList(response);
+  //     }
+  //   };
+  //   const initUseEffect = async () => {
+  //     await getOrderList();
+  //   };
+  //   initUseEffect();
+  // }, []);
+
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
       page * rowsPerPage,
