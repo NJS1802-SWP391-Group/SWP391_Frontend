@@ -11,11 +11,16 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
+<<<<<<< HEAD
 
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
+=======
+import RecepitBill from "./components/consulting/RecepitBill";
+import RegisterPage from "./pages/register.tsx/RegisterPage";
+>>>>>>> 189d620d6e82fa8dbd6d4d335ab6a4827be8cea3
 
 function App() {
   return (
@@ -34,6 +39,7 @@ function App() {
               element={<CertificatePage />}
             />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/Login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />
@@ -52,7 +58,11 @@ function App() {
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+<<<<<<< HEAD
             {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
+=======
+            <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
+>>>>>>> 189d620d6e82fa8dbd6d4d335ab6a4827be8cea3
           </Routes>
         </div>
 
