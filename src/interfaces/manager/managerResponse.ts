@@ -1,8 +1,11 @@
 export interface ManagerApprovalResponse {
-  diamond: string;
-  service: string;
-  valuationStaff: string;
-  valuingPrice: string;
+  orderCode: string;
+  orderDetailCode: string;
+  serviceName: string;
+  estimateLength: number;
+  servicePrice: string;
+  valuationStaffName: string | null;
+  resultPrice: null;
   status: string;
 }
 
@@ -12,7 +15,7 @@ export interface ManagerAssignResponse {
   serviceName: string;
   estimateLength: number;
   servicePrice: string;
-  status: string;
+  valuationStaffName: string | null;
   resultPrice: null;
-  valuationStaff: { id: string; name: string } | null;
+  status: string;
 }

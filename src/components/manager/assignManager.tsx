@@ -15,12 +15,13 @@ import {
   TextField,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlusButton from "../../assets/PlusButton.png";
 import SearchButton from "../../assets/Search.png";
 import { ManagerAssignResponse } from "../../interfaces/manager/managerResponse";
+import managerAssignsApi from "../../services/managerService/managerApi";
 
-const AssignManager = () => {
+const AssignManager: React.FC = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: "center",
@@ -39,7 +40,38 @@ const AssignManager = () => {
     useState<ManagerAssignResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: 0 });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [managers, setManagers] = useState([
+    { name: "Nguyen Gia Bao" },
+    { name: "Nguyen Gia Tri" },
+    { name: "Nguyen Gia Linh" },
+    { name: "Nguyen Gia Bi" },
+    { name: "Nguyen Gia Bo" },
+  ]);
+  const [managerAssignList, setManagerAssignList] = useState<
+    ManagerAssignResponse[]
+  >([]);
 
+  useEffect(() => {
+    const fetchManagerAssignList = async () => {
+      const response: any = await managerAssignsApi.getAll();
+      if (response && response.length > 0) {
+        setManagerAssignList(response);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchManagerAssignList();
+    };
+    initUseEffect();
+  }, []);
+  console.log("fetchData", managerAssignList);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -51,43 +83,22 @@ const AssignManager = () => {
     setPage(0);
   };
 
-  const [open, setOpen] = useState(false);
   const handleOpen = (managerResponse: ManagerAssignResponse) => {
     setSelectedManagerResponse(managerResponse);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setSelectedManagerResponse(null);
   };
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [menuPosition, setMenuPosition] = useState<{
-    top: number;
-    left: number;
-  }>({ top: 0, left: 0 });
-  const [searchQuery, setSearchQuery] = useState("");
-  const [managers, setManagers] = useState([
-    { id: "7749", name: "Nguyen Gia Bao" },
-    { id: "7750", name: "Nguyen Gia Tri" },
-    { id: "7755", name: "Nguyen Gia Linh" },
-    { id: "7777", name: "Nguyen Gia Bi" },
-    { id: "7779", name: "Nguyen Gia Bo" },
-  ]);
-
-  const [managerAssignList, setManagerAssignList] = useState<
-    ManagerAssignResponse[]
-  >([]);
-
-  const handleManagerSelect = (valuationStaff: {
-    id: string;
-    name: string;
-  }) => {
+  const handleManagerSelect = (valuationStaffName: string) => {
     if (selectedManagerResponse) {
       setManagerAssignList((prevList) =>
         prevList.map((item) =>
           item.orderCode === selectedManagerResponse.orderCode
-            ? { ...item, valuationStaff }
+            ? { ...item, valuationStaffName }
             : item
         )
       );
@@ -132,12 +143,12 @@ const AssignManager = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Diamond
+                Diamond code
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Service
+                Service Name
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
@@ -145,12 +156,7 @@ const AssignManager = () => {
                 Price
               </StyledTableCell>
               <StyledTableCell
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  color: "black",
-                  width: "20%",
-                }}
+                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
                 Estimate Length
               </StyledTableCell>
@@ -164,6 +170,7 @@ const AssignManager = () => {
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderCode}>
+                <StyledTableCell>{managerResponse.orderCode}</StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
@@ -175,11 +182,8 @@ const AssignManager = () => {
                   {managerResponse.estimateLength}
                 </StyledTableCell>
                 <StyledTableCell>
-                  {managerResponse.estimateLength}
-                </StyledTableCell>
-                <StyledTableCell>
-                  {managerResponse.valuationStaff ? (
-                    managerResponse.valuationStaff.name
+                  {managerResponse.valuationStaffName ? (
+                    managerResponse.valuationStaffName
                   ) : (
                     <IconButton
                       onClick={(event) =>
@@ -255,7 +259,7 @@ const AssignManager = () => {
         <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
           {filteredValuationStaffs.map((valuationStaff) => (
             <Box
-              key={valuationStaff.id}
+              key={valuationStaff.name}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -267,12 +271,9 @@ const AssignManager = () => {
                   backgroundColor: "#f0f0f0",
                 },
               }}
-              onClick={() => handleManagerSelect(valuationStaff)}
+              onClick={() => handleManagerSelect(valuationStaff.name)}
             >
-              <Box>
-                <Box>ID: {valuationStaff.id}</Box>
-                <Box>{valuationStaff.name}</Box>
-              </Box>
+              <Box>{valuationStaff.name}</Box>
               <IconButton>
                 <img src={PlusButton} width="20" height="20" alt="PlusButton" />
               </IconButton>
@@ -328,7 +329,7 @@ const AssignManager = () => {
           <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
             {filteredValuationStaffs.map((valuationStaff) => (
               <Box
-                key={valuationStaff.id}
+                key={valuationStaff.name}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -340,10 +341,9 @@ const AssignManager = () => {
                     backgroundColor: "#f0f0f0",
                   },
                 }}
-                onClick={() => handleManagerSelect(valuationStaff)}
+                onClick={() => handleManagerSelect(valuationStaff.name)}
               >
                 <Box>
-                  <Box>ID: {valuationStaff.id}</Box>
                   <Box>{valuationStaff.name}</Box>
                 </Box>
                 <IconButton>
