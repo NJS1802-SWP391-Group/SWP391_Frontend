@@ -1,0 +1,30 @@
+.recepit-bill-header{
+    display: flex;
+    justify-content: center;
+}
+.receipt-bill-title{
+    margin: 0 10px;
+}
+
+.receipt-bill-title h1{
+    font-size: 40px;
+    font-weight: bold;
+}
+.receipt-bill-title h2{
+    font-style: italic;
+    font-weight: 500;
+}
+
+.receipt-bill-info{
+    font-weight: 700;
+}
+
+.receipt-bill-service{
+    margin: auto;
+}
+
+.receipt-bill-action{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px;
+}

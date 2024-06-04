@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import { Divider } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -11,13 +12,13 @@ const Footer = () => {
             <h4>Features</h4>
             <ul>
               <li>
-                <a href="">Diamond Check</a>
+                <Link to="">Diamond Check</Link>
               </li>
               <li>
-                <a href="">Calculate</a>
+                <Link to="">Calculate</Link>
               </li>
               <li>
-                <a href="">Valuate Diamond</a>
+                <Link to="">Valuate Diamond</Link>
               </li>
             </ul>
           </div>
@@ -25,13 +26,13 @@ const Footer = () => {
             <h4>More</h4>
             <ul>
               <li>
-                <a href="">Guides</a>
+                <Link to="">Guides</Link>
               </li>
               <li>
-                <a href="">Blog</a>
+                <Link to="">Blog</Link>
               </li>
               <li>
-                <a href="">Partners</a>
+                <Link to="">Partners</Link>
               </li>
             </ul>
           </div>
@@ -39,13 +40,13 @@ const Footer = () => {
             <h4>Company</h4>
             <ul>
               <li>
-                <a href="">About</a>
+                <Link to="">About</Link>
               </li>
               <li>
-                <a href="">FAQ</a>
+                <Link to="">FAQ</Link>
               </li>
               <li>
-                <a href="">Privacy</a>
+                <Link to="">Privacy</Link>
               </li>
             </ul>
           </div>
@@ -53,13 +54,13 @@ const Footer = () => {
             <h4>Contact us</h4>
             <ul>
               <li>
-                <a href="">Facebook</a>
+                <Link to="">Facebook</Link>
               </li>
               <li>
-                <a href="">Instagram</a>
+                <Link to="">Instagram</Link>
               </li>
               <li>
-                <a href="">Linkedin</a>
+                <Link to="">Linkedin</Link>
               </li>
             </ul>
           </div>

@@ -2,12 +2,21 @@ export interface OrderInterface {
   orderID: number;
   code: string;
   customerId: number;
-  customer: null;
-  time: Date;
+  firstName: string;
+  lastName: string;
   quantity: number;
-  totalPay: number;
-  payment: string;
-  statusPayment: string;
+  time: string;
   status: string;
-  detailValuations: null;
+}
+
+export interface OrderRequest {
+  orderID: number | undefined;
+  time: string;
+  consultingStaffName: string;
+  detailValuations: DetailValuation[];
+}
+
+export interface DetailValuation {
+  serviceId: number;
+  estimateLength: number;
 }
