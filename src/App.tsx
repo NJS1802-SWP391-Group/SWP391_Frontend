@@ -12,6 +12,7 @@ import HomePage from "./pages/homePage/HomePage";
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
 import RecepitBill from "./components/consulting/RecepitBill";
+import RegisterPage from "./pages/register.tsx/RegisterPage";
 
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
@@ -36,6 +37,7 @@ function App() {
               element={<CertificatePage />}
             />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/Login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />

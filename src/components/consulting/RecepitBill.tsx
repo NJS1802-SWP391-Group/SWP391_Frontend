@@ -70,7 +70,7 @@ const RecepitBill: React.FC = () => {
         setShowAlert(true);
         setTimeout(() => {
           navigate("/consulting-page");
-        }, 2000);
+        }, 4000);
       },
       (error) => {
         console.log(error);
@@ -172,6 +172,7 @@ const RecepitBill: React.FC = () => {
                 Total Price: {fetchData.totalPay} $
               </Typography>
             </Box>
+
             <div className="receipt-bill-payment">
               <FormControl>
                 <FormLabel id="radio-payment">Payment</FormLabel>
@@ -190,9 +191,16 @@ const RecepitBill: React.FC = () => {
               </FormControl>
             </div>
             <Divider />
+
             <Typography textAlign={"center"} fontStyle={"italic"} margin=" 0">
               Thank you! See you next time
             </Typography>
+            {showAlert && (
+              <div>
+                <SuccessfullAlert message="Successfully print bill, you will back Order List Page" />
+                <Loading />
+              </div>
+            )}
             <div
               style={{
                 width: "100%",
@@ -214,9 +222,6 @@ const RecepitBill: React.FC = () => {
             </div>
           </div>
         </Card>
-      )}
-      {showAlert && (
-        <SuccessfullAlert message="Successfully print bill, you will back Order List Page" />
       )}
     </div>
   );
