@@ -10,7 +10,6 @@ const CertificatePage = () => {
         sx={{
           width: "1300px",
           marginLeft: "250px",
-
           backgroundColor: "white",
         }}
       >
