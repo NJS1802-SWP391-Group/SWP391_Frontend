@@ -68,6 +68,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
               <StyledTableCell align="left">{item.status}</StyledTableCell>
               <StyledTableCell align="left">
                 <Button
+                  disabled={item.status == "Processing" ? true : false}
                   onClick={() => onOrderClick(item.orderID)}
                   variant="contained"
                 >
