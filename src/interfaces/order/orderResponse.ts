@@ -1,22 +1,18 @@
-export interface OrderInterface {
+export interface OrderResponse {
   orderID: number;
   code: string;
   customerId: number;
-  firstName: string;
-  lastName: string;
   quantity: number;
   time: string;
   status: string;
-}
-
-export interface OrderRequest {
-  orderID: number | undefined;
-  time: string;
-  consultingStaffName: string;
+  totalPay: number;
   detailValuations: DetailValuation[];
 }
 
 export interface DetailValuation {
-  serviceId: number;
+  orderDetailId: number;
+  code: string;
+  serviceName: string;
   estimateLength: number;
+  price: number;
 }
