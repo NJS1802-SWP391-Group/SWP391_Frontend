@@ -3,7 +3,8 @@ import { styled } from "@mui/system";
 import { ChangeEvent, FormEvent, useState } from "react";
 import DetailImage from "../../assets/DetailImage.png";
 import NavBarSystem from "../../components/system/NavBarSystem";
-import { DiamondDetail } from "../../interfaces/valuationStaff/diamondDetailResponse";
+
+import { DiamondDetailResponse } from "../../interfaces/valuationStaff/diamondDetailResponse";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
 import axiosClient from "../../services/axiosClient";
 
@@ -33,7 +34,7 @@ const FieldContainer = styled(Box)({
 const DiamondForm = () => {
   const [selectedValuationStaffResponse, setSelectedValuationStaffResponse] =
     useState<AssignValuationStaffResponse | null>(null);
-  const [diamondDetail, setDiamondDetail] = useState<DiamondDetail>({
+  const [diamondDetail, setDiamondDetail] = useState<DiamondDetailResponse>({
     certificateDate: "",
     reportNumber: "",
     shape: "",
@@ -47,17 +48,44 @@ const DiamondForm = () => {
     symmetry: "",
     fluorescence: "",
     clarityCharacteristics: "",
-    inscription: "",
-    comments: "",
     valuatingPrice: "",
   });
+
+  // const onSubmit: SubmitHandler<PostRequest> = async (data: any) => {
+  //     const response: any = await valuationStaffApi.createPost({
+  //       userid: userObj.user.id,
+  //       categoryid: parseCategoryIdToInt,
+  //       pet_breed: breed,
+  //       pet_type: type,
+  //       content: data.content,
+  //       exchange: category ? true : false,
+  //       listpostimg: objList,
+  //       listpet: null,
+  //       listitem: null,
+  //     });
+  //     if (response === true) {
+  //       toast.success("Create New Post Success!", {
+  //         position: toast.POSITION.TOP_CENTER,
+  //       });
+  //       timeoutRef.current = setTimeout(() => {
+  //         navigate(0);
+  //       }, 1700);
+  //       return;
+  //     }
+  //     toast.error("Create New Post Success!", {
+  //       position: toast.POSITION.TOP_CENTER,
+  //     });
+  //   } catch (error) {
+  //     console.log("Error", error);
+  //   }
+  // };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDiamondDetail({ ...diamondDetail, [name]: value });
   };
 
-  const addDiamondDetail = async (data: DiamondDetail) => {
+  const addDiamondDetail = async (data: DiamondDetailResponse) => {
     try {
       const response = await axiosClient.post("/your-api-endpoint", data);
       console.log("Diamond data added:", response.data);
@@ -258,24 +286,6 @@ const DiamondForm = () => {
               label="Clarity Characteristics"
               name="clarityCharacteristics"
               value={diamondDetail.clarityCharacteristics}
-              onChange={handleChange}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              label="Inscription(s)"
-              name="inscription"
-              value={diamondDetail.inscription}
-              onChange={handleChange}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              label="Comments"
-              name="comments"
-              value={diamondDetail.comments}
               onChange={handleChange}
             />
           </FieldContainer>

@@ -50,11 +50,11 @@ const ApprovalManager = () => {
   };
 
   const navigate = useNavigate();
-
   const handleNavigateToCertificate = (
+    orderDetailCode: string,
     managerResponse: ManagerApprovalResponse
   ) => {
-    navigate("/certificate", { state: { managerResponse } });
+    navigate(`/certificate/${orderDetailCode}`, { state: { managerResponse } });
   };
 
   const styleTableHead = {
@@ -142,7 +142,10 @@ const ApprovalManager = () => {
                     </IconButton>
                     <IconButton
                       onClick={() =>
-                        handleNavigateToCertificate(managerResponse)
+                        handleNavigateToCertificate(
+                          managerResponse.orderDetailCode,
+                          managerResponse
+                        )
                       }
                     >
                       <img

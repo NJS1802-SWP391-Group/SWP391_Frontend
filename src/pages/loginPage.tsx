@@ -1,5 +1,4 @@
-import { Box, Paper } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { Box, Grid, Paper } from "@mui/material";
 import BackButton from "../components/buttons/backButton";
 
 const paperStyle = {
@@ -10,7 +9,7 @@ const paperStyle = {
 
 const LoginPage = () => {
   return (
-    <Grid2
+    <Grid
       container
       justifyContent="center"
       alignItems="center"
@@ -26,7 +25,7 @@ const LoginPage = () => {
           {/* <LoginForm /> */}
         </Box>
       </Paper>
-    </Grid2>
+    </Grid>
   );
 };
 

@@ -19,7 +19,9 @@ import React, { useEffect, useState } from "react";
 import PlusButton from "../../assets/PlusButton.png";
 import SearchButton from "../../assets/Search.png";
 import { ManagerAssignResponse } from "../../interfaces/manager/managerResponse";
+import { ValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
 import managerAssignsApi from "../../services/managerService/managerApi";
+import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
 const AssignManager: React.FC = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -47,13 +49,28 @@ const AssignManager: React.FC = () => {
     left: number;
   }>({ top: 0, left: 0 });
   const [searchQuery, setSearchQuery] = useState("");
-  const [managers, setManagers] = useState([
-    { name: "Nguyen Gia Bao" },
-    { name: "Nguyen Gia Tri" },
-    { name: "Nguyen Gia Linh" },
-    { name: "Nguyen Gia Bi" },
-    { name: "Nguyen Gia Bo" },
-  ]);
+  const [showSelection, setShowSelection] = useState(false);
+
+  const handleShow = () => {
+    setShowSelection(true);
+  };
+
+  const [managers, setManagers] = useState<ValuationStaffResponse[]>([]);
+  useEffect(() => {
+    const fetchValuationStaffList = async () => {
+      const res: any = await valuationStaffApi.getValuationStaff();
+      console.log("ValuationList:", res);
+      if (res && res.length > 0) {
+        setManagers(res);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchValuationStaffList();
+    };
+    initUseEffect();
+  }, []);
+
   const [managerAssignList, setManagerAssignList] = useState<
     ManagerAssignResponse[]
   >([]);
@@ -61,6 +78,7 @@ const AssignManager: React.FC = () => {
   useEffect(() => {
     const fetchManagerAssignList = async () => {
       const response: any = await managerAssignsApi.getAll();
+      console.log("FetchData:", response);
       if (response && response.length > 0) {
         setManagerAssignList(response);
       }
@@ -93,15 +111,21 @@ const AssignManager: React.FC = () => {
     setSelectedManagerResponse(null);
   };
 
-  const handleManagerSelect = (valuationStaffName: string) => {
+  const handleManagerSelect = (accountId: number) => {
     if (selectedManagerResponse) {
-      setManagerAssignList((prevList) =>
-        prevList.map((item) =>
-          item.orderCode === selectedManagerResponse.orderCode
-            ? { ...item, valuationStaffName }
-            : item
-        )
+      const selectedManager = managers.find(
+        (manager) => manager.accountId === accountId
       );
+      const updatedManagerList = managerAssignList.map((item) =>
+        item.orderDetailCode === selectedManagerResponse.orderDetailCode
+          ? {
+              ...item,
+              accountId,
+              valuationStaffName: selectedManager?.userName ?? null,
+            }
+          : item
+      );
+      setManagerAssignList(updatedManagerList);
       handleCloseMenu();
     }
   };
@@ -121,7 +145,7 @@ const AssignManager: React.FC = () => {
   };
 
   const filteredValuationStaffs = managers.filter((valuationStaff) =>
-    valuationStaff.name.toLowerCase().includes(searchQuery.toLowerCase())
+    valuationStaff.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const paginatedManagerResponseList = managerAssignList.slice(
@@ -259,7 +283,7 @@ const AssignManager: React.FC = () => {
         <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
           {filteredValuationStaffs.map((valuationStaff) => (
             <Box
-              key={valuationStaff.name}
+              key={valuationStaff.accountId}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -271,10 +295,12 @@ const AssignManager: React.FC = () => {
                   backgroundColor: "#f0f0f0",
                 },
               }}
-              onClick={() => handleManagerSelect(valuationStaff.name)}
+              onClick={() => handleManagerSelect(valuationStaff.accountId)}
             >
-              <Box>{valuationStaff.name}</Box>
-              <IconButton>
+              <Box>{valuationStaff.userName}</Box>
+              <IconButton
+                onClick={() => handleManagerSelect(valuationStaff.accountId)}
+              >
                 <img src={PlusButton} width="20" height="20" alt="PlusButton" />
               </IconButton>
             </Box>
@@ -329,7 +355,7 @@ const AssignManager: React.FC = () => {
           <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
             {filteredValuationStaffs.map((valuationStaff) => (
               <Box
-                key={valuationStaff.name}
+                key={valuationStaff.accountId}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -341,10 +367,10 @@ const AssignManager: React.FC = () => {
                     backgroundColor: "#f0f0f0",
                   },
                 }}
-                onClick={() => handleManagerSelect(valuationStaff.name)}
+                onClick={() => handleManagerSelect(valuationStaff.accountId)}
               >
                 <Box>
-                  <Box>{valuationStaff.name}</Box>
+                  <Box>{valuationStaff.userName}</Box>
                 </Box>
                 <IconButton>
                   <img
