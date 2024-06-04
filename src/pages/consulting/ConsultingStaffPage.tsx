@@ -12,7 +12,15 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+<<<<<<< HEAD
 import SearchBar from "../../components/manager/searchBar";
+=======
+import OrderDetail from "../../components/consulting/OrderDetail";
+import OrderList from "../../components/consulting/OrderList";
+
+import NavBarSystem from "../../components/system/NavBarSystem";
+import { OrderInterface } from "../../interfaces/order/orderInterface";
+>>>>>>> 8154f9d (Pushing new code)
 import orderApi from "../../services/orderApi";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import OrderList from "../../components/consulting/OrderList";
@@ -76,7 +84,6 @@ const ConsultingStaffPage = () => {
           >
             New Order
           </Button>
-          <SearchBar />
         </div>
         <OrderList orders={orders} onOrderClick={handleOrderClick} />
         <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />

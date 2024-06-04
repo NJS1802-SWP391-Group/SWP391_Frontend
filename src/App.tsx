@@ -11,14 +11,13 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
-import RecepitBill from "./components/consulting/RecepitBill";
-import RegisterPage from "./pages/register.tsx/RegisterPage";
 
+import RecepitBill from "./components/consulting/RecepitBill";
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
+import RegisterPage from "./pages/register.tsx/RegisterPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
-import LoginPage from "./pages/loginPage";
 
 function App() {
   return (
@@ -27,9 +26,8 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
-            <Route path="/manager/assign" element={<ManagerAssignPage />} />
+            <Route path="/" element={<HomePage />} />
+
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
             <Route path="/certificate" element={<CertificatePage />} />
             <Route
@@ -49,13 +47,14 @@ function App() {
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
 
             {/* ManagerPath */}
-            <Route path="/managerA" element={<ManagerApprovalPage />} />
-            <Route path="/managerAssign" element={<ManagerAssignPage />} />
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
             <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+            {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
             <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
           </Routes>
         </div>
