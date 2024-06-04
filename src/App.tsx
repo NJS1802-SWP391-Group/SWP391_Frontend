@@ -11,16 +11,13 @@ import HomePage from "./pages/homePage/HomePage";
 
 import FormResult from "./components/forms/FormResult";
 import LoginSystem from "./pages/System/loginSystem";
-<<<<<<< HEAD
 
+import RecepitBill from "./components/consulting/RecepitBill";
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
-import DiamondDetail from "./pages/valuationStaff/diamondDetail";
-=======
-import RecepitBill from "./components/consulting/RecepitBill";
 import RegisterPage from "./pages/register.tsx/RegisterPage";
->>>>>>> 189d620d6e82fa8dbd6d4d335ab6a4827be8cea3
+import DiamondDetail from "./pages/valuationStaff/diamondDetail";
 
 function App() {
   return (
@@ -29,9 +26,8 @@ function App() {
         <CssBaseline />
         <div className="container">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
-            <Route path="/manager/assign" element={<ManagerAssignPage />} />
+            <Route path="/" element={<HomePage />} />
+
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
             <Route path="/certificate" element={<CertificatePage />} />
             <Route
@@ -51,18 +47,15 @@ function App() {
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
 
             {/* ManagerPath */}
-            <Route path="/managerA" element={<ManagerApprovalPage />} />
-            <Route path="/managerAssign" element={<ManagerAssignPage />} />
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
             <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
-<<<<<<< HEAD
             {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
-=======
             <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
->>>>>>> 189d620d6e82fa8dbd6d4d335ab6a4827be8cea3
           </Routes>
         </div>
 
