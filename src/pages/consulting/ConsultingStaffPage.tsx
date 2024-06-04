@@ -12,19 +12,13 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-<<<<<<< HEAD
-import SearchBar from "../../components/manager/searchBar";
-=======
 import OrderDetail from "../../components/consulting/OrderDetail";
 import OrderList from "../../components/consulting/OrderList";
 
 import NavBarSystem from "../../components/system/NavBarSystem";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
->>>>>>> 8154f9d (Pushing new code)
 import orderApi from "../../services/orderApi";
-import { OrderInterface } from "../../interfaces/order/orderInterface";
-import OrderList from "../../components/consulting/OrderList";
-import OrderDetail from "../../components/consulting/OrderDetail";
+import SearchBar from "../../components/manager/searchBar";
 
 const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
@@ -87,6 +81,7 @@ const ConsultingStaffPage = () => {
         </div>
         <OrderList orders={orders} onOrderClick={handleOrderClick} />
         <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />
+        {/* <SearchBar searchQuery="Search Customer " handleSearchChange={}/> */}
         <Dialog
           open={open}
           onClose={handleClose}

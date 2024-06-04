@@ -30,10 +30,13 @@ function App() {
             <Route path="/" element={<HomePage />} />
 
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
-
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/certificate" element={<CertificatePage />} />
+            <Route
+              path="/certificate/:resultId"
+              element={<CertificatePage />}
+            />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/Login" element={<HomePage />} />
+            <Route path="/login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -41,27 +44,15 @@ function App() {
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />
-            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
-
-            {/* ManagerPath */}
-            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
-            <Route
-              path="/Result/Get-Result-By-Order-Detail-Id/:orderDetailID"
-              element={<CertificatePage />}
-            />
-            <Route path="/manager/assign" element={<ManagerAssignPage />} />
-            <Route
-              path="/valuationStaff/assigned"
-              element={<AssignedValuationStaffPage />}
-            />
-
-            <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
             <Route path="/consulting-page" element={<ConsultingStaffPage />} />
             {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
             <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
+            {/* ManagerPath */}
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
           </Routes>
         </div>
 
