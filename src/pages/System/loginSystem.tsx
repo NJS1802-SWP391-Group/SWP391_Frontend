@@ -15,6 +15,7 @@ import DiavanLogo from "../../assets/Diavan.png";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
 import { useNavigate } from "react-router-dom";
+import { LOGIN_SUCCESS } from "../../constants";
 
 function Copyright(props: any) {
   return (
@@ -52,8 +53,30 @@ export default function LoginSystem() {
       (response: any) => {
         console.log(response);
         if (response.success == true) {
-          alert("Đăng nhập thành công");
-          navigate("/consulting-page");
+          switch (response.result.roleName) {
+            case "Customer":
+              alert("You do not have permission to access this page");
+              break;
+            case "ConsultingStaff":
+              alert(LOGIN_SUCCESS);
+              navigate("/consulting-page");
+              break;
+            case "ValuationStaff":
+              alert(LOGIN_SUCCESS);
+              navigate("/valuationStaff/assigned");
+              break;
+            case "Manager":
+              alert(LOGIN_SUCCESS);
+              navigate("/manager/assign");
+              break;
+            case "Admin":
+              alert(LOGIN_SUCCESS);
+              break;
+            default:
+              alert("You do not have permission to access this page");
+              navigate("/home");
+              break;
+          }
         } else {
           alert(response.result.message);
         }
