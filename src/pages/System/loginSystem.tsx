@@ -26,8 +26,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Diavan
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -55,7 +55,8 @@ export default function LoginSystem() {
         if (response.success == true) {
           switch (response.result.roleName) {
             case "Customer":
-              alert("You do not have permission to access this page");
+              alert(LOGIN_SUCCESS);
+              navigate("/");
               break;
             case "ConsultingStaff":
               alert(LOGIN_SUCCESS);
@@ -150,7 +151,7 @@ export default function LoginSystem() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
