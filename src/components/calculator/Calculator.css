@@ -1,0 +1,124 @@
+.calculator-container {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.calculator-output {
+  padding: 16px;
+  background-color: #fff;
+  border: 1px solid #c7c7c7;
+  width: 100%;
+}
+.calc-input-label {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.shape-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.origin-buttons {
+  display: grid;
+  padding: 0.125rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: space-between;
+}
+.origin-button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f3f4f6;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  color: #111827;
+}
+
+.shape-button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f3f4f6;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  color: #111827;
+  width: calc(25% - 0.5rem);
+}
+.origin-button.active-button,
+.shape-button.active-button {
+  background-color: #4f46e5;
+  color: #fff;
+  border: 1px solid #4f46e5;
+}
+
+.carat-input {
+  display: flex;
+  align-items: center;
+  place-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.carat-slider-output {
+  text-align: center;
+  background-color: #4f46e5;
+  color: #fff;
+  border: 1px solid #4f46e5;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.carat-slider-opacity {
+  text-align: center;
+  background-color: #4f46e5;
+  color: #fff;
+  border: 1px solid #4f46e5;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  opacity: 20%;
+}
+
+.carat-slider {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.toggle-expand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.toggle-expand:hover {
+  background-color: #f0f0f0;
+}
+
+.submit-button {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.toggle-expand-icon {
+  transition: transform 0.3s;
+}
+
+.toggle-expand-icon.expanded {
+  transform: rotate(180deg);
+}
