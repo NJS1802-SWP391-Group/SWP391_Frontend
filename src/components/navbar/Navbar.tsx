@@ -10,7 +10,7 @@ function Navbar() {
         <img src={DiavanImage} alt="Diavan" className="logo" />
       </Link>
       <ul>
-        <Link to="/home">
+        <Link to="/">
           <li>Home</li>
         </Link>
         <Link to="/diamond-check">

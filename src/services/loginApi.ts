@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 
 const loginAPI = {
   login: (loginRequest: LoginRequest) => {
-    return axiosClient.post("login", loginRequest);
+    return axiosClient.post("/Auth/Login", loginRequest);
   },
 };
 
