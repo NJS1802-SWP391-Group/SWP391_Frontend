@@ -17,6 +17,7 @@ import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 import RegisterPage from "./pages/register.tsx/RegisterPage";
+import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
 
 function App() {
@@ -29,11 +30,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
 
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
-            <Route path="/certificate" element={<CertificatePage />} />
-            <Route
-              path="/certificate/:resultId"
-              element={<CertificatePage />}
-            />
+
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<HomePage />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
@@ -43,6 +40,21 @@ function App() {
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />
+            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+
+            {/* ManagerPath */}
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route
+              path="/Result/Get-Result-By-Order-Detail-Id/:orderDetailID"
+              element={<CertificatePage />}
+            />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
+            <Route
+              path="/valuationStaff/assigned"
+              element={<AssignedValuationStaffPage />}
+            />
+
+            <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
