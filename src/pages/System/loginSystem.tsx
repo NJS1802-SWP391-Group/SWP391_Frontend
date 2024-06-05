@@ -53,6 +53,8 @@ export default function LoginSystem() {
       (response: any) => {
         console.log(response);
         if (response.success == true) {
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("token", response.result.accessToken);
           switch (response.result.roleName) {
             case "Customer":
               alert(LOGIN_SUCCESS);
