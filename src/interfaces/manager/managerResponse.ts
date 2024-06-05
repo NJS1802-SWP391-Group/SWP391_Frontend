@@ -1,4 +1,5 @@
 export interface ManagerApprovalResponse {
+  orderDetailID: number;
   orderCode: string;
   orderDetailCode: string;
   serviceName: string;
@@ -10,6 +11,7 @@ export interface ManagerApprovalResponse {
 }
 
 export interface ManagerAssignResponse {
+  orderDetailID: number;
   orderCode: string;
   orderDetailCode: string;
   serviceName: string;

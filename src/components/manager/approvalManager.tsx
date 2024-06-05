@@ -51,10 +51,12 @@ const ApprovalManager = () => {
 
   const navigate = useNavigate();
   const handleNavigateToCertificate = (
-    orderDetailCode: string,
+    orderDetailID: number,
     managerResponse: ManagerApprovalResponse
   ) => {
-    navigate(`/certificate/${orderDetailCode}`, { state: { managerResponse } });
+    navigate(`/Result/Get-Result-By-Order-Detail-Id/${orderDetailID}`, {
+      state: { managerResponse },
+    });
   };
 
   const styleTableHead = {
@@ -105,6 +107,9 @@ const ApprovalManager = () => {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
+              <StyledTableCell sx={styleTableHead}>
+                Order Detail ID
+              </StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
@@ -119,7 +124,10 @@ const ApprovalManager = () => {
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.orderDetailCode}>
+              <StyledTableRow key={managerResponse.orderDetailID}>
+                <StyledTableCell>
+                  {managerResponse.orderDetailID}
+                </StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
@@ -143,7 +151,7 @@ const ApprovalManager = () => {
                     <IconButton
                       onClick={() =>
                         handleNavigateToCertificate(
-                          managerResponse.orderDetailCode,
+                          managerResponse.orderDetailID,
                           managerResponse
                         )
                       }
