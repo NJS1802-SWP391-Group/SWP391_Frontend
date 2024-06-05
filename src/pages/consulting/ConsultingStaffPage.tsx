@@ -17,6 +17,7 @@ import OrderList from "../../components/consulting/OrderList";
 import NavBarSystem from "../../components/system/NavBarSystem";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import orderApi from "../../services/orderApi";
+import SearchBar from "../../components/manager/searchBar";
 
 const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
@@ -79,6 +80,7 @@ const ConsultingStaffPage = () => {
         </div>
         <OrderList orders={orders} onOrderClick={handleOrderClick} />
         <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />
+        {/* <SearchBar searchQuery="Search Customer " handleSearchChange={}/> */}
         <Dialog
           open={open}
           onClose={handleClose}
