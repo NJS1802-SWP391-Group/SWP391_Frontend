@@ -1,0 +1,22 @@
+.cal {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .cal {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cal_input {
+    width: 40%;
+  }
+
+  .cal_output {
+    width: 60%;
+  }
+}
