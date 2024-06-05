@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import signUpApi from "../../services/signUpApi";
 import { RegisterRequest } from "../../interfaces/register/RegisterRequest";
 import { formatDate } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -39,6 +40,7 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,11 +57,14 @@ export default function RegisterForm() {
       address: data.get("address") as string,
     };
 
-    console.log(registerData);
-
     signUpApi.register(registerData).then(
       (response: any) => {
-        console.log("Response: ", response);
+        if (response == "Sign up complete") {
+          alert(response);
+          navigate("/login");
+        } else {
+          alert(response);
+        }
       },
       (error) => {
         console.log(error);
