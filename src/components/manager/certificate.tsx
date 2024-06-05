@@ -21,30 +21,8 @@ import certificateApi from "../../services/certificateService/certificateApi";
 
 const Certificate = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { resultId } = useParams();
+  const { orderDetailID } = useParams<{ orderDetailID: string }>();
   const [certificate, setCertificate] = useState<CertificateResponse>();
-  // {
-  //   resultId: 1,
-  //   isDiamond: true,
-  //   code: "1",
-  //   origin: "string",
-  //   shape: "string",
-  //   carat: "string",
-  //   color: "string",
-  //   clarity: "string",
-  //   fluorescence: "string",
-  //   symmetry: "string",
-  //   polish: "string",
-  //   cutGrade: "string",
-  //   valueStatus: "string",
-  //   description: null,
-  //   diamondValue: 18000,
-  //   status: "string",
-  //   orderDetailId: 1,
-  //   issueDate: new Date("06/02/2024T13:28:03"),
-  //   expireDate: new Date("06/02/2024T13:28:03"),
-  //   certificateStatus: "string",
-  // }
   const [loading, setLoading] = useState<boolean>(true);
 
   const handlePrint = useReactToPrint({
@@ -78,29 +56,27 @@ const Certificate = () => {
   });
 
   useEffect(() => {
-    const getCertificateByID = async () => {
-      if (resultId != undefined) {
-        const parseResultIdToNumber = parseInt(resultId);
-
-        try {
-          const response = await certificateApi.getCertificateByID(
-            parseResultIdToNumber
-          );
-          console.log("FetchData:", response);
-          if (response.data.length > 0) {
-            setCertificate(response.data); // Assume we take the first certificate
-          }
-        } catch (error) {
-          console.error("Failed to fetch certificate:", error);
-        } finally {
-          setLoading(false);
+    const getCertificateByID = async (orderDetailID: string) => {
+      try {
+        const response = await certificateApi.getCertificateByID(
+          parseInt(orderDetailID, 10)
+        );
+        console.log("API response:", response);
+        if (response.data && response.data.length > 0) {
+          setCertificate(response.data[0]);
+        } else {
+          console.error("No certificate data found");
         }
+      } catch (error) {
+        console.error("Failed to fetch certificate:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    getCertificateByID();
-  }, []);
-  console.log(resultId);
+    if (orderDetailID) {
+      getCertificateByID(orderDetailID);
+    }
+  }, [orderDetailID]);
 
   if (loading) {
     return (
@@ -164,7 +140,6 @@ const Certificate = () => {
                 alt="Diavan"
                 className="Diavan"
               />
-
               <Typography
                 sx={{
                   fontFamily: "revert-layer",
@@ -217,7 +192,6 @@ const Certificate = () => {
               >
                 Proportions
               </SectionTitle>
-
               <Box sx={{ marginLeft: "130px", paddingTop: "2px" }}>
                 <img
                   src={PropotionImage}
@@ -288,12 +262,7 @@ const Certificate = () => {
               </Box>
             </Section>
 
-            <Section
-              sx={{
-                height: "140px",
-                marginBottom: "20px",
-              }}
-            >
+            <Section sx={{ height: "140px", marginBottom: "20px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
