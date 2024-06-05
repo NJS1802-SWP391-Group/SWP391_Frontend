@@ -17,12 +17,17 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PlusButton from "../../assets/PlusButton.png";
+import SaveButton from "../../assets/SaveButton.png";
 import SearchButton from "../../assets/Search.png";
 import { ManagerAssignResponse } from "../../interfaces/manager/managerResponse";
 import { ValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
 import managerAssignsApi from "../../services/managerService/managerApi";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
+export interface RequetsBody {
+  orderDetailID: number;
+  valuationStaffID: number | undefined;
+}
 const AssignManager: React.FC = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -49,6 +54,7 @@ const AssignManager: React.FC = () => {
     left: number;
   }>({ top: 0, left: 0 });
   const [searchQuery, setSearchQuery] = useState("");
+  const [requestBody, setRequestBody] = useState<RequetsBody>();
   const [showSelection, setShowSelection] = useState(false);
 
   const handleShow = () => {
@@ -111,6 +117,9 @@ const AssignManager: React.FC = () => {
     setSelectedManagerResponse(null);
   };
 
+  const [valuationSelectedStaff, setValuationSelectedStaff] =
+    useState<number>();
+
   const handleManagerSelect = (accountId: number) => {
     if (selectedManagerResponse) {
       const selectedManager = managers.find(
@@ -125,6 +134,7 @@ const AssignManager: React.FC = () => {
             }
           : item
       );
+      setValuationSelectedStaff(accountId);
       setManagerAssignList(updatedManagerList);
       handleCloseMenu();
     }
@@ -142,6 +152,23 @@ const AssignManager: React.FC = () => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
     setSelectedManagerResponse(null);
+  };
+
+  console.log(valuationSelectedStaff);
+  const handleSave = (orderDetailID: number, accountId: number | undefined) => {
+    const newRequestBody = {
+      orderDetailID: orderDetailID,
+      valuationStaffID: accountId,
+    };
+    console.log("Request body: ", newRequestBody);
+    managerAssignsApi.assignValuationStaff(newRequestBody).then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const filteredValuationStaffs = managers.filter((valuationStaff) =>
@@ -189,12 +216,19 @@ const AssignManager: React.FC = () => {
               >
                 Assign
               </StyledTableCell>
+              <StyledTableCell
+                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
+              >
+                Save
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.orderCode}>
-                <StyledTableCell>{managerResponse.orderCode}</StyledTableCell>
+              <StyledTableRow key={managerResponse.orderDetailID}>
+                <StyledTableCell>
+                  {managerResponse.orderDetailID}
+                </StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
@@ -205,7 +239,7 @@ const AssignManager: React.FC = () => {
                 <StyledTableCell>
                   {managerResponse.estimateLength}
                 </StyledTableCell>
-                <StyledTableCell>
+                <StyledTableCell defaultValue={valuationSelectedStaff}>
                   {managerResponse.valuationStaffName ? (
                     managerResponse.valuationStaffName
                   ) : (
@@ -216,15 +250,111 @@ const AssignManager: React.FC = () => {
                     >
                       <img
                         src={PlusButton}
-                        width="35"
-                        height="35"
+                        width="33"
+                        height="33"
                         alt="PlusButton"
                       />
                     </IconButton>
                   )}
                 </StyledTableCell>
+                <StyledTableCell>
+                  <IconButton
+                    onClick={(event) =>
+                      handleSave(
+                        managerResponse.orderDetailID,
+                        valuationSelectedStaff
+                      )
+                    }
+                  >
+                    <img
+                      src={SaveButton}
+                      width="32"
+                      height="32"
+                      alt="SaveButton"
+                    />
+                  </IconButton>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleCloseMenu}
+              anchorReference="anchorPosition"
+              anchorPosition={{
+                top: menuPosition.top,
+                left: menuPosition.left,
+              }}
+            >
+              <Box sx={{ padding: 2, height: "60px" }}>
+                <TextField
+                  variant="outlined"
+                  placeholder="Search Valuation Staff"
+                  fullWidth
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <img
+                            src={SearchButton}
+                            width="25"
+                            height="25"
+                            alt="SearchButton"
+                          />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    sx: {
+                      height: "45px",
+                      width: "250px",
+                      borderRadius: "65px",
+                      border: "0.5px solid #000",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "transparent",
+                      },
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000",
+                      },
+                      paddingRight: "8px",
+                    },
+                  }}
+                />
+              </Box>
+              <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
+                {filteredValuationStaffs.map((valuationStaff) => (
+                  <Box
+                    key={valuationStaff.accountId}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "8px",
+                      borderBottom: "1px solid #ccc",
+                      cursor: "pointer",
+                      "&:hover": {
+                        backgroundColor: "#f0f0f0",
+                      },
+                    }}
+                  >
+                    <Box>{valuationStaff.userName}</Box>
+                    <IconButton
+                      onClick={() =>
+                        handleManagerSelect(valuationStaff.accountId)
+                      }
+                    >
+                      <img
+                        src={PlusButton}
+                        width="20"
+                        height="20"
+                        alt="PlusButton"
+                      />
+                    </IconButton>
+                  </Box>
+                ))}
+              </Box>
+            </Menu>
           </TableBody>
         </Table>
       </TableContainer>
@@ -237,76 +367,7 @@ const AssignManager: React.FC = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleCloseMenu}
-        anchorReference="anchorPosition"
-        anchorPosition={{ top: menuPosition.top, left: menuPosition.left }}
-      >
-        <Box sx={{ padding: 2, height: "60px" }}>
-          <TextField
-            variant="outlined"
-            placeholder="Search Valuation Staff"
-            fullWidth
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <img
-                      src={SearchButton}
-                      width="25"
-                      height="25"
-                      alt="SearchButton"
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-              sx: {
-                height: "45px",
-                width: "250px",
-                borderRadius: "65px",
-                border: "0.5px solid #000",
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "transparent",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#000",
-                },
-                paddingRight: "8px",
-              },
-            }}
-          />
-        </Box>
-        <Box sx={{ maxHeight: "200px", overflow: "auto", marginTop: 2 }}>
-          {filteredValuationStaffs.map((valuationStaff) => (
-            <Box
-              key={valuationStaff.accountId}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "8px",
-                borderBottom: "1px solid #ccc",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                },
-              }}
-              onClick={() => handleManagerSelect(valuationStaff.accountId)}
-            >
-              <Box>{valuationStaff.userName}</Box>
-              <IconButton
-                onClick={() => handleManagerSelect(valuationStaff.accountId)}
-              >
-                <img src={PlusButton} width="20" height="20" alt="PlusButton" />
-              </IconButton>
-            </Box>
-          ))}
-        </Box>
-      </Menu>
+
       <Modal open={open} onClose={handleClose}>
         <Paper
           sx={{
