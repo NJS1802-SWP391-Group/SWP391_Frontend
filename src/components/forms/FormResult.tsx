@@ -4,8 +4,23 @@ import React from "react";
 import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
 import "./FormResult.css";
+import { useLocation } from "react-router-dom";
+
+interface FormResult {
+  orderID: number;
+  code: string;
+  customerId: number;
+  firstName: string;
+  lastName: string;
+  quantity: number;
+  time: string;
+  status: string;
+}
 
 const FormResult = () => {
+  const location = useLocation();
+  const data: FormResult = location.state;
+  const owner = data.firstName + " " + data.lastName;
   return (
     <React.Fragment>
       <Navbar />
@@ -23,12 +38,11 @@ const FormResult = () => {
         </div>
         <div className="list-infor">
           <ul>
-            <li>Order Code: 004</li>
-            <li>Owner: Le Huy</li>
-            <li>Phone number 0931337204</li>
-            <li>Quantity: 2</li>
-            <li>Appointment Day: 2/6/2024</li>
-            <li>Address: Long Thanh My, Thu Duc, HCM</li>
+            <li>Order Code: {data.code}</li>
+            <li>Owner: {owner}</li>
+            <li>Quantity: {data.quantity}</li>
+            <li>Appointment Day: {data.time}</li>
+            <li>Address: </li>
           </ul>
         </div>
       </Container>
