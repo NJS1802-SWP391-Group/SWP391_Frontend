@@ -44,6 +44,21 @@ function App() {
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />
+            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
+
+            {/* ManagerPath */}
+            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
+            <Route
+              path="/manager/approval/:orderDetailID"
+              element={<CertificatePage />}
+            />
+            <Route path="/manager/assign" element={<ManagerAssignPage />} />
+            <Route
+              path="/valuationStaff/assigned"
+              element={<AssignedValuationStaffPage />}
+            />
+
+            <Route path="/about" element={<AboutPage />} />
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />

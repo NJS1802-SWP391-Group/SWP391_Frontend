@@ -54,7 +54,7 @@ const ApprovalManager = () => {
     orderDetailID: number,
     managerResponse: ManagerApprovalResponse
   ) => {
-    navigate(`/Result/Get-Result-By-Order-Detail-Id/${orderDetailID}`, {
+    navigate(`/manager/approval/${orderDetailID}`, {
       state: { managerResponse },
     });
   };
