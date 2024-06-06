@@ -1,9 +1,14 @@
-import { Alert, AlertTitle, Button, Container, TextField } from "@mui/material";
-import React, { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  Container,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import orderApi from "../../services/orderApi";
 
 const textFieldStyle = {
   width: "100%",
@@ -12,72 +17,82 @@ const textFieldStyle = {
   marginTop: "10px",
 };
 
+export interface SendRequest {
+  customerId: number;
+  time: string;
+  quantity: number;
+}
+
 const ValuationForm = () => {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    const request: SendRequest = {
+      customerId: 1,
+      time: data.get("date") as string,
+      quantity: parseInt(data.get("quantity") as string),
+    };
+
+    orderApi.valuateRequest(request).then(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    console.log(request);
+  };
+
   return (
-    <Container style={{ display: "flex", justifyContent: "center" }}>
-      <form>
-        <label
-          style={{
-            fontWeight: "bold",
-            fontSize: "40px",
-            margin: "70px",
-          }}
-        >
+    <Container
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        padding: "100px 0",
+      }}
+    >
+      <Box
+        sx={{
+          paddingTop: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5" fontWeight="bold">
           Contact Form
-        </label>
-        <p style={{ fontWeight: "lighter" }}>
-          Please fill in the information. We will contact you soon
-        </p>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Firstname"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Lastname"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Email"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Phone number"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Address"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <TextField fullWidth label="Quantity"></TextField>
-        </div>
-        <div style={textFieldStyle}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date"
-              slotProps={{
-                textField: {
-                  helperText: "MM/DD/YYYY",
-                  fullWidth: true,
-                },
-              }}
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
-              closeOnSelect={true}
-            />
-          </LocalizationProvider>
-        </div>
-        <div style={textFieldStyle}>
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="quantity"
+            label="Quantity"
+            name="quantity"
+            autoFocus
+            type="number"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="date"
+            type="date"
+            id="date"
+          />
           <Button
+            type="submit"
+            fullWidth
             variant="contained"
-            style={{
-              backgroundColor: "#4F46E5",
-              borderRadius: "30px",
-              width: "30%",
-              height: "40px",
-              marginBottom: "20px",
-            }}
+            sx={{ mt: 3, mb: 2 }}
           >
             Send
           </Button>
-        </div>
-      </form>
+        </Box>
+      </Box>
     </Container>
   );
 };
