@@ -32,7 +32,7 @@ function App() {
             <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
 
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<HomePage />} />
+            <Route path="/login" element={<LoginSystem />} />
             <Route path="/diamond-check" element={<DiamondCheckPage />} />
             <Route path="/calculate" element={<CalculatePage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -58,12 +58,9 @@ function App() {
 
             {/* System */}
             <Route path="/system" element={<LoginSystem />} />
-            <Route path="/consulting-page" element={<ConsultingStaffPage />} />
             {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
             <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
             {/* ManagerPath */}
-            <Route path="/manager/approval" element={<ManagerApprovalPage />} />
-            <Route path="/manager/assign" element={<ManagerAssignPage />} />
           </Routes>
         </div>
 
