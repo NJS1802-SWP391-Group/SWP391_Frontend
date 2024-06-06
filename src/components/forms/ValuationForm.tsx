@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import orderApi from "../../services/orderApi";
+import { useNavigate } from "react-router-dom";
 
 const textFieldStyle = {
   width: "100%",
@@ -24,6 +25,7 @@ export interface SendRequest {
 }
 
 const ValuationForm = () => {
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,6 +38,9 @@ const ValuationForm = () => {
 
     orderApi.valuateRequest(request).then(
       (response) => {
+        navigate("/form-result", {
+          state: response,
+        });
         console.log(response);
       },
       (error) => {
