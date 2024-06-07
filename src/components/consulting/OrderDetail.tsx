@@ -207,6 +207,7 @@ function OrderDetail({ order, closeModal }: Props) {
                         <StyledTableCell align="center">
                           {item.estimateLength}
                         </StyledTableCell>
+                        <StyledTableCell align="center"></StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
