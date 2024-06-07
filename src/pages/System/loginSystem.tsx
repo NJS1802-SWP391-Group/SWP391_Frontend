@@ -16,6 +16,7 @@ import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_SUCCESS } from "../../constants";
+import accountApi from "../../services/accountApi";
 
 function Copyright(props: any) {
   return (
