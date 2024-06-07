@@ -6,6 +6,8 @@ import Banner from "../../assets/2022_LE-GuidetoDiamonds-LP-TILE-1-Desktop 2.png
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import "./HomePage.css";
+import { useEffect } from "react";
+import accountApi from "../../services/accountApi";
 
 const HomePage = () => {
   const listInfor = [

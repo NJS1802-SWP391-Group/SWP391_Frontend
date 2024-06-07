@@ -25,6 +25,7 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
+    localStorage.removeItem("customerId");
     localStorage.removeItem("token");
     alert("Logout successfully");
     navigate("/");
