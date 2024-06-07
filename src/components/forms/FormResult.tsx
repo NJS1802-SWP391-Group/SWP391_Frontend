@@ -1,10 +1,10 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Container } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import React from "react";
 import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
 import "./FormResult.css";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface FormResult {
   orderID: number;
@@ -37,13 +37,29 @@ const FormResult = () => {
           Congratulations, you have successfully booked an appointment.
         </div>
         <div className="list-infor">
+          <Typography variant="h5" textAlign="center" color="green">
+            Order Code: {data.code}
+          </Typography>
+
           <ul>
-            <li>Order Code: {data.code}</li>
             <li>Owner: {owner}</li>
             <li>Quantity: {data.quantity}</li>
             <li>Appointment Day: {data.time}</li>
-            <li>Address: </li>
+            <li>Address: Diavan Company</li>
           </ul>
+          <Link to="/">
+            <Button
+              variant="outlined"
+              color="success"
+              sx={{
+                textTransform: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              Back to Home
+            </Button>
+          </Link>
         </div>
       </Container>
       <Footer />
