@@ -1,4 +1,5 @@
 .header{
+    margin-top: 40px;
     font-size: 40px;
     font-weight: 700;
 }
@@ -13,16 +14,22 @@
 }
 
 .list-infor{
-    font-size: 30px;
+    font-size: 18px;
     font-weight: 500;
-    background-color: #f1f1f1;
-    border: 10px solid #f1f1f1;
-    border-radius: 25px;
-    width: 60%;
+    background-color: #f8f9fa;
+    
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-bottom-right-radius: 45px;
+    width: 35%;
     display: inline-block;
-    text-align: center;
-    padding: 10px 0;
+    text-align: left;
+    padding: 10px 40px;
+    margin-bottom: 60px;
 }
+
 .list-infor ul{
     list-style: none;
+}
+.list-infor ul li{
+    margin: 40px 0;
 }

@@ -9,6 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import orderApi from "../../services/orderApi";
+import { useNavigate } from "react-router-dom";
+import accountApi from "../../services/accountApi";
+import { useEffect, useState } from "react";
+import { AccountInfo } from "../../interfaces/account/AccountInterface";
 
 const textFieldStyle = {
   width: "100%",
@@ -18,31 +22,46 @@ const textFieldStyle = {
 };
 
 export interface SendRequest {
-  customerId: number;
+  customerId: number | undefined;
   time: string;
   quantity: number;
 }
 
 const ValuationForm = () => {
+  const [account, setAccount] = useState<AccountInfo>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const account: any = await accountApi.getAccountInfo();
+      setAccount(account);
+    };
+    getAccount();
+  }, []);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
+    console.log("Account Id:", account?.result.user.accountId);
+
     const request: SendRequest = {
-      customerId: 1,
+      customerId: account?.result.user.accountId,
       time: data.get("date") as string,
       quantity: parseInt(data.get("quantity") as string),
     };
 
     orderApi.valuateRequest(request).then(
       (response) => {
+        navigate("/form-result", {
+          state: response,
+        });
         console.log(response);
       },
       (error) => {
         console.log(error);
       }
     );
-    console.log(request);
   };
 
   return (
