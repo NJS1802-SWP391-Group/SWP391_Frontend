@@ -16,7 +16,8 @@ import RecepitBill from "./components/consulting/RecepitBill";
 import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
-import RegisterPage from "./pages/register.tsx/RegisterPage";
+
+import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
 import DiamondDetail from "./pages/valuationStaff/diamondDetail";
 
@@ -56,6 +57,10 @@ function App() {
             <Route
               path="/valuationStaff/assigned"
               element={<AssignedValuationStaffPage />}
+            />
+            <Route
+              path="/valuationStaff/diamondDetail"
+              element={<DiamondDetail />}
             />
 
             <Route path="/about" element={<AboutPage />} />
