@@ -1,16 +1,20 @@
 export interface DiamondDetailResponse {
-  certificateDate: string;
-  reportNumber: string;
+  isDiamond: boolean;
+  code: string;
+  origin: string;
   shape: string;
-  measurements: string;
-  caratWeight: string;
-  colorGrade: string;
-  clarityGrade: string;
-  cutGrade: string;
-  cutScore: string;
-  polish: string;
-  symmetry: string;
+  carat: string;
+  color: string;
+  clarity: string;
   fluorescence: string;
-  clarityCharacteristics: string;
-  valuatingPrice: string;
+  symmetry: string;
+  polish: string;
+  cutGrade: string;
+  valueStatus: string;
+  description: string;
+  diamondValue: number;
+  orderDetailId: number;
+  issueDate: Date;
+  expireDate: Date;
+  certificateStatus: string;
 }
