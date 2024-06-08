@@ -51,17 +51,22 @@ const DiamondForm = () => {
     valuatingPrice: "",
   });
 
-  // const onSubmit: SubmitHandler<PostRequest> = async (data: any) => {
-  //     const response: any = await valuationStaffApi.createPost({
-  //       userid: userObj.user.id,
-  //       categoryid: parseCategoryIdToInt,
-  //       pet_breed: breed,
-  //       pet_type: type,
-  //       content: data.content,
-  //       exchange: category ? true : false,
-  //       listpostimg: objList,
-  //       listpet: null,
-  //       listitem: null,
+  // const onSubmit: handleSubmit<DiamondDetailResponse> = async (data: any) => {
+  //     const response: any = await valuationStaffApi.createDiamondDetail({
+  //       certificateDate: string;
+  //       reportNumber: string;
+  //       shape: string;
+  //       measurements: string;
+  //       caratWeight: string;
+  //       colorGrade: string;
+  //       clarityGrade: string;
+  //       cutGrade: string;
+  //       cutScore: string;
+  //       polish: string;
+  //       symmetry: string;
+  //       fluorescence: string;
+  //       clarityCharacteristics: string;
+  //       valuatingPrice: string;
   //     });
   //     if (response === true) {
   //       toast.success("Create New Post Success!", {
@@ -104,7 +109,7 @@ const DiamondForm = () => {
     <Paper
       sx={{
         width: "50%",
-        marginLeft: "250px",
+        marginLeft: "450px",
         marginTop: "35px",
       }}
     >
