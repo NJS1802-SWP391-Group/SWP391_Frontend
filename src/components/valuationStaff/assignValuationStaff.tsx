@@ -109,6 +109,7 @@ const AssignValuationStaff = () => {
               <StyledTableCell sx={styleTableHead}>
                 Final Valuing Price
               </StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Input Figure
               </StyledTableCell>
