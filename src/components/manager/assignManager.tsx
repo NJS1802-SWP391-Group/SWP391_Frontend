@@ -214,6 +214,11 @@ const AssignManager: React.FC = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
+                Status
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
+              >
                 Assign
               </StyledTableCell>
               <StyledTableCell
@@ -239,6 +244,7 @@ const AssignManager: React.FC = () => {
                 <StyledTableCell>
                   {managerResponse.estimateLength}
                 </StyledTableCell>
+                <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell defaultValue={valuationSelectedStaff}>
                   {managerResponse.valuationStaffName ? (
                     managerResponse.valuationStaffName
