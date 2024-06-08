@@ -85,6 +85,7 @@ const ApprovalManager = () => {
   useEffect(() => {
     const fetchManagerApprovalList = async () => {
       const response: any = await managerAssignsApi.getAll();
+      console.log("FetchData", response);
       if (response && response.length > 0) {
         setManagerResponseList(response);
       }
