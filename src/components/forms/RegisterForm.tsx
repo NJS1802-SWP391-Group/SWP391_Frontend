@@ -167,6 +167,7 @@ export default function RegisterForm() {
                   name="dob"
                   fullWidth
                   label="Date of birth"
+                  focused
                 />
               </Grid>
               <Grid item xs={12}>

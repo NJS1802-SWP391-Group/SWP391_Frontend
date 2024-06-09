@@ -101,6 +101,8 @@ const ValuationForm = () => {
             name="date"
             type="date"
             id="date"
+            label="Date Meeting"
+            focused
           />
           <Button
             type="submit"
