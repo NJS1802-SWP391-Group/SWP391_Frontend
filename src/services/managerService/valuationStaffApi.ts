@@ -13,5 +13,11 @@ const valuationStaffApi = {
   // assignValuationStaff: (assignRequest: AssignRequest) => {
   //   return axiosClient.put("assignValuationStaff", assignRequest);
   // },
+
+  getOrderDetailByValuationStaffId: (accountId: number | undefined) => {
+    return axiosClient.get(
+      `/OrderDetail/Get-Order-Details-By-Valuating-Staff/${accountId}`
+    );
+  },
 };
 export default valuationStaffApi;

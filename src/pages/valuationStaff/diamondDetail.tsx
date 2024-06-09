@@ -123,15 +123,7 @@ const DiamondForm = () => {
               InputLabelProps={{ shrink: true }}
             />
           </FieldContainer>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              label="Report Number"
-              name="code"
-              value={diamondDetail.code}
-              onChange={handleChange}
-            />
-          </FieldContainer>
+
           <FieldContainer>
             <TextField
               fullWidth
