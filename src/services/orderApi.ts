@@ -12,7 +12,7 @@ const orderApi = {
     return axiosClient.post(url, data);
   },
   pay(orderId: number, payment: string) {
-    const url = `/Orders/Pay/Id=${orderId}`;
+    const url = `/Orders/Pay/Id${orderId}`;
     return axiosClient.put(url, payment);
   },
   valuateRequest(data: SendRequest) {

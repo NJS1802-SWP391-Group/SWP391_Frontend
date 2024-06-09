@@ -69,7 +69,9 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
               <StyledTableCell align="left">
                 <Button
                   disabled={
-                    item.status == "Active" || item.status == "Pending"
+                    item.status == "Active" ||
+                    item.status == "Pending" ||
+                    item.status == "Received"
                       ? false
                       : true
                   }
