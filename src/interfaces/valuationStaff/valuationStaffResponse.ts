@@ -1,8 +1,9 @@
 export interface AssignValuationStaffResponse {
-  orderCode: string;
-  diamond: string;
-  service: string;
-  finalPrice: string;
+  orderDetailId: number;
+  orderDetailCode: string;
+  serviceName: string;
+  finalPrice: number;
+  status: string;
 }
 
 export interface ValuationStaffResponse {

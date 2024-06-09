@@ -7,6 +7,11 @@ const managerAssignsApi = {
     return axiosClient.get(url);
   },
 
+  getAllCompledted() {
+    const url = "/OrderDetail/Get-Completed-Order-Details";
+    return axiosClient.get(url);
+  },
+
   assignValuationStaff(data: RequetsBody | undefined) {
     return axiosClient.put("/OrderDetail/Assign-Staff-To-Order-Detail", data);
   },
