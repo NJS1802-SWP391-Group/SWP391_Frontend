@@ -13,11 +13,13 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PlusButton from "../../assets/PlusButton.png";
 import SendButton from "../../assets/SendButton.png";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
+import accountApi from "../../services/accountApi";
+import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
 const AssignValuationStaff = () => {
   const navigate = useNavigate();
@@ -27,7 +29,10 @@ const AssignValuationStaff = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [
+    assignValuationStaffResponseList,
+    setAssignValuationStaffResponseList,
+  ] = useState<AssignValuationStaffResponse[]>([]);
   const handleOpen = (valuationStaffResponse: AssignValuationStaffResponse) => {
     setSelectedValuationStaffResponse(valuationStaffResponse);
     setOpen(true);
@@ -49,8 +54,8 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
-  const handlePlusButtonClick = (orderCode: string) => {
-    navigate(`/diamond/${orderCode}`);
+  const handlePlusButtonClick = (orderDetailId: number) => {
+    navigate(`/diamond/${orderDetailId}`);
   };
 
   const styleTableHead = {
@@ -73,23 +78,33 @@ const AssignValuationStaff = () => {
     textAlign: "center",
   }));
 
-  const [
-    assignValuationStaffResponseList,
-    setAssignValuationStaffResponseList,
-  ] = useState<AssignValuationStaffResponse[]>([]);
-  // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
-  // useEffect(() => {
-  //   const getOrderList = async () => {
-  //     const response: any = await orderApi.getAll();
-  //     if (response && response.length > 0) {
-  //       setOrderList(response);
+  useEffect(() => {
+    const getAccount = async () => {
+      const account: any = await accountApi.getAccountInfo();
+      console.log("account api: ", account);
+
+      const list: any =
+        await valuationStaffApi.getOrderDetailByValuationStaffId(
+          account.result.user.accountId
+        );
+      console.log("list", list);
+      setAssignValuationStaffResponseList(list);
+    };
+    getAccount();
+  }, []);
+
+  // valuationStaffApi
+  //   .getOrderDetailByValuationStaffId(account?.result.user.accountId)
+  //   .then(
+  //     (response: any) => {
+  //       console.log("Response: ", response);
+  //       setAssignValuationStaffResponseList(response);
+  //     },
+  //     (error) => {
+  //       console.log(error);
   //     }
-  //   };
-  //   const initUseEffect = async () => {
-  //     await getOrderList();
-  //   };
-  //   initUseEffect();
-  // }, []);
+  //   );
+  console.log("Log Asign:", assignValuationStaffResponseList);
 
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
@@ -119,25 +134,28 @@ const AssignValuationStaff = () => {
           <TableBody>
             {paginatedAssignValuationStaffResponseList.map(
               (valuationStaffResponse) => (
-                <StyledTableRow key={valuationStaffResponse.orderCode}>
+                <StyledTableRow key={valuationStaffResponse.orderDetailId}>
                   <StyledTableCell>
-                    {valuationStaffResponse.orderCode}
+                    {valuationStaffResponse.orderDetailId}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {valuationStaffResponse.diamond}
+                    {valuationStaffResponse.orderDetailCode}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {valuationStaffResponse.service}
+                    {valuationStaffResponse.serviceName}
                   </StyledTableCell>
                   <StyledTableCell>
                     {valuationStaffResponse.finalPrice}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {valuationStaffResponse.status}
                   </StyledTableCell>
                   <StyledTableCell>
                     <Box>
                       <IconButton
                         onClick={() =>
                           handlePlusButtonClick(
-                            valuationStaffResponse.orderCode
+                            valuationStaffResponse.orderDetailId
                           )
                         }
                       >
@@ -198,11 +216,11 @@ const AssignValuationStaff = () => {
         >
           <Typography sx={{ fontWeight: "bold " }}>
             (Order Code:
-            {selectedValuationStaffResponse?.orderCode})
+            {selectedValuationStaffResponse?.orderDetailId})
           </Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
             Do you want to send Diamond:
-            {selectedValuationStaffResponse?.diamond} with Price:
+            {selectedValuationStaffResponse?.orderDetailCode} with Price:
             {selectedValuationStaffResponse?.finalPrice}?
           </Typography>
           <Box
