@@ -10,7 +10,13 @@ import "./OrderDetail.css";
 import {
   Button,
   Divider,
+  FormControl,
+  InputLabel,
+  Menu,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -79,16 +85,27 @@ function OrderDetail({ order, closeModal }: Props) {
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
   const [responseOrder, setResponseOrder] = useState<OrderResponse>();
   const navigate = useNavigate();
+  const [service, setService] = React.useState("");
 
-  // const contextValue: OrderContextType = {
-  //   responseOrder,
-  //   setResponseOrder,
-  // };
-
-  const handleServiceIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(e.target.value);
-    setSelectedServiceId(selectedId);
+  const handleServiceChange = (event: SelectChangeEvent) => {
+    setService(event.target.value as string);
+    switch (event.target.value as string) {
+      case "Standard Valuation":
+        setSelectedServiceId(1);
+        break;
+      case "Quick Valuation 48h":
+        setSelectedServiceId(2);
+        break;
+      case "Quick Valuation 24h":
+        setSelectedServiceId(3);
+        break;
+      case "Quick Valuation 6h":
+        setSelectedServiceId(4);
+        break;
+    }
   };
+
+  console.log("Service:", service);
 
   const handleEstimateLengthChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -104,7 +121,7 @@ function OrderDetail({ order, closeModal }: Props) {
       estimateLength: inputEstimateLength,
     });
     setDetailValuations(updatedDetailValuations);
-    setSelectedServiceId(0);
+    setService("");
     setInputEstimateLength(0);
   };
   console.log("DetailValuaitons: ", detailValuations);
@@ -168,16 +185,31 @@ function OrderDetail({ order, closeModal }: Props) {
                   <TableBody>
                     <StyledTableRow>
                       <StyledTableCell align="center">
-                        <select
-                          style={{ padding: "10px 20px" }}
-                          value={selectedServiceId}
-                          onChange={handleServiceIdChange}
-                        >
-                          <option value={1}>Standard Valuaiton</option>
-                          <option value={2}>Quick Valuation 48h</option>
-                          <option value={3}>Quick Valuation 24h</option>
-                          <option value={4}>Quick Valuation 6h</option>
-                        </select>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Service
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={service}
+                            label="Service"
+                            onChange={handleServiceChange}
+                          >
+                            <MenuItem value={"Standard Valuation"}>
+                              Standard Valuation
+                            </MenuItem>
+                            <MenuItem value={"Quick Valuation 48h"}>
+                              Quick Valuation 48h
+                            </MenuItem>
+                            <MenuItem value={"Quick Valuation 24h"}>
+                              Quick Valuation 24h
+                            </MenuItem>
+                            <MenuItem value={"Quick Valuation 6h"}>
+                              Quick Valuation 6h
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <input
@@ -202,7 +234,10 @@ function OrderDetail({ order, closeModal }: Props) {
                     {detailValuations.map((item) => (
                       <StyledTableRow>
                         <StyledTableCell align="center">
-                          {item.serviceId}
+                          {item.serviceId == 1 && "Standard Valuation"}
+                          {item.serviceId == 2 && "Quick Valuation 48h"}
+                          {item.serviceId == 3 && "Quick Valuation 24h"}
+                          {item.serviceId == 4 && "Quick Valuation 6h"}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {item.estimateLength}
