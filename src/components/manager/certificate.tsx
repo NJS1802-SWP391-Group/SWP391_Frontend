@@ -215,8 +215,6 @@ const Certificate = () => {
                 <Typography>Report Number: {data.reportNumber}</Typography>
 
                 <Typography>Shape: {data.shape}</Typography>
-
-                <Typography>Measurements: {data.measurements}</Typography>
               </Box>
             </Section>
 

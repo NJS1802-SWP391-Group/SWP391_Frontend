@@ -51,10 +51,10 @@ const ApprovalManager = () => {
 
   const navigate = useNavigate();
   const handleNavigateToCertificate = (
-    orderDetailID: number,
+    resultId: number,
     managerResponse: ManagerApprovalResponse
   ) => {
-    navigate(`/manager/approval/${orderDetailID}`, {
+    navigate(`/manager/approval/${resultId}`, {
       state: { managerResponse },
     });
   };
@@ -84,7 +84,7 @@ const ApprovalManager = () => {
   >([]);
   useEffect(() => {
     const fetchManagerApprovalList = async () => {
-      const response: any = await managerAssignsApi.getAll();
+      const response: any = await managerAssignsApi.getAllCompledted();
       console.log("FetchData", response);
       if (response && response.length > 0) {
         setManagerResponseList(response);
@@ -96,6 +96,7 @@ const ApprovalManager = () => {
     };
     initUseEffect();
   }, []);
+  console.log("first");
 
   const paginatedManagerResponseList = managerResponseList.slice(
     page * rowsPerPage,
@@ -108,9 +109,7 @@ const ApprovalManager = () => {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
-              <StyledTableCell sx={styleTableHead}>
-                Order Detail ID
-              </StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Result ID</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
@@ -126,9 +125,7 @@ const ApprovalManager = () => {
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderDetailID}>
-                <StyledTableCell>
-                  {managerResponse.orderDetailID}
-                </StyledTableCell>
+                <StyledTableCell>{managerResponse.resultId}</StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
@@ -136,7 +133,9 @@ const ApprovalManager = () => {
                 <StyledTableCell>
                   {managerResponse.valuationStaffName}
                 </StyledTableCell>
-                <StyledTableCell>{managerResponse.resultPrice}</StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.valuatingPrice}
+                </StyledTableCell>
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
@@ -199,7 +198,7 @@ const ApprovalManager = () => {
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
             Do you want to decline Diamond:{" "}
             {selectedManagerResponse?.orderDetailCode} with Price:{" "}
-            {selectedManagerResponse?.resultPrice}?
+            {selectedManagerResponse?.valuatingPrice}?
           </Typography>
           <Box
             sx={{
