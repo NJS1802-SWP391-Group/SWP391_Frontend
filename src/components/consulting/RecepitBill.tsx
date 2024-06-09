@@ -135,9 +135,9 @@ const RecepitBill: React.FC = () => {
                   </TableHead>
                   <TableBody>
                     {fetchData.detailValuations.map((item) => (
-                      <StyledTableRow key={fetchData.orderID}>
+                      <StyledTableRow key={item.orderDetailId}>
                         <StyledTableCell align="left">
-                          {item.orderDetailId}
+                          {item.code}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {item.serviceName}
