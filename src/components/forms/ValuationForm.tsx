@@ -43,10 +43,10 @@ const ValuationForm = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    console.log("Account Id:", account?.result.user.accountId);
+    console.log("Account:", account?.result.user.customerId);
 
     const request: SendRequest = {
-      customerId: account?.result.user.accountId,
+      customerId: account?.result.user.customerId,
       time: data.get("date") as string,
       quantity: parseInt(data.get("quantity") as string),
     };

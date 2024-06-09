@@ -13,4 +13,5 @@ export interface User {
   password: string;
   status: string;
   roleName: string;
+  customerId: number;
 }
