@@ -68,6 +68,102 @@ const HomePage = () => {
       <div className="image-container">
         <img src={Banner} alt="Mô tả ảnh" />
         <div className="overlay-text">
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                D
+              </text>
+            </svg>
+          </div>
+
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                I
+              </text>
+            </svg>
+          </div>
+
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                V
+              </text>
+            </svg>
+          </div>
+
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+
+          <div className="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+              <text
+                x="50%"
+                y="60%"
+                text-anchor="middle"
+                fill="black"
+                font-size="24"
+                font-weight="bold"
+              >
+                N
+              </text>
+            </svg>
+          </div>
+
           <Typography sx={{ fontWeight: "bold", fontSize: "32px" }}>
             Check any diamond's
           </Typography>
