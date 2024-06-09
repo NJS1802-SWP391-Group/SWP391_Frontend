@@ -27,6 +27,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { OrderResponse } from "../../interfaces/order/orderResponse";
 import orderApi from "../../services/orderApi";
 import SuccessfullAlert from "../SuccessfullAlert";
+import BackButton from "../BackButton";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -205,16 +206,17 @@ const RecepitBill: React.FC = () => {
               style={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
+                margin: "15px 0",
               }}
             >
+              <BackButton />
               <Button
                 variant="contained"
                 onClick={onSubmitPrintBill}
                 sx={{
                   backgroundColor: "#4F46E5",
                   borderRadius: "25px",
-                  margin: "15px 0",
                 }}
               >
                 Print bill
