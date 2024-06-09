@@ -27,6 +27,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { OrderResponse } from "../../interfaces/order/orderResponse";
 import orderApi from "../../services/orderApi";
 import SuccessfullAlert from "../SuccessfullAlert";
+import BackButton from "../BackButton";
+import orderDetailApi from "../../services/orderDetailApi";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -131,13 +133,14 @@ const RecepitBill: React.FC = () => {
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
+                      <StyledTableCell align="center">Delete</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {fetchData.detailValuations.map((item) => (
-                      <StyledTableRow key={fetchData.orderID}>
+                      <StyledTableRow key={item.orderDetailId}>
                         <StyledTableCell align="left">
-                          {item.orderDetailId}
+                          {item.code}
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {item.serviceName}
@@ -205,16 +208,17 @@ const RecepitBill: React.FC = () => {
               style={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "space-between",
+                margin: "15px 0",
               }}
             >
+              <BackButton />
               <Button
                 variant="contained"
                 onClick={onSubmitPrintBill}
                 sx={{
                   backgroundColor: "#4F46E5",
                   borderRadius: "25px",
-                  margin: "15px 0",
                 }}
               >
                 Print bill
