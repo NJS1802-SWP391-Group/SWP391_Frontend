@@ -54,8 +54,8 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
-  const handlePlusButtonClick = (orderDetailId: number) => {
-    navigate(`/diamond/${orderDetailId}`);
+  const handlePlusButtonClick = (resultId: number) => {
+    navigate(`/diamond/${resultId}`);
   };
 
   const styleTableHead = {

@@ -14,7 +14,7 @@ export interface DiamondDetailResponse {
   description: string;
   diamondValue: number;
   orderDetailId: number;
-  issueDate: Date;
-  expireDate: Date;
+  issueDate: string;
+  expireDate: string;
   certificateStatus: string;
 }
