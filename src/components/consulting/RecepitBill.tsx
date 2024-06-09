@@ -28,6 +28,7 @@ import { OrderResponse } from "../../interfaces/order/orderResponse";
 import orderApi from "../../services/orderApi";
 import SuccessfullAlert from "../SuccessfullAlert";
 import BackButton from "../BackButton";
+import orderDetailApi from "../../services/orderDetailApi";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +54,17 @@ const RecepitBill: React.FC = () => {
   const [payment, setPayment] = useState("direct");
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
+
+  const handleDelete = (orderDetailid: number) => {
+    orderDetailApi.deleteByOrderDetailId(orderDetailid).then(
+      (response) => {
+        console.log(" Delete Response:", response);
+      },
+      (error) => {
+        console.log("Delete eror:", error);
+      }
+    );
+  };
 
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
@@ -132,6 +144,7 @@ const RecepitBill: React.FC = () => {
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
+                      <StyledTableCell align="center">Delete</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -148,6 +161,15 @@ const RecepitBill: React.FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {item.price}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={handleDelete(item.orderDetailId)}
+                          >
+                            Delete
+                          </Button>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
