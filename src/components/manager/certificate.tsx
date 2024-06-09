@@ -43,6 +43,7 @@ const Certificate = () => {
 
   const data = {
     certificateDate: "04/26/2022",
+    reportNumber: "6431153187",
     shape: "Round",
     measurements: "6.41 - 6.37 x 3.98 mm",
     caratWeight: "1.0 carat",
@@ -211,9 +212,9 @@ const Certificate = () => {
                   Certificate Date: {data.certificateDate}
                 </Typography>
 
-                <Typography>Shape: {data.shape}</Typography>
+                <Typography>Report Number: {data.reportNumber}</Typography>
 
-                <Typography>Measurements: {data.measurements}</Typography>
+                <Typography>Shape: {data.shape}</Typography>
               </Box>
             </Section>
 

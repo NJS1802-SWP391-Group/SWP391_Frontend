@@ -1,12 +1,13 @@
 export interface ManagerApprovalResponse {
   orderDetailID: number;
+  resultId: number;
   orderCode: string;
   orderDetailCode: string;
   serviceName: string;
   estimateLength: number;
   servicePrice: string;
   valuationStaffName: string | null;
-  resultPrice: null;
+  valuatingPrice: null;
   status: string;
 }
 
