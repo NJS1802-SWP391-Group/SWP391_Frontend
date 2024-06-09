@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DetailValuation,
   OrderInterface,
@@ -31,6 +31,8 @@ import { formatDate } from "../../utils/utils";
 import { OrderResponse } from "../../interfaces/order/orderResponse";
 
 import { useNavigate } from "react-router-dom";
+import accountApi from "../../services/accountApi";
+import { AccountInfo } from "../../interfaces/account/AccountInterface";
 
 type Props = {
   order: OrderInterface | null;
@@ -86,6 +88,15 @@ function OrderDetail({ order, closeModal }: Props) {
   const [responseOrder, setResponseOrder] = useState<OrderResponse>();
   const navigate = useNavigate();
   const [service, setService] = React.useState("");
+  const [accountInfo, setAccountInfo] = useState<AccountInfo>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const accountInfo: any = await accountApi.getAccountInfo();
+      setAccountInfo(accountInfo);
+    };
+    fetchData();
+  }, []);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -167,8 +178,10 @@ function OrderDetail({ order, closeModal }: Props) {
             </div>
             <div className="receipt-bill-info">
               Order Code: {order.code} <br />
-              Customer name: {order.lastName + " " + order.firstName} <br />
-              Consulting staff: <br />
+              Customer name: {order.firstName + " " + order.lastName} <br />
+              Consulting staff:{" "}
+              {accountInfo ? accountInfo.result.user.userName : 123}
+              <br />
               Date Created: {order.time.toString()}
             </div>
             <Divider />
@@ -213,7 +226,7 @@ function OrderDetail({ order, closeModal }: Props) {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <input
-                          style={{ padding: "10px 20px" }}
+                          style={{ padding: "20px 20px" }}
                           type="number"
                           step="0.1"
                           value={inputEstimateLength}
