@@ -55,17 +55,6 @@ const RecepitBill: React.FC = () => {
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleDelete = (orderDetailid: number) => {
-    orderDetailApi.deleteByOrderDetailId(orderDetailid).then(
-      (response) => {
-        console.log(" Delete Response:", response);
-      },
-      (error) => {
-        console.log("Delete eror:", error);
-      }
-    );
-  };
-
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
   };
@@ -161,15 +150,6 @@ const RecepitBill: React.FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {item.price}
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                          <Button
-                            variant="contained"
-                            color="error"
-                            onClick={handleDelete(item.orderDetailId)}
-                          >
-                            Delete
-                          </Button>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
