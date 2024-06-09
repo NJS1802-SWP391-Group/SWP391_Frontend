@@ -1,4 +1,11 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import { ChangeEvent, FormEvent, useState } from "react";
 import DetailImage from "../../assets/DetailImage.png";
@@ -51,6 +58,8 @@ const DiamondForm = () => {
     certificateStatus: "",
   });
 
+  const [success, setSuccess] = useState(false);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDiamondDetail({ ...diamondDetail, [name]: value });
@@ -61,14 +70,16 @@ const DiamondForm = () => {
     try {
       const diamondDetailWithDates: DiamondDetailResponse = {
         ...diamondDetail,
-        issueDate: new Date(diamondDetail.issueDate),
-        expireDate: new Date(diamondDetail.expireDate),
+        issueDate: diamondDetail.issueDate as string,
+        expireDate: diamondDetail.expireDate as string,
       };
+      console.log("log submit:", diamondDetailWithDates);
 
       const response = await valuationStaffApi.createDiamondDetail(
         diamondDetailWithDates
       );
       console.log("Diamond data added:", response);
+      setSuccess(true);
     } catch (error) {
       console.error("There was an error adding the diamond data!", error);
     }
@@ -98,6 +109,7 @@ const DiamondForm = () => {
           Diamond Detail
         </Typography>
       </Box>
+
       <form onSubmit={handleSubmit}>
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
           <Box
@@ -165,6 +177,15 @@ const DiamondForm = () => {
               GRADING RESULTS
             </Typography>
           </Box>
+          <FieldContainer>
+            <TextField
+              fullWidth
+              label="Diamond Code"
+              name="code"
+              value={diamondDetail.code}
+              onChange={handleChange}
+            />
+          </FieldContainer>
           <FieldContainer>
             <TextField
               fullWidth
@@ -268,6 +289,16 @@ const DiamondForm = () => {
               InputLabelProps={{ shrink: true }}
             />
           </FieldContainer>
+          <FieldContainer>
+            <TextField
+              fullWidth
+              type="number"
+              label="Order Detail Id"
+              name="orderDetailId"
+              value={diamondDetail.orderDetailId}
+              onChange={handleChange}
+            />
+          </FieldContainer>
         </Section>
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
           <Box
@@ -325,6 +356,11 @@ const DiamondForm = () => {
         >
           Submit
         </Button>
+        {success && (
+          <Alert severity="success" sx={{ marginBottom: "20px" }}>
+            Create successful!
+          </Alert>
+        )}
       </form>
     </Paper>
   );
