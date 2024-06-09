@@ -133,7 +133,6 @@ const RecepitBill: React.FC = () => {
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
-                      <StyledTableCell align="center">Delete</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
