@@ -1,5 +1,5 @@
 export interface UpdateOrderDetail {
   orderDetailId: number;
-  serviceId: number;
-  estimateLength: number;
+  serviceId: number | undefined;
+  estimateLength: number | undefined;
 }
