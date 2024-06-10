@@ -17,9 +17,9 @@ import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
+import DiamondDetail from "./components/valuationStaff/diamondDetail";
 import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
-import DiamondDetail from "./pages/valuationStaff/diamondDetail";
 
 function App() {
   return (

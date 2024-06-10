@@ -9,9 +9,9 @@ import {
 import { styled } from "@mui/system";
 import { ChangeEvent, FormEvent, useState } from "react";
 import DetailImage from "../../assets/DetailImage.png";
-import NavBarSystem from "../../components/system/NavBarSystem";
 import { DiamondDetailResponse } from "../../interfaces/valuationStaff/diamondDetailResponse";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
+import NavBarSystem from "../system/NavBarSystem";
 
 const Container = styled(Box)({
   maxWidth: "800px",
@@ -177,7 +177,7 @@ const DiamondForm = () => {
               GRADING RESULTS
             </Typography>
           </Box>
-          <FieldContainer>
+          {/* <FieldContainer>
             <TextField
               fullWidth
               label="Diamond Code"
@@ -185,7 +185,7 @@ const DiamondForm = () => {
               value={diamondDetail.code}
               onChange={handleChange}
             />
-          </FieldContainer>
+          </FieldContainer> */}
           <FieldContainer>
             <TextField
               fullWidth
@@ -289,7 +289,7 @@ const DiamondForm = () => {
               InputLabelProps={{ shrink: true }}
             />
           </FieldContainer>
-          <FieldContainer>
+          {/* <FieldContainer>
             <TextField
               fullWidth
               type="number"
@@ -298,7 +298,7 @@ const DiamondForm = () => {
               value={diamondDetail.orderDetailId}
               onChange={handleChange}
             />
-          </FieldContainer>
+          </FieldContainer> */}
         </Section>
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
           <Box
