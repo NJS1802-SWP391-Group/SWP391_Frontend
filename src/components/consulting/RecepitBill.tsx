@@ -66,7 +66,10 @@ const RecepitBill: React.FC = () => {
   const [payment, setPayment] = useState("direct");
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState<number>();
+  const [editService, setEditService] = useState("");
+  const [editServiceId, setEditServiceId] = useState<number>();
+  const [editEstimateLength, setEditEstimateLength] = useState<number>();
 
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
@@ -75,7 +78,6 @@ const RecepitBill: React.FC = () => {
   const location = useLocation();
   const data: OrderResponse = location.state;
   const [fetchData, setFetchData] = useState<OrderResponse>(data);
-  console.log("Data:", fetchData);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -134,15 +136,38 @@ const RecepitBill: React.FC = () => {
     );
   };
 
-  const handleEdit = (orderDetailId: any) => {
-    setEditingId(orderDetailId);
-    // const studentToEdit = fetchData.detailValuations.find(detail)
+  const handleEdit = (orderDetailId: number) => {
+    const detailValuations = fetchData.detailValuations;
+    const initDetailValuations = detailValuations.find(
+      (data) => data.orderDetailId == orderDetailId
+    );
+    if (initDetailValuations) {
+      setEditingId(orderDetailId);
+    }
+  };
+
+  const handleEditServiceChange = (event: SelectChangeEvent) => {
+    setEditService(event.target.value as string);
+    switch (event.target.value as string) {
+      case "Standard Valuation":
+        setEditServiceId(1);
+        break;
+      case "Quick Valuation 48h":
+        setEditServiceId(2);
+        break;
+      case "Quick Valuation 24h":
+        setEditServiceId(3);
+        break;
+      case "Quick Valuation 6h":
+        setEditServiceId(4);
+        break;
+    }
   };
 
   const handleSave = (
     orderDetailId: number,
-    estimateLength: number,
-    serviceId: number
+    estimateLength: number | undefined,
+    serviceId: number | undefined
   ) => {
     const saveData: UpdateOrderDetail = {
       orderDetailId: orderDetailId,
@@ -150,8 +175,12 @@ const RecepitBill: React.FC = () => {
       serviceId: serviceId,
     };
     orderDetailApi.updateOrderDetail(saveData).then(
-      (response) => {
+      (response: any) => {
         console.log("Update response: ", response);
+        setEditingId(0);
+        setEditService("");
+        setEditEstimateLength(0);
+        setFetchData(response);
       },
       (error) => {
         console.log("Error update:", error);
@@ -280,9 +309,11 @@ const RecepitBill: React.FC = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={item.serviceName}
+                                value={
+                                  editService ? editService : item.serviceName
+                                }
                                 label="Service"
-                                onChange={handleServiceChange}
+                                onChange={handleEditServiceChange}
                               >
                                 <MenuItem value={"Standard Valuation"}>
                                   Standard Valuation
@@ -308,8 +339,18 @@ const RecepitBill: React.FC = () => {
                               style={{ padding: "20px 20px", margin: "0 30px" }}
                               type="number"
                               step="0.1"
-                              value={item.estimateLength}
-                              onChange={handleEstimateLengthChange}
+                              value={
+                                editEstimateLength
+                                  ? editEstimateLength
+                                  : item.estimateLength
+                              }
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                setEditEstimateLength(
+                                  parseFloat(e.target.value)
+                                );
+                              }}
                               min={0}
                             />
                           ) : (
@@ -329,8 +370,8 @@ const RecepitBill: React.FC = () => {
                               onClick={() => {
                                 handleSave(
                                   item.orderDetailId,
-                                  inputEstimateLength,
-                                  selectedServiceId
+                                  editEstimateLength,
+                                  editServiceId
                                 );
                               }}
                               color="primary"
