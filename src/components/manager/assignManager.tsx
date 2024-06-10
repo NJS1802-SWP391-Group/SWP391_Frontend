@@ -154,6 +154,15 @@ const AssignManager: React.FC = () => {
     setSelectedManagerResponse(null);
   };
 
+  // const handleNavigateToCertificate = (
+  //   orderDetailId: number,
+  //   managerResponse: ManagerApprovalResponse
+  // ) => {
+  //   navigate(`/valuationStaff/diamondDetail/${orderDetailId}`, {
+  //     state: { managerResponse },
+  //   });
+  // };
+
   console.log(valuationSelectedStaff);
   const handleSave = (orderDetailID: number, accountId: number | undefined) => {
     const newRequestBody = {
@@ -231,9 +240,7 @@ const AssignManager: React.FC = () => {
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderDetailID}>
-                <StyledTableCell>
-                  {managerResponse.orderDetailID}
-                </StyledTableCell>
+                <StyledTableCell>{managerResponse.orderCode}</StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
