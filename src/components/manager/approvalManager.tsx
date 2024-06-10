@@ -109,8 +109,9 @@ const ApprovalManager = () => {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
-              <StyledTableCell sx={styleTableHead}>Result ID</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>
+                Order Detail Code
+              </StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Valuation Staff
@@ -125,7 +126,6 @@ const ApprovalManager = () => {
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderDetailID}>
-                <StyledTableCell>{managerResponse.resultId}</StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>

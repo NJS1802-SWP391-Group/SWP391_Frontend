@@ -54,8 +54,13 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
-  const handlePlusButtonClick = (resultId: number) => {
-    navigate(`/diamond/${resultId}`);
+  const handlePlusButtonClick = (
+    orderDetailId: number,
+    assignValuationStaffResponse: AssignValuationStaffResponse
+  ) => {
+    navigate(`/diamond/${orderDetailId}`, {
+      state: { assignValuationStaffResponse },
+    });
   };
 
   const styleTableHead = {
@@ -119,7 +124,6 @@ const AssignValuationStaff = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>Order Code</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Final Valuing Price
@@ -135,9 +139,6 @@ const AssignValuationStaff = () => {
             {paginatedAssignValuationStaffResponseList.map(
               (valuationStaffResponse) => (
                 <StyledTableRow key={valuationStaffResponse.orderDetailId}>
-                  <StyledTableCell>
-                    {valuationStaffResponse.orderDetailId}
-                  </StyledTableCell>
                   <StyledTableCell>
                     {valuationStaffResponse.orderDetailCode}
                   </StyledTableCell>
@@ -155,7 +156,8 @@ const AssignValuationStaff = () => {
                       <IconButton
                         onClick={() =>
                           handlePlusButtonClick(
-                            valuationStaffResponse.orderDetailId
+                            valuationStaffResponse.orderDetailId,
+                            valuationStaffResponse
                           )
                         }
                       >
