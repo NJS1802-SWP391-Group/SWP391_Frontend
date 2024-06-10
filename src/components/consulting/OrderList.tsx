@@ -9,6 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import orderApi from "../../services/orderApi";
+import { error } from "console";
 
 // type Props = {
 //   orders: OrderInterface[];
@@ -41,6 +44,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
+  const navigate = useNavigate();
+  const onClickEdit = (orderId: number) => {
+    orderApi.viewReceiptbill(orderId).then(
+      (response) => {
+        navigate(`/receipt-bill/${orderId}`, {
+          state: response,
+        });
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -51,7 +68,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
             <StyledTableCell align="left">Customer</StyledTableCell>
             <StyledTableCell align="left">Quantity</StyledTableCell>
             <StyledTableCell align="left">Status</StyledTableCell>
-            <StyledTableCell align="left">Detail</StyledTableCell>
+            <StyledTableCell align="left">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,9 +86,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
               <StyledTableCell align="left">
                 <Button
                   disabled={
-                    item.status == "Active" ||
-                    item.status == "Pending" ||
-                    item.status == "Received"
+                    item.status == "Active" || item.status == "Pending"
                       ? false
                       : true
                   }
@@ -80,6 +95,18 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                 >
                   Detail
                 </Button>
+
+                {item.status == "Received" ? (
+                  <Button
+                    variant="outlined"
+                    sx={{ marginLeft: "5px" }}
+                    onClick={() => onClickEdit(item.orderID)}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <div></div>
+                )}
               </StyledTableCell>
             </StyledTableRow>
           ))}

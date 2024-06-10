@@ -19,6 +19,10 @@ const orderApi = {
     const url = "/Orders/Request";
     return axiosClient.post(url, data);
   },
+  viewReceiptbill(data: number) {
+    const url = `/Orders/View/Id${data}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default orderApi;
