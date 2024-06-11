@@ -20,6 +20,7 @@ import ManagerAssignPage from "./pages/manager/managerAssignPage";
 import DiamondDetail from "./components/valuationStaff/diamondDetail";
 import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
+import SendEmail from "./components/consulting/SendEmail";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
             <Route path="/system" element={<LoginSystem />} />
             {/* <Route path="/navbar" element={<NavBarSystem />} /> */}
             <Route path="/receipt-bill/:orderID" element={<RecepitBill />} />
+            <Route path="/send-email/:orderID" element={<SendEmail />} />
             {/* ManagerPath */}
           </Routes>
         </div>
