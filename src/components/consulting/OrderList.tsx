@@ -58,6 +58,8 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       }
     );
   };
+
+  const onClickSendEmail = (orderId: number) => {};
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -107,6 +109,9 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   disabled={item.status == "Completed" ? false : true}
                   sx={{ marginLeft: "5px" }}
                   color="success"
+                  onClick={() => {
+                    onClickSendEmail(item.orderID);
+                  }}
                 >
                   Send Email
                 </Button>
