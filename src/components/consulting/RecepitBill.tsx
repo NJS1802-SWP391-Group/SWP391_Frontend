@@ -247,40 +247,6 @@ const RecepitBill: React.FC = () => {
             </div>
             <Divider />
             <div className="receipt-bill-service">
-              <FormControl sx={{ width: "30%" }}>
-                <InputLabel id="demo-simple-select-label">Service</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={service}
-                  label="Service"
-                  onChange={handleServiceChange}
-                >
-                  <MenuItem value={"Standard Valuation"}>
-                    Standard Valuation
-                  </MenuItem>
-                  <MenuItem value={"Quick Valuation 48h"}>
-                    Quick Valuation 48h
-                  </MenuItem>
-                  <MenuItem value={"Quick Valuation 24h"}>
-                    Quick Valuation 24h
-                  </MenuItem>
-                  <MenuItem value={"Quick Valuation 6h"}>
-                    Quick Valuation 6h
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <input
-                style={{ padding: "20px 20px", margin: "0 30px" }}
-                type="number"
-                step="0.1"
-                value={inputEstimateLength}
-                onChange={handleEstimateLengthChange}
-                min={0}
-              />
-              <Button onClick={handleAddButtonClick} variant="contained">
-                Add
-              </Button>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                   <TableHead>
@@ -295,6 +261,53 @@ const RecepitBill: React.FC = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
+                    <StyledTableCell align="left"></StyledTableCell>
+                    <StyledTableCell align="center">
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Service
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={service}
+                          label="Service"
+                          onChange={handleServiceChange}
+                        >
+                          <MenuItem value={"Standard Valuation"}>
+                            Standard Valuation
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 48h"}>
+                            Quick Valuation 48h
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 24h"}>
+                            Quick Valuation 24h
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 6h"}>
+                            Quick Valuation 6h
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <input
+                        style={{ padding: "20px 20px", margin: "0 30px" }}
+                        type="number"
+                        step="0.1"
+                        value={inputEstimateLength}
+                        onChange={handleEstimateLengthChange}
+                        min={0}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="center"></StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button
+                        onClick={handleAddButtonClick}
+                        variant="contained"
+                      >
+                        Add
+                      </Button>
+                    </StyledTableCell>
                     {fetchData.detailValuations.map((item) => (
                       <StyledTableRow key={item.orderDetailId}>
                         <StyledTableCell align="left">
@@ -394,6 +407,7 @@ const RecepitBill: React.FC = () => {
                           <Button
                             color="error"
                             variant="contained"
+                            sx={{ marginLeft: "5px" }}
                             onClick={() => {
                               onClickDelete(item.orderDetailId);
                             }}

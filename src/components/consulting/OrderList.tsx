@@ -63,27 +63,23 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Order Id</StyledTableCell>
             <StyledTableCell align="left">Order Code</StyledTableCell>
             <StyledTableCell align="left">Customer</StyledTableCell>
             <StyledTableCell align="left">Quantity</StyledTableCell>
             <StyledTableCell align="left">Status</StyledTableCell>
-            <StyledTableCell align="left">Action</StyledTableCell>
+            <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((item) => (
             <StyledTableRow key={item.orderID}>
-              <StyledTableCell component="th" scope="row">
-                {item.orderID}
-              </StyledTableCell>
               <StyledTableCell align="left">{item.code}</StyledTableCell>
               <StyledTableCell align="left">
                 {item.firstName + " " + item.lastName}{" "}
               </StyledTableCell>
               <StyledTableCell align="left">{item.quantity}</StyledTableCell>
               <StyledTableCell align="left">{item.status}</StyledTableCell>
-              <StyledTableCell align="left">
+              <StyledTableCell align="center">
                 <Button
                   disabled={
                     item.status == "Active" || item.status == "Pending"
@@ -96,17 +92,24 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   Detail
                 </Button>
 
-                {item.status == "Received" ? (
-                  <Button
-                    variant="outlined"
-                    sx={{ marginLeft: "5px" }}
-                    onClick={() => onClickEdit(item.orderID)}
-                  >
-                    Edit
-                  </Button>
-                ) : (
-                  <div></div>
-                )}
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Received" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  onClick={() => onClickEdit(item.orderID)}
+                  color="secondary"
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Completed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="success"
+                >
+                  Send Email
+                </Button>
               </StyledTableCell>
             </StyledTableRow>
           ))}
