@@ -57,6 +57,7 @@ const ApprovalManager = () => {
     navigate(`/manager/approval/${resultId}`, {
       state: managerResponse,
     });
+    console.log("resultId:", resultId);
   };
 
   const handleReject = (orderDetailID: number) => {
@@ -109,7 +110,6 @@ const ApprovalManager = () => {
     };
     initUseEffect();
   }, []);
-  console.log("first");
 
   const paginatedManagerResponseList = managerResponseList.slice(
     page * rowsPerPage,
@@ -164,7 +164,7 @@ const ApprovalManager = () => {
                     <IconButton
                       onClick={() =>
                         handleNavigateToCertificate(
-                          managerResponse.orderDetailID,
+                          managerResponse.resultId,
                           managerResponse
                         )
                       }

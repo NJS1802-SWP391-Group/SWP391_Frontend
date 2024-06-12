@@ -46,7 +46,7 @@ function App() {
             {/* ManagerPath */}
             <Route path="/manager/approval" element={<ManagerApprovalPage />} />
             <Route
-              path="/manager/approval/:orderDetailID"
+              path="/manager/approval/:resultId"
               element={<CertificatePage />}
             />
             <Route path="/manager/assign" element={<ManagerAssignPage />} />
