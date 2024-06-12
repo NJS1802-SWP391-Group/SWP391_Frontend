@@ -9,9 +9,13 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  InputLabel,
+  MenuItem,
   Paper,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -29,6 +33,11 @@ import orderApi from "../../services/orderApi";
 import SuccessfullAlert from "../SuccessfullAlert";
 import BackButton from "../BackButton";
 import orderDetailApi from "../../services/orderDetailApi";
+import { DetailValuation } from "../../interfaces/order/orderInterface";
+import { url } from "inspector";
+import { error } from "console";
+import OrderDetail from "./OrderDetail";
+import { UpdateOrderDetail } from "../../interfaces/orderDetail/OrderDetailInterface";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -51,9 +60,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const RecepitBill: React.FC = () => {
+  const [service, setService] = React.useState("");
+  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
+  const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
   const [payment, setPayment] = useState("direct");
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
+  const [editingId, setEditingId] = useState<number>();
+  const [editService, setEditService] = useState("");
+  const [editServiceId, setEditServiceId] = useState<number>();
+  const [editEstimateLength, setEditEstimateLength] = useState<number>();
 
   const handleChangePayment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayment(e.target.value);
@@ -61,8 +77,116 @@ const RecepitBill: React.FC = () => {
 
   const location = useLocation();
   const data: OrderResponse = location.state;
-  const fetchData: OrderResponse = data;
-  // console.log("Data:", data);
+  const [fetchData, setFetchData] = useState<OrderResponse>(data);
+
+  const handleServiceChange = (event: SelectChangeEvent) => {
+    setService(event.target.value as string);
+    switch (event.target.value as string) {
+      case "Standard Valuation":
+        setSelectedServiceId(1);
+        break;
+      case "Quick Valuation 48h":
+        setSelectedServiceId(2);
+        break;
+      case "Quick Valuation 24h":
+        setSelectedServiceId(3);
+        break;
+      case "Quick Valuation 6h":
+        setSelectedServiceId(4);
+        break;
+    }
+  };
+
+  const handleEstimateLengthChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const length = parseFloat(e.target.value);
+    setInputEstimateLength(length);
+  };
+
+  const handleAddButtonClick = () => {
+    const data: DetailValuation = {
+      serviceId: selectedServiceId,
+      estimateLength: inputEstimateLength,
+    };
+    orderDetailApi.createOrderDetail(data, fetchData.orderID).then(
+      (response: any) => {
+        console.log("Create Order Detail: ", response);
+        setFetchData(response);
+      },
+      (error) => {
+        console.log("Error Create Order Detail", error);
+      }
+    );
+
+    setService("");
+    setInputEstimateLength(0);
+  };
+
+  const onClickDelete = (orderDetailId: number) => {
+    confirm(`Do you want delte order detail ${orderDetailId}`);
+    orderDetailApi.deleteByOrderDetailId(orderDetailId).then(
+      (response: any) => {
+        console.log("Delete response:", response);
+        setFetchData(response);
+      },
+      (error) => {
+        console.log("Delete error:", error);
+      }
+    );
+  };
+
+  const handleEdit = (orderDetailId: number) => {
+    const detailValuations = fetchData.detailValuations;
+    const initDetailValuations = detailValuations.find(
+      (data) => data.orderDetailId == orderDetailId
+    );
+    if (initDetailValuations) {
+      setEditingId(orderDetailId);
+    }
+  };
+
+  const handleEditServiceChange = (event: SelectChangeEvent) => {
+    setEditService(event.target.value as string);
+    switch (event.target.value as string) {
+      case "Standard Valuation":
+        setEditServiceId(1);
+        break;
+      case "Quick Valuation 48h":
+        setEditServiceId(2);
+        break;
+      case "Quick Valuation 24h":
+        setEditServiceId(3);
+        break;
+      case "Quick Valuation 6h":
+        setEditServiceId(4);
+        break;
+    }
+  };
+
+  const handleSave = (
+    orderDetailId: number,
+    estimateLength: number | undefined,
+    serviceId: number | undefined
+  ) => {
+    const saveData: UpdateOrderDetail = {
+      orderDetailId: orderDetailId,
+      estimateLength: estimateLength,
+      serviceId: serviceId,
+    };
+    orderDetailApi.updateOrderDetail(saveData).then(
+      (response: any) => {
+        console.log("Update response: ", response);
+        setEditingId(0);
+        setEditService("");
+        setEditEstimateLength(0);
+        setFetchData(response);
+      },
+      (error) => {
+        console.log("Error update:", error);
+      }
+    );
+  };
 
   const onSubmitPrintBill = () => {
     const orderId = fetchData.orderID;
@@ -82,7 +206,7 @@ const RecepitBill: React.FC = () => {
 
   return (
     <div>
-      {data == undefined ? (
+      {fetchData == undefined ? (
         <Card sx={{ margin: "20px 0", padding: "10px 5%" }}>
           <div style={{ marginTop: "20px" }}>
             <div className="recepit-bill-header">
@@ -115,7 +239,7 @@ const RecepitBill: React.FC = () => {
             <div className="receipt-bill-info">
               Order Code: {fetchData.code}
               <br />
-              Customer name: {fetchData.customerId}
+              Customer name: {fetchData.firstName + " "} {fetchData.lastName}
               <br />
               Consulting staff: Vo Mong Luan
               <br />
@@ -133,23 +257,163 @@ const RecepitBill: React.FC = () => {
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">Size(mm)</StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
-                      <StyledTableCell align="center">Delete</StyledTableCell>
+                      <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
+                    <StyledTableCell align="left"></StyledTableCell>
+                    <StyledTableCell align="center">
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Service
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={service}
+                          label="Service"
+                          onChange={handleServiceChange}
+                        >
+                          <MenuItem value={"Standard Valuation"}>
+                            Standard Valuation
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 48h"}>
+                            Quick Valuation 48h
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 24h"}>
+                            Quick Valuation 24h
+                          </MenuItem>
+                          <MenuItem value={"Quick Valuation 6h"}>
+                            Quick Valuation 6h
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <input
+                        style={{ padding: "20px 20px", margin: "0 30px" }}
+                        type="number"
+                        step="0.1"
+                        value={inputEstimateLength}
+                        onChange={handleEstimateLengthChange}
+                        min={0}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell align="center"></StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button
+                        onClick={handleAddButtonClick}
+                        variant="contained"
+                      >
+                        Add
+                      </Button>
+                    </StyledTableCell>
                     {fetchData.detailValuations.map((item) => (
                       <StyledTableRow key={item.orderDetailId}>
                         <StyledTableCell align="left">
                           {item.code}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {item.serviceName}
+                          {editingId === item.orderDetailId ? (
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">
+                                Service
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={
+                                  editService ? editService : item.serviceName
+                                }
+                                label="Service"
+                                onChange={handleEditServiceChange}
+                              >
+                                <MenuItem value={"Standard Valuation"}>
+                                  Standard Valuation
+                                </MenuItem>
+                                <MenuItem value={"Quick Valuation 48h"}>
+                                  Quick Valuation 48h
+                                </MenuItem>
+                                <MenuItem value={"Quick Valuation 24h"}>
+                                  Quick Valuation 24h
+                                </MenuItem>
+                                <MenuItem value={"Quick Valuation 6h"}>
+                                  Quick Valuation 6h
+                                </MenuItem>
+                              </Select>
+                            </FormControl>
+                          ) : (
+                            item.serviceName
+                          )}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {item.estimateLength}
+                          {editingId === item.orderDetailId ? (
+                            <input
+                              style={{ padding: "20px 20px", margin: "0 30px" }}
+                              type="number"
+                              step="0.1"
+                              value={
+                                editEstimateLength
+                                  ? editEstimateLength
+                                  : item.estimateLength
+                              }
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                setEditEstimateLength(
+                                  parseFloat(e.target.value)
+                                );
+                              }}
+                              min={0}
+                            />
+                          ) : (
+                            item.estimateLength
+                          )}
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {item.price}
+                          {editingId === item.orderDetailId ? (
+                            <div></div>
+                          ) : (
+                            item.price
+                          )}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {editingId === item.orderDetailId ? (
+                            <Button
+                              onClick={() => {
+                                handleSave(
+                                  item.orderDetailId,
+                                  editEstimateLength,
+                                  editServiceId
+                                );
+                              }}
+                              color="primary"
+                              variant="contained"
+                            >
+                              Save
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                handleEdit(item.orderDetailId);
+                              }}
+                              color="primary"
+                              variant="contained"
+                            >
+                              Edit
+                            </Button>
+                          )}
+
+                          <Button
+                            color="error"
+                            variant="contained"
+                            sx={{ marginLeft: "5px" }}
+                            onClick={() => {
+                              onClickDelete(item.orderDetailId);
+                            }}
+                          >
+                            Delete
+                          </Button>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -216,6 +480,7 @@ const RecepitBill: React.FC = () => {
               <Button
                 variant="contained"
                 onClick={onSubmitPrintBill}
+                disabled={fetchData.totalPay == 0 || editingId ? true : false}
                 sx={{
                   backgroundColor: "#4F46E5",
                   borderRadius: "25px",
