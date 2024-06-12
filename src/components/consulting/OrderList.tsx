@@ -9,6 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { OrderInterface } from "../../interfaces/order/orderInterface";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import orderApi from "../../services/orderApi";
+import { error } from "console";
 
 // type Props = {
 //   orders: OrderInterface[];
@@ -41,37 +44,47 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
+  const navigate = useNavigate();
+  const onClickEdit = (orderId: number) => {
+    orderApi.viewReceiptbill(orderId).then(
+      (response) => {
+        navigate(`/receipt-bill/${orderId}`, {
+          state: response,
+        });
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
+  const onClickSendEmail = (orderId: number) => {};
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Order Id</StyledTableCell>
             <StyledTableCell align="left">Order Code</StyledTableCell>
             <StyledTableCell align="left">Customer</StyledTableCell>
             <StyledTableCell align="left">Quantity</StyledTableCell>
             <StyledTableCell align="left">Status</StyledTableCell>
-            <StyledTableCell align="left">Detail</StyledTableCell>
+            <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((item) => (
             <StyledTableRow key={item.orderID}>
-              <StyledTableCell component="th" scope="row">
-                {item.orderID}
-              </StyledTableCell>
               <StyledTableCell align="left">{item.code}</StyledTableCell>
               <StyledTableCell align="left">
                 {item.firstName + " " + item.lastName}{" "}
               </StyledTableCell>
               <StyledTableCell align="left">{item.quantity}</StyledTableCell>
               <StyledTableCell align="left">{item.status}</StyledTableCell>
-              <StyledTableCell align="left">
+              <StyledTableCell align="center">
                 <Button
                   disabled={
-                    item.status == "Active" ||
-                    item.status == "Pending" ||
-                    item.status == "Received"
+                    item.status == "Active" || item.status == "Pending"
                       ? false
                       : true
                   }
@@ -79,6 +92,28 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   variant="contained"
                 >
                   Detail
+                </Button>
+
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Received" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  onClick={() => onClickEdit(item.orderID)}
+                  color="secondary"
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Completed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="success"
+                  onClick={() => {
+                    onClickSendEmail(item.orderID);
+                  }}
+                >
+                  Send Email
                 </Button>
               </StyledTableCell>
             </StyledTableRow>
