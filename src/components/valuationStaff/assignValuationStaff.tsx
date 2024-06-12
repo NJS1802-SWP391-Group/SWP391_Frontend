@@ -21,6 +21,11 @@ import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/va
 import accountApi from "../../services/accountApi";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
+export interface RequetsBody {
+  orderDetailID: number;
+  valuationStaffID: number | undefined;
+}
+
 const AssignValuationStaff = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
@@ -54,13 +59,28 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
+  const handleSend = (orderDetailID: number) => {
+    valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
+      (response) => {
+        console.log("response:", response);
+        alert(`Send successfully`);
+        // Reload the page after successful save
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
   const handlePlusButtonClick = (
     orderDetailId: number,
     assignValuationStaffResponse: AssignValuationStaffResponse
   ) => {
     navigate(`/diamond/${orderDetailId}`, {
-      state: { assignValuationStaffResponse },
+      state: assignValuationStaffResponse,
     });
+    console.log("Log test", assignValuationStaffResponse);
   };
 
   const styleTableHead = {
@@ -97,18 +117,6 @@ const AssignValuationStaff = () => {
     };
     getAccount();
   }, []);
-
-  // valuationStaffApi
-  //   .getOrderDetailByValuationStaffId(account?.result.user.accountId)
-  //   .then(
-  //     (response: any) => {
-  //       console.log("Response: ", response);
-  //       setAssignValuationStaffResponseList(response);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
   console.log("Log Asign:", assignValuationStaffResponseList);
 
   const paginatedAssignValuationStaffResponseList =
@@ -125,9 +133,6 @@ const AssignValuationStaff = () => {
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>Order Code</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>
-                Final Valuing Price
-              </StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Input Figure
@@ -144,9 +149,6 @@ const AssignValuationStaff = () => {
                   </StyledTableCell>
                   <StyledTableCell>
                     {valuationStaffResponse.serviceName}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {valuationStaffResponse.finalPrice}
                   </StyledTableCell>
                   <StyledTableCell>
                     {valuationStaffResponse.status}
@@ -208,7 +210,7 @@ const AssignValuationStaff = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "40%",
+            width: "35%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -222,8 +224,7 @@ const AssignValuationStaff = () => {
           </Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
             Do you want to send Diamond:
-            {selectedValuationStaffResponse?.orderDetailCode} with Price:
-            {selectedValuationStaffResponse?.finalPrice}?
+            {selectedValuationStaffResponse?.orderDetailCode} ?
           </Typography>
           <Box
             sx={{
@@ -232,7 +233,11 @@ const AssignValuationStaff = () => {
               marginTop: "20px",
             }}
           >
-            <IconButton onClick={handleClose}>
+            <IconButton
+              onClick={() =>
+                handleSend(selectedValuationStaffResponse?.orderDetailId!)
+              }
+            >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
                 Yes
               </Typography>

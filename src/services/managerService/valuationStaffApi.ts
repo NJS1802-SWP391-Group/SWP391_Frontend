@@ -10,14 +10,15 @@ const valuationStaffApi = {
   createDiamondDetail: (diamondDetailResponse: DiamondDetailResponse) => {
     return axiosClient.post("/Result/Create-Result", diamondDetailResponse);
   },
-  // assignValuationStaff: (assignRequest: AssignRequest) => {
-  //   return axiosClient.put("assignValuationStaff", assignRequest);
-  // },
 
   getOrderDetailByValuationStaffId: (accountId: number | undefined) => {
     return axiosClient.get(
       `/OrderDetail/Get-Order-Details-By-Valuating-Staff/${accountId}`
     );
+  },
+
+  changeStatusToCompleted: (orderDetailID: number) => {
+    return axiosClient.put(`/OrderDetail/Complete-Valuate/${orderDetailID}`);
   },
 };
 export default valuationStaffApi;
