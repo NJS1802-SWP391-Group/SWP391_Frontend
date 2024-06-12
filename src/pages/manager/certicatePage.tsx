@@ -8,8 +8,8 @@ const CertificatePage = () => {
       <NavBarSystem marginBottom="100px" />
       <Paper
         sx={{
-          width: "1300px",
-          marginLeft: "250px",
+          width: "1500px",
+          marginLeft: "100px",
           backgroundColor: "white",
         }}
       >
