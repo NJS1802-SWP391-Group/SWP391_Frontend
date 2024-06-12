@@ -115,7 +115,7 @@ const DiamondDetail = () => {
       const timer = setTimeout(() => {
         setSuccess(false);
         navigate("/valuationStaff/assigned");
-      }, 5000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
