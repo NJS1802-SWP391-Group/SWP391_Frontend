@@ -24,13 +24,23 @@ const Certificate = () => {
   const { resultId } = useParams<{ resultId: string }>();
   const { state } = useLocation();
   const [certificate, setCertificate] = useState<CertificateResponse>();
-  console.log("certificate", certificate);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isDone, setIsDone] = useState<boolean>(false);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current!,
     documentTitle: "emp-data",
   });
+
+  const handleDoneClick = () => {
+    if (certificate?.orderDetailId) {
+      certificateApi
+        .changeStatusToCertificated(certificate.orderDetailId)
+        .then(() => {
+          setIsDone(true);
+        });
+    }
+  };
 
   const Container = styled(Box)({
     maxWidth: "1200px",
@@ -99,9 +109,9 @@ const Certificate = () => {
     <Grid container justifyContent="center" sx={{ paddingRight: "900px" }}>
       <Box
         ref={componentRef}
-        sx={{ padding: 3, width: "60%", height: "100vh" }}
+        sx={{ padding: 3, width: "70%", height: "100vh" }}
       >
-        <Box sx={{ height: "40%" }}>
+        <Box sx={{ height: "60%", paddingLeft: "100px" }}>
           <Box
             sx={{
               paddingBottom: "20px",
@@ -157,7 +167,7 @@ const Certificate = () => {
           <Container
             sx={{
               width: "1100px",
-              marginTop: "55px",
+              marginTop: "85px",
               marginLeft: "70px",
               height: "550px",
             }}
@@ -200,7 +210,7 @@ const Certificate = () => {
                 <img
                   src={PropotionImage}
                   width="230"
-                  height="130"
+                  height="115"
                   alt="PropotionImage"
                   className="PropotionImage"
                 />
@@ -359,7 +369,7 @@ const Certificate = () => {
               </Box>
             </Section>
           </Container>
-          <Box sx={{ width: "60%", marginLeft: "800px", marginTop: "15px" }}>
+          <Box sx={{ width: "100%", marginLeft: "800px", marginTop: "15px" }}>
             <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
               Granted by:
             </Typography>
@@ -374,19 +384,40 @@ const Certificate = () => {
         </Box>
       </Box>
 
-      <Button
+      <Box
         sx={{
           marginLeft: "2550px",
+          paddingLeft: "50px",
           marginBottom: "15px",
-          borderRadius: "10px",
-          width: "550px",
-          backgroundColor: "#4F46E5",
-          color: "black",
         }}
-        onClick={handlePrint}
       >
-        Print this out
-      </Button>
+        <Button
+          sx={{
+            borderRadius: "10px",
+            backgroundColor: "#4F46E5",
+            color: "black",
+            width: "80%",
+            marginBottom: "10px",
+          }}
+          onClick={handleDoneClick}
+        >
+          <Typography sx={{ paddingLeft: "35px", paddingRight: "30px" }}>
+            Confirm
+          </Typography>
+        </Button>
+        <Button
+          sx={{
+            borderRadius: "10px",
+            backgroundColor: isDone ? "#4F46E5" : "gray",
+            color: "black",
+            width: "80%",
+          }}
+          onClick={handlePrint}
+          disabled={!isDone}
+        >
+          <Typography sx={{ paddingLeft: "5px" }}>Print this out</Typography>
+        </Button>
+      </Box>
     </Grid>
   );
 };
