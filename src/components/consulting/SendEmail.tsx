@@ -23,6 +23,7 @@ const SendEmail = () => {
               alignItems: "center",
             }}
           >
+            d
             <span style={{ padding: "10px 10px" }}>
               <img src={Logo} alt="logo" width={"70px"} height={"70px"} />
             </span>
@@ -107,7 +108,7 @@ const SendEmail = () => {
                       <li>Loại dịch vụ:</li>
                       <li>Kích cỡ:</li>
                       <li>Giá dịch vụ:</li>
-                      <li>Giá:</li>
+                      <li>Giá trị kim cương:</li>
                     </ul>
                   </div>
                   <div style={{ marginRight: "15px" }}>
