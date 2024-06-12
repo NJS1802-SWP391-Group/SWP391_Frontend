@@ -1,5 +1,4 @@
 import {
-  Alert,
   Box,
   Button,
   Checkbox,
@@ -112,10 +111,11 @@ const DiamondDetail = () => {
 
   useEffect(() => {
     if (success) {
+      alert("Create successfully");
       const timer = setTimeout(() => {
         setSuccess(false);
         navigate("/valuationStaff/assigned");
-      }, 3000);
+      }, 5000);
 
       return () => clearTimeout(timer);
     }
@@ -147,30 +147,6 @@ const DiamondDetail = () => {
           Diamond Detail
         </Typography>
       </Box>
-
-      {success && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <Alert
-            severity="success"
-            sx={{
-              width: "94%",
-              padding: "15px",
-              backgroundColor: "#e8f5e9",
-              color: "#2e7d32",
-              border: "1px solid #2e7d32",
-              borderRadius: "5px",
-            }}
-          >
-            Create successfully!
-          </Alert>
-        </Box>
-      )}
 
       <form onSubmit={handleSubmit}>
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
