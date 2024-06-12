@@ -21,16 +21,15 @@ import certificateApi from "../../services/certificateService/certificateApi";
 
 const Certificate = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { orderDetailID } = useParams<{ orderDetailID: string }>();
+  const { resultId } = useParams<{ resultId: string }>();
   const { state } = useLocation();
-  console.log("Use Locate", state);
   const [certificate, setCertificate] = useState<CertificateResponse>();
+  console.log("certificate", certificate);
   const [loading, setLoading] = useState<boolean>(true);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current!,
     documentTitle: "emp-data",
-    onAfterPrint: () => alert("Print success"),
   });
 
   const Container = styled(Box)({
@@ -58,14 +57,12 @@ const Certificate = () => {
   });
 
   useEffect(() => {
-    const getCertificateByID = async (orderDetailID: string) => {
+    const getCertificateByID = async (resultId: number) => {
       try {
-        const response = await certificateApi.getCertificateByID(
-          parseInt(orderDetailID, 10)
-        );
+        const response: any = await certificateApi.getCertificateByID(resultId);
         console.log("API response:", response);
-        if (response.data && response.data.length > 0) {
-          setCertificate(response.data);
+        if (response) {
+          setCertificate(response);
         } else {
           console.error("No certificate data found");
         }
@@ -76,10 +73,10 @@ const Certificate = () => {
       }
     };
 
-    if (orderDetailID) {
-      getCertificateByID(orderDetailID);
+    if (resultId) {
+      getCertificateByID(parseInt(resultId, 10));
     }
-  }, [orderDetailID]);
+  }, [resultId]);
 
   if (loading) {
     return (
@@ -99,7 +96,7 @@ const Certificate = () => {
   }
 
   return (
-    <Grid container justifyContent="center">
+    <Grid container justifyContent="center" sx={{ paddingRight: "900px" }}>
       <Box
         ref={componentRef}
         sx={{ padding: 3, width: "60%", height: "100vh" }}
@@ -174,7 +171,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Grading Results
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Grading Results
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>Carat Weight: {certificate.carat}</Typography>
@@ -193,7 +192,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Proportions
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Proportions
+                </Typography>
               </SectionTitle>
               <Box sx={{ marginLeft: "130px", paddingTop: "2px" }}>
                 <img
@@ -215,7 +216,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Additional Grading Information
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Additional Grading Information
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>Polish: {certificate.polish}</Typography>
@@ -235,7 +238,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Report Details
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Report Details
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>
@@ -256,7 +261,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Diamond Value
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Diamond Value
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>
@@ -274,7 +281,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Clarity Characteristics
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Clarity Characteristic
+                </Typography>
               </SectionTitle>
               <Box
                 sx={{
@@ -350,7 +359,7 @@ const Certificate = () => {
               </Box>
             </Section>
           </Container>
-          <Box sx={{ width: "40%", marginLeft: "800px", marginTop: "15px" }}>
+          <Box sx={{ width: "60%", marginLeft: "800px", marginTop: "15px" }}>
             <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
               Granted by:
             </Typography>
@@ -367,12 +376,12 @@ const Certificate = () => {
 
       <Button
         sx={{
-          marginLeft: "1350px",
+          marginLeft: "2550px",
           marginBottom: "15px",
-          borderRadius: "30px",
-          width: "150px",
+          borderRadius: "10px",
+          width: "550px",
           backgroundColor: "#4F46E5",
-          color: "white",
+          color: "black",
         }}
         onClick={handlePrint}
       >
