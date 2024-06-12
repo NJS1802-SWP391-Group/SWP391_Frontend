@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
-import YesButton from "../../assets/YesButton.png";
+import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
 import managerAssignsApi from "../../services/managerService/managerApi";
 
@@ -55,10 +55,23 @@ const ApprovalManager = () => {
     managerResponse: ManagerApprovalResponse
   ) => {
     navigate(`/manager/approval/${resultId}`, {
-      state: { managerResponse },
+      state: managerResponse,
     });
   };
 
+  const handleReject = (orderDetailID: number) => {
+    managerAssignsApi.changeStatusToReAssigning(orderDetailID).then(
+      (response) => {
+        console.log("response:", response);
+        alert(`Valuating is rejected.`);
+        // Reload the page after successful save
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -157,11 +170,11 @@ const ApprovalManager = () => {
                       }
                     >
                       <img
-                        src={YesButton}
+                        src={ViewImage}
                         width="35"
                         height="35"
-                        alt="YesButton"
-                        className="YesButton"
+                        alt="ViewImage"
+                        className="ViewImage"
                       />
                     </IconButton>
                   </Box>
@@ -187,7 +200,7 @@ const ApprovalManager = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "40%",
+            width: "35%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -196,9 +209,8 @@ const ApprovalManager = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Diamond:{" "}
-            {selectedManagerResponse?.orderDetailCode} with Price:{" "}
-            {selectedManagerResponse?.valuatingPrice}?
+            Do you want to decline Order Detail Code:{" "}
+            {selectedManagerResponse?.orderDetailCode}?
           </Typography>
           <Box
             sx={{
@@ -208,7 +220,11 @@ const ApprovalManager = () => {
               paddingRight: "20px",
             }}
           >
-            <IconButton onClick={handleClose}>
+            <IconButton
+              onClick={() =>
+                handleReject(selectedManagerResponse!.orderDetailID)
+              }
+            >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
                 Yes
               </Typography>
