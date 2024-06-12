@@ -1,5 +1,13 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import { useRef } from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import styled from "styled-components";
 import ClarityImage from "../../assets/ClarityImage.png";
@@ -8,13 +16,20 @@ import DiavanSign from "../../assets/DiavanSign.png";
 import FeatherImage from "../../assets/FeatherImage.png";
 import PinpointImage from "../../assets/PinpointImage.png";
 import PropotionImage from "../../assets/PropotionImage.png";
+import { CertificateResponse } from "../../interfaces/certificate/certificateResponse";
+import certificateApi from "../../services/certificateService/certificateApi";
 
 const Certificate = () => {
-  const componentRef = useRef<HTMLDivElement>(null); // Set initial type to null
+  const componentRef = useRef<HTMLDivElement>(null);
+  const { resultId } = useParams<{ resultId: string }>();
+  const { state } = useLocation();
+  const [certificate, setCertificate] = useState<CertificateResponse>();
+  console.log("certificate", certificate);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current!,
     documentTitle: "emp-data",
-    onAfterPrint: () => alert("Print success"), // 'onAfterPrint' corrected
   });
 
   const Container = styled(Box)({
@@ -41,24 +56,47 @@ const Certificate = () => {
     color: "#4F46E5",
   });
 
-  const data = {
-    certificateDate: "04/26/2022",
-    reportNumber: "6431153187",
-    shape: "Round",
-    measurements: "6.41 - 6.37 x 3.98 mm",
-    caratWeight: "1.0 carat",
-    colorGrade: "J",
-    clarityGrade: "VVS1",
-    cutGrade: "Excellent",
-    cutScore: "6.1",
-    polish: "Excellent",
-    symmetry: "Excellent",
-    fluorescence: "Medium",
-    clarityCharacteristics: "Pinpoint, Feather",
-    price: "18,354$",
-  };
+  useEffect(() => {
+    const getCertificateByID = async (resultId: number) => {
+      try {
+        const response: any = await certificateApi.getCertificateByID(resultId);
+        console.log("API response:", response);
+        if (response) {
+          setCertificate(response);
+        } else {
+          console.error("No certificate data found");
+        }
+      } catch (error) {
+        console.error("Failed to fetch certificate:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (resultId) {
+      getCertificateByID(parseInt(resultId, 10));
+    }
+  }, [resultId]);
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!certificate) {
+    return <Typography>No certificate found.</Typography>;
+  }
+
   return (
-    <Grid>
+    <Grid container justifyContent="center" sx={{ paddingRight: "900px" }}>
       <Box
         ref={componentRef}
         sx={{ padding: 3, width: "60%", height: "100vh" }}
@@ -102,7 +140,6 @@ const Certificate = () => {
                 alt="Diavan"
                 className="Diavan"
               />
-
               <Typography
                 sx={{
                   fontFamily: "revert-layer",
@@ -134,18 +171,15 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Grading Results
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Grading Results
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
-                <Typography>Carat Weight: {data.caratWeight}</Typography>
-
-                <Typography>Color Grade: {data.colorGrade}</Typography>
-
-                <Typography>Clarity Grade: {data.clarityGrade}</Typography>
-
-                <Typography>Cut Grade: {data.cutGrade}</Typography>
-
-                <Typography>Cut Score: {data.cutScore}</Typography>
+                <Typography>Carat Weight: {certificate.carat}</Typography>
+                <Typography>Color Grade: {certificate.color}</Typography>
+                <Typography>Clarity Grade: {certificate.clarity}</Typography>
+                <Typography>Cut Grade: {certificate.cutGrade}</Typography>
               </Box>
             </Section>
 
@@ -158,14 +192,15 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Proportions
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Proportions
+                </Typography>
               </SectionTitle>
-
-              <Box sx={{ marginLeft: "130px" }}>
+              <Box sx={{ marginLeft: "130px", paddingTop: "2px" }}>
                 <img
                   src={PropotionImage}
                   width="230"
-                  height="140"
+                  height="130"
                   alt="PropotionImage"
                   className="PropotionImage"
                 />
@@ -181,17 +216,15 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Additional Grading Information
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Additional Grading Information
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
-                <Typography>Polish: {data.polish}</Typography>
-
-                <Typography>Symmetry: {data.symmetry}</Typography>
-
-                <Typography>Fluorescence: {data.fluorescence}</Typography>
-
+                <Typography>Polish: {certificate.polish}</Typography>
+                <Typography>Symmetry: {certificate.symmetry}</Typography>
                 <Typography>
-                  Clarity Characteristics: {data.clarityCharacteristics}
+                  Fluorescence: {certificate.fluorescence}
                 </Typography>
               </Box>
             </Section>
@@ -205,20 +238,21 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Report Details
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Report Details
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>
-                  Certificate Date: {data.certificateDate}
+                  Certificate Date:{" "}
+                  {new Date(certificate.issueDate).toLocaleDateString()}
                 </Typography>
-
-                <Typography>Report Number: {data.reportNumber}</Typography>
-
-                <Typography>Shape: {data.shape}</Typography>
+                <Typography>Report Number: {certificate.code}</Typography>
+                <Typography>Shape: {certificate.shape}</Typography>
               </Box>
             </Section>
 
-            <Section sx={{ height: "120px" }}>
+            <Section sx={{ height: "140px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
@@ -227,19 +261,18 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Diamond Value
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Diamond Value
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
-                <Typography>Valuing Price: {data.price}</Typography>
+                <Typography>
+                  Valuing Price: {certificate.diamondValue}
+                </Typography>
               </Box>
             </Section>
 
-            <Section
-              sx={{
-                height: "125px",
-                marginBottom: "20px",
-              }}
-            >
+            <Section sx={{ height: "140px", marginBottom: "20px" }}>
               <SectionTitle
                 sx={{
                   backgroundColor: "#2D5477",
@@ -248,7 +281,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Clarity Characteristics
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Clarity Characteristic
+                </Typography>
               </SectionTitle>
               <Box
                 sx={{
@@ -258,11 +293,11 @@ const Certificate = () => {
                   marginLeft: "50px",
                 }}
               >
-                <Box>
+                <Box sx={{ paddingTop: "10px" }}>
                   <img
                     src={ClarityImage}
-                    width="170"
-                    height="80"
+                    width="190"
+                    height="75"
                     alt="ClarityImage"
                     className="ClarityImage"
                   />
@@ -271,7 +306,18 @@ const Certificate = () => {
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "5px" }}
                   >
-                    <Box sx={{ backgroundColor: "#f8f9fa", width: "60px" }}>
+                    <Box
+                      sx={{
+                        backgroundColor: "#f8f9fa",
+                        width: "100px",
+                        height: "30px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "5px",
+                        border: "0.5px solid lightgray",
+                      }}
+                    >
                       <img
                         src={PinpointImage}
                         width="25"
@@ -279,15 +325,26 @@ const Certificate = () => {
                         alt="PinpointImage"
                         className="PinpointImage"
                       />
+                      <Typography>Pinpoint</Typography>
                     </Box>
-                    <Typography>Pinpoint</Typography>
                   </Box>
                 </Box>
                 <Box>
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "5px" }}
                   >
-                    <Box sx={{ backgroundColor: "#f8f9fa", width: "60px" }}>
+                    <Box
+                      sx={{
+                        backgroundColor: "#f8f9fa",
+                        width: "100px",
+                        height: "30px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "5px",
+                        border: "0.5px solid lightgray",
+                      }}
+                    >
                       <img
                         src={FeatherImage}
                         width="25"
@@ -295,14 +352,14 @@ const Certificate = () => {
                         alt="FeatherImage"
                         className="FeatherImage"
                       />
+                      <Typography>Feather</Typography>
                     </Box>
-                    <Typography>Feather</Typography>
                   </Box>
                 </Box>
               </Box>
             </Section>
           </Container>
-          <Box sx={{ width: "40%", marginLeft: "800px", marginTop: "15px" }}>
+          <Box sx={{ width: "60%", marginLeft: "800px", marginTop: "15px" }}>
             <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
               Granted by:
             </Typography>
@@ -319,12 +376,12 @@ const Certificate = () => {
 
       <Button
         sx={{
-          marginLeft: "1350px",
+          marginLeft: "2550px",
           marginBottom: "15px",
-          borderRadius: "30px",
-          width: "150px",
+          borderRadius: "10px",
+          width: "550px",
           backgroundColor: "#4F46E5",
-          color: "white",
+          color: "black",
         }}
         onClick={handlePrint}
       >

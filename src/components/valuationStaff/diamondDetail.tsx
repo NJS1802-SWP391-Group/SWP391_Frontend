@@ -2,12 +2,14 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DetailImage from "../../assets/DetailImage.png";
 import { DiamondDetailResponse } from "../../interfaces/valuationStaff/diamondDetailResponse";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
@@ -36,10 +38,15 @@ const FieldContainer = styled(Box)({
   marginBottom: "10px",
 });
 
-const DiamondForm = () => {
-  const [diamondDetail, setDiamondDetail] = useState({
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+const DiamondDetail = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  console.log("state", state.orderDetailId);
+
+  const initialDiamondDetail = {
     isDiamond: true,
-    code: "",
     origin: "",
     shape: "",
     carat: "",
@@ -49,29 +56,47 @@ const DiamondForm = () => {
     symmetry: "",
     polish: "",
     cutGrade: "",
-    valueStatus: "",
     description: "",
     diamondValue: 0,
-    orderDetailId: 0,
+    orderDetailId: state.orderDetailId,
     issueDate: "",
     expireDate: "",
-    certificateStatus: "",
-  });
+  };
 
+  const [diamondDetail, setDiamondDetail] = useState(initialDiamondDetail);
+
+  const [isFormEnabled, setIsFormEnabled] = useState(true);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("diamondDetail");
+    if (savedData) {
+      setDiamondDetail(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("diamondDetail", JSON.stringify(diamondDetail));
+  }, [diamondDetail]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDiamondDetail({ ...diamondDetail, [name]: value });
   };
 
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsFormEnabled(e.target.checked);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const diamondDetailWithDates: DiamondDetailResponse = {
         ...diamondDetail,
         issueDate: diamondDetail.issueDate as string,
         expireDate: diamondDetail.expireDate as string,
+        orderDetailId: state.orderDetailId,
       };
       console.log("log submit:", diamondDetailWithDates);
 
@@ -84,6 +109,19 @@ const DiamondForm = () => {
       console.error("There was an error adding the diamond data!", error);
     }
   };
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(false);
+        navigate("/valuationStaff/assigned");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success, navigate]);
+
+  const todayDate = new Date().toISOString().split("T")[0];
 
   return (
     <Paper sx={{ width: "50%", marginLeft: "450px", marginTop: "35px" }}>
@@ -110,8 +148,62 @@ const DiamondForm = () => {
         </Typography>
       </Box>
 
+      {success && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <Alert
+            severity="success"
+            sx={{
+              width: "94%",
+              padding: "15px",
+              backgroundColor: "#e8f5e9",
+              color: "#2e7d32",
+              border: "1px solid #2e7d32",
+              borderRadius: "5px",
+            }}
+          >
+            Create successfully!
+          </Alert>
+        </Box>
+      )}
+
       <form onSubmit={handleSubmit}>
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center", // vertically center the checkbox and text
+            }}
+          >
+            <Checkbox
+              {...label}
+              defaultChecked={isFormEnabled}
+              onChange={handleCheckboxChange}
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  fontSize: 28,
+                  width: "30px",
+                  height: "30px",
+                },
+              }}
+            />
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                width: "150px",
+                paddingLeft: "10px", // reduce padding for better alignment
+                marginBottom: "0px", // remove bottom margin
+              }}
+            >
+              Is it diamond?
+            </Typography>
+          </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -133,6 +225,8 @@ const DiamondForm = () => {
               value={diamondDetail.issueDate}
               onChange={handleChange}
               InputLabelProps={{ shrink: true }}
+              inputProps={{ min: todayDate }} // Prevent past dates
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
 
@@ -143,6 +237,7 @@ const DiamondForm = () => {
               name="origin"
               value={diamondDetail.origin}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -152,6 +247,7 @@ const DiamondForm = () => {
               name="shape"
               value={diamondDetail.shape}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -161,6 +257,7 @@ const DiamondForm = () => {
               name="carat"
               value={diamondDetail.carat}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
         </Section>
@@ -177,15 +274,6 @@ const DiamondForm = () => {
               GRADING RESULTS
             </Typography>
           </Box>
-          {/* <FieldContainer>
-            <TextField
-              fullWidth
-              label="Diamond Code"
-              name="code"
-              value={diamondDetail.code}
-              onChange={handleChange}
-            />
-          </FieldContainer> */}
           <FieldContainer>
             <TextField
               fullWidth
@@ -193,6 +281,7 @@ const DiamondForm = () => {
               name="color"
               value={diamondDetail.color}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -202,6 +291,7 @@ const DiamondForm = () => {
               name="clarity"
               value={diamondDetail.clarity}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -211,6 +301,7 @@ const DiamondForm = () => {
               name="cutGrade"
               value={diamondDetail.cutGrade}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
         </Section>
@@ -234,6 +325,7 @@ const DiamondForm = () => {
               name="polish"
               value={diamondDetail.polish}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -243,6 +335,7 @@ const DiamondForm = () => {
               name="symmetry"
               value={diamondDetail.symmetry}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -252,6 +345,7 @@ const DiamondForm = () => {
               name="fluorescence"
               value={diamondDetail.fluorescence}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
         </Section>
@@ -276,6 +370,7 @@ const DiamondForm = () => {
               name="diamondValue"
               value={diamondDetail.diamondValue}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
           <FieldContainer>
@@ -287,39 +382,8 @@ const DiamondForm = () => {
               value={diamondDetail.expireDate}
               onChange={handleChange}
               InputLabelProps={{ shrink: true }}
-            />
-          </FieldContainer>
-          {/* <FieldContainer>
-            <TextField
-              fullWidth
-              type="number"
-              label="Order Detail Id"
-              name="orderDetailId"
-              value={diamondDetail.orderDetailId}
-              onChange={handleChange}
-            />
-          </FieldContainer> */}
-        </Section>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              CERTIFICATE STATUS
-            </Typography>
-          </Box>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              label="Certificate Status"
-              name="certificateStatus"
-              value={diamondDetail.certificateStatus}
-              onChange={handleChange}
+              inputProps={{ min: todayDate }} // Prevent past dates
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
         </Section>
@@ -345,6 +409,7 @@ const DiamondForm = () => {
               name="description"
               value={diamondDetail.description}
               onChange={handleChange}
+              disabled={!isFormEnabled}
             />
           </FieldContainer>
         </Section>
@@ -353,17 +418,13 @@ const DiamondForm = () => {
           variant="contained"
           color="primary"
           sx={{ marginBottom: "20px", marginLeft: "380px", width: "120px" }}
+          disabled={!isFormEnabled}
         >
           Submit
         </Button>
-        {success && (
-          <Alert severity="success" sx={{ marginBottom: "20px" }}>
-            Create successful!
-          </Alert>
-        )}
       </form>
     </Paper>
   );
 };
 
-export default DiamondForm;
+export default DiamondDetail;
