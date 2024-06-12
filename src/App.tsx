@@ -58,10 +58,6 @@ function App() {
               path="/valuationStaff/assigned"
               element={<AssignedValuationStaffPage />}
             />
-            <Route
-              path="/valuationStaff/diamondDetail"
-              element={<DiamondDetail />}
-            />
 
             <Route path="/about" element={<AboutPage />} />
 
