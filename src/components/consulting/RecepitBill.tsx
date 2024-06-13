@@ -77,6 +77,7 @@ const RecepitBill: React.FC = () => {
 
   const location = useLocation();
   const data: OrderResponse = location.state;
+  console.log("Data: ", data);
   const [fetchData, setFetchData] = useState<OrderResponse>(data);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
@@ -255,7 +256,9 @@ const RecepitBill: React.FC = () => {
                         Order detail code
                       </StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
-                      <StyledTableCell align="center">Size(mm)</StyledTableCell>
+                      <StyledTableCell align="center">
+                        Estimate Length
+                      </StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>

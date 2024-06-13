@@ -23,7 +23,6 @@ const SendEmail = () => {
               alignItems: "center",
             }}
           >
-            d
             <span style={{ padding: "10px 10px" }}>
               <img src={Logo} alt="logo" width={"70px"} height={"70px"} />
             </span>
@@ -35,24 +34,22 @@ const SendEmail = () => {
             <div className="typography-email" style={{ margin: "10px 0" }}>
               Xin chào VoMongLuan,
               <br />
-              Đơn hàng{" "}
+              Đơn nhận định giá {""}
               <span style={{ fontWeight: "bold", color: "green" }}>
                 #240528GYY423E0
               </span>{" "}
-              của bạn đã được giao thành công ngày{" "}
+              của bạn đã được hoàn thành vào ngày{" "}
               <span style={{ fontWeight: "bold", color: "green" }}>
                 31/05/2024
               </span>
-              . Vui lòng đăng nhập Diavan để xác nhận bạn đã nhận hàng và hài
-              lòng với sản phẩm trong vòng 3 ngày. Sau khi bạn xác nhận, chúng
-              tôi sẽ thanh toán cho Người bán vietcomtechnology.jsc. Nếu bạn
-              không xác nhận trong khoảng thời gian này, Shopee cũng sẽ thanh
-              toán cho Người bán.
+              . Vui lòng đến Diavan để làm các thủ tục nhận lại sản phẩm. Nếu
+              sau 30 ngày mà quý khách vẫn chưa đến nhận thủ tục nhận lại,Diavan
+              sẽ tiến hành niêm phong đơn định giá theo quy định của công ty
             </div>
             <Divider variant="middle" />
             <div className="info-email" style={{ margin: "10px 0" }}>
               <Typography sx={{ fontWeight: "bold" }}>
-                Thông tin đơn hàng
+                Thông tin đơn nhận định giá
               </Typography>
               <div
                 style={{
@@ -63,9 +60,10 @@ const SendEmail = () => {
               >
                 <div>
                   <ul style={{ listStyle: "none" }}>
-                    <li>Mã đơn hàng:</li>
-                    <li>Số viên :</li>
-                    <li>Ngày đặt hàng:</li>
+                    <li>Mã đơn nhận:</li>
+                    <li>Số lượng:</li>
+                    <li>Ngày thanh toán:</li>
+                    <li>Ngày hoàn thành:</li>
                   </ul>
                 </div>
                 <div>
@@ -90,6 +88,14 @@ const SendEmail = () => {
                     >
                       28/05/2024 15:28:07
                     </li>
+                    <li
+                      style={{
+                        textDecorationLine: "underline",
+                        color: "green",
+                      }}
+                    >
+                      28/05/2024 15:28:07
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -98,13 +104,13 @@ const SendEmail = () => {
                 <span>
                   <img src={DiamondImg} alt="" width={180} height={180} />
                 </span>
-                <Typography>1. Viên kim cương 1</Typography>
+                <Typography>1.Chi tiết đơn hàng 1</Typography>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <div>
                     <ul style={{ listStyle: "none" }}>
-                      <li>Mã kim cương:</li>
+                      <li>Mã đơn:</li>
                       <li>Loại dịch vụ:</li>
                       <li>Kích cỡ:</li>
                       <li>Giá dịch vụ:</li>

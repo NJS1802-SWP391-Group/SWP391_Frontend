@@ -59,7 +59,9 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
     );
   };
 
-  const onClickSendEmail = (orderId: number) => {};
+  const onClickSendEmail = (orderId: number) => {
+    navigate(`/send-email/${orderId}`);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
