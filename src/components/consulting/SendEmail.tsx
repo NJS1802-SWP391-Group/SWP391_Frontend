@@ -2,8 +2,14 @@ import { Button, Card, Container, Divider, Typography } from "@mui/material";
 import React from "react";
 import Logo from "../../assets/Diavan.png";
 import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
+import { useNavigate } from "react-router-dom";
 
 const SendEmail = () => {
+  const navigate = useNavigate();
+
+  const onCLickBack = () => {
+    navigate(-1);
+  };
   return (
     <div>
       <Container>
@@ -165,7 +171,14 @@ const SendEmail = () => {
           margin: "20px 185px",
         }}
       >
-        <Button variant="outlined">Back</Button>
+        <Button
+          onClick={() => {
+            onCLickBack();
+          }}
+          variant="outlined"
+        >
+          Back
+        </Button>
         <Button variant="contained">Send</Button>
       </div>
     </div>

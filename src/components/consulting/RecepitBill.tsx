@@ -125,16 +125,20 @@ const RecepitBill: React.FC = () => {
   };
 
   const onClickDelete = (orderDetailId: number) => {
-    confirm(`Do you want delte order detail ${orderDetailId}`);
-    orderDetailApi.deleteByOrderDetailId(orderDetailId).then(
-      (response: any) => {
-        console.log("Delete response:", response);
-        setFetchData(response);
-      },
-      (error) => {
-        console.log("Delete error:", error);
-      }
+    const confirmDelete = confirm(
+      `Do you want delte order detail ${orderDetailId}`
     );
+    if (confirmDelete) {
+      orderDetailApi.deleteByOrderDetailId(orderDetailId).then(
+        (response: any) => {
+          console.log("Delete response:", response);
+          setFetchData(response);
+        },
+        (error) => {
+          console.log("Delete error:", error);
+        }
+      );
+    }
   };
 
   const handleEdit = (orderDetailId: number) => {
