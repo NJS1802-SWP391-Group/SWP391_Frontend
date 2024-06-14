@@ -27,8 +27,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Diavan
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -59,7 +59,7 @@ export default function RegisterForm() {
 
     signUpApi.register(registerData).then(
       (response: any) => {
-        if (response == "Sign up complete") {
+        if (response == "Sign up successfully") {
           alert(response);
           navigate("/login");
         } else {
@@ -167,6 +167,7 @@ export default function RegisterForm() {
                   name="dob"
                   fullWidth
                   label="Date of birth"
+                  focused
                 />
               </Grid>
               <Grid item xs={12}>

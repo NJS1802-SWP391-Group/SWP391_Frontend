@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import styled from "styled-components";
 import ClarityImage from "../../assets/ClarityImage.png";
@@ -21,15 +21,26 @@ import certificateApi from "../../services/certificateService/certificateApi";
 
 const Certificate = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { orderDetailID } = useParams<{ orderDetailID: string }>();
+  const { resultId } = useParams<{ resultId: string }>();
+  const { state } = useLocation();
   const [certificate, setCertificate] = useState<CertificateResponse>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [isDone, setIsDone] = useState<boolean>(false);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current!,
     documentTitle: "emp-data",
-    onAfterPrint: () => alert("Print success"),
   });
+
+  const handleDoneClick = () => {
+    if (certificate?.orderDetailId) {
+      certificateApi
+        .changeStatusToCertificated(certificate.orderDetailId)
+        .then(() => {
+          setIsDone(true);
+        });
+    }
+  };
 
   const Container = styled(Box)({
     maxWidth: "1200px",
@@ -56,14 +67,12 @@ const Certificate = () => {
   });
 
   useEffect(() => {
-    const getCertificateByID = async (orderDetailID: string) => {
+    const getCertificateByID = async (resultId: number) => {
       try {
-        const response = await certificateApi.getCertificateByID(
-          parseInt(orderDetailID, 10)
-        );
+        const response: any = await certificateApi.getCertificateByID(resultId);
         console.log("API response:", response);
-        if (response.data && response.data.length > 0) {
-          setCertificate(response.data[0]);
+        if (response) {
+          setCertificate(response);
         } else {
           console.error("No certificate data found");
         }
@@ -73,10 +82,11 @@ const Certificate = () => {
         setLoading(false);
       }
     };
-    if (orderDetailID) {
-      getCertificateByID(orderDetailID);
+
+    if (resultId) {
+      getCertificateByID(parseInt(resultId, 10));
     }
-  }, [orderDetailID]);
+  }, [resultId]);
 
   if (loading) {
     return (
@@ -96,12 +106,12 @@ const Certificate = () => {
   }
 
   return (
-    <Grid container justifyContent="center">
+    <Grid container justifyContent="center" sx={{ paddingRight: "900px" }}>
       <Box
         ref={componentRef}
-        sx={{ padding: 3, width: "60%", height: "100vh" }}
+        sx={{ padding: 3, width: "70%", height: "100vh" }}
       >
-        <Box sx={{ height: "40%" }}>
+        <Box sx={{ height: "60%", paddingLeft: "100px" }}>
           <Box
             sx={{
               paddingBottom: "20px",
@@ -157,7 +167,7 @@ const Certificate = () => {
           <Container
             sx={{
               width: "1100px",
-              marginTop: "55px",
+              marginTop: "85px",
               marginLeft: "70px",
               height: "550px",
             }}
@@ -171,7 +181,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Grading Results
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Grading Results
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>Carat Weight: {certificate.carat}</Typography>
@@ -190,13 +202,15 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Proportions
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Proportions
+                </Typography>
               </SectionTitle>
               <Box sx={{ marginLeft: "130px", paddingTop: "2px" }}>
                 <img
                   src={PropotionImage}
                   width="230"
-                  height="130"
+                  height="115"
                   alt="PropotionImage"
                   className="PropotionImage"
                 />
@@ -212,7 +226,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Additional Grading Information
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Additional Grading Information
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>Polish: {certificate.polish}</Typography>
@@ -232,7 +248,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Report Details
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Report Details
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>
@@ -253,7 +271,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Diamond Value
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Diamond Value
+                </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
                 <Typography>
@@ -271,7 +291,9 @@ const Certificate = () => {
                   paddingLeft: "10px",
                 }}
               >
-                Clarity Characteristics
+                <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                  Clarity Characteristic
+                </Typography>
               </SectionTitle>
               <Box
                 sx={{
@@ -347,7 +369,7 @@ const Certificate = () => {
               </Box>
             </Section>
           </Container>
-          <Box sx={{ width: "40%", marginLeft: "800px", marginTop: "15px" }}>
+          <Box sx={{ width: "100%", marginLeft: "800px", marginTop: "15px" }}>
             <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
               Granted by:
             </Typography>
@@ -362,19 +384,40 @@ const Certificate = () => {
         </Box>
       </Box>
 
-      <Button
+      <Box
         sx={{
-          marginLeft: "1350px",
+          marginLeft: "2550px",
+          paddingLeft: "50px",
           marginBottom: "15px",
-          borderRadius: "30px",
-          width: "150px",
-          backgroundColor: "#4F46E5",
-          color: "white",
         }}
-        onClick={handlePrint}
       >
-        Print this out
-      </Button>
+        <Button
+          sx={{
+            borderRadius: "10px",
+            backgroundColor: "#4F46E5",
+            color: "black",
+            width: "80%",
+            marginBottom: "10px",
+          }}
+          onClick={handleDoneClick}
+        >
+          <Typography sx={{ paddingLeft: "35px", paddingRight: "30px" }}>
+            Confirm
+          </Typography>
+        </Button>
+        <Button
+          sx={{
+            borderRadius: "10px",
+            backgroundColor: isDone ? "#4F46E5" : "gray",
+            color: "black",
+            width: "80%",
+          }}
+          onClick={handlePrint}
+          disabled={!isDone}
+        >
+          <Typography sx={{ paddingLeft: "5px" }}>Print this out</Typography>
+        </Button>
+      </Box>
     </Grid>
   );
 };

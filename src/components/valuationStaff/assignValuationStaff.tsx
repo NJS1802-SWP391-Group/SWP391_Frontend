@@ -13,11 +13,18 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PlusButton from "../../assets/PlusButton.png";
 import SendButton from "../../assets/SendButton.png";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
+import accountApi from "../../services/accountApi";
+import valuationStaffApi from "../../services/managerService/valuationStaffApi";
+
+export interface RequetsBody {
+  orderDetailID: number;
+  valuationStaffID: number | undefined;
+}
 
 const AssignValuationStaff = () => {
   const navigate = useNavigate();
@@ -27,7 +34,10 @@ const AssignValuationStaff = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [
+    assignValuationStaffResponseList,
+    setAssignValuationStaffResponseList,
+  ] = useState<AssignValuationStaffResponse[]>([]);
   const handleOpen = (valuationStaffResponse: AssignValuationStaffResponse) => {
     setSelectedValuationStaffResponse(valuationStaffResponse);
     setOpen(true);
@@ -49,8 +59,28 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
-  const handlePlusButtonClick = (orderCode: string) => {
-    navigate(`/diamond/${orderCode}`);
+  const handleSend = (orderDetailID: number) => {
+    valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
+      (response) => {
+        console.log("response:", response);
+        alert(`Send successfully`);
+        // Reload the page after successful save
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
+  const handlePlusButtonClick = (
+    orderDetailId: number,
+    assignValuationStaffResponse: AssignValuationStaffResponse
+  ) => {
+    navigate(`/diamond/${orderDetailId}`, {
+      state: assignValuationStaffResponse,
+    });
+    console.log("Log test", assignValuationStaffResponse);
   };
 
   const styleTableHead = {
@@ -73,23 +103,21 @@ const AssignValuationStaff = () => {
     textAlign: "center",
   }));
 
-  const [
-    assignValuationStaffResponseList,
-    setAssignValuationStaffResponseList,
-  ] = useState<AssignValuationStaffResponse[]>([]);
-  // const [orderList, setOrderList] = useState<OrderResponse[]>([]);
-  // useEffect(() => {
-  //   const getOrderList = async () => {
-  //     const response: any = await orderApi.getAll();
-  //     if (response && response.length > 0) {
-  //       setOrderList(response);
-  //     }
-  //   };
-  //   const initUseEffect = async () => {
-  //     await getOrderList();
-  //   };
-  //   initUseEffect();
-  // }, []);
+  useEffect(() => {
+    const getAccount = async () => {
+      const account: any = await accountApi.getAccountInfo();
+      console.log("account api: ", account);
+
+      const list: any =
+        await valuationStaffApi.getOrderDetailByValuationStaffId(
+          account.result.user.accountId
+        );
+      console.log("list", list);
+      setAssignValuationStaffResponseList(list);
+    };
+    getAccount();
+  }, []);
+  console.log("Log Asign:", assignValuationStaffResponseList);
 
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
@@ -104,11 +132,8 @@ const AssignValuationStaff = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>Order Code</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>
-                Final Valuing Price
-              </StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Input Figure
               </StyledTableCell>
@@ -118,25 +143,23 @@ const AssignValuationStaff = () => {
           <TableBody>
             {paginatedAssignValuationStaffResponseList.map(
               (valuationStaffResponse) => (
-                <StyledTableRow key={valuationStaffResponse.orderCode}>
+                <StyledTableRow key={valuationStaffResponse.orderDetailId}>
                   <StyledTableCell>
-                    {valuationStaffResponse.orderCode}
+                    {valuationStaffResponse.orderDetailCode}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {valuationStaffResponse.diamond}
+                    {valuationStaffResponse.serviceName}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {valuationStaffResponse.service}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {valuationStaffResponse.finalPrice}
+                    {valuationStaffResponse.status}
                   </StyledTableCell>
                   <StyledTableCell>
                     <Box>
                       <IconButton
                         onClick={() =>
                           handlePlusButtonClick(
-                            valuationStaffResponse.orderCode
+                            valuationStaffResponse.orderDetailId,
+                            valuationStaffResponse
                           )
                         }
                       >
@@ -187,7 +210,7 @@ const AssignValuationStaff = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "40%",
+            width: "35%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -197,12 +220,11 @@ const AssignValuationStaff = () => {
         >
           <Typography sx={{ fontWeight: "bold " }}>
             (Order Code:
-            {selectedValuationStaffResponse?.orderCode})
+            {selectedValuationStaffResponse?.orderDetailId})
           </Typography>
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
             Do you want to send Diamond:
-            {selectedValuationStaffResponse?.diamond} with Price:
-            {selectedValuationStaffResponse?.finalPrice}?
+            {selectedValuationStaffResponse?.orderDetailCode} ?
           </Typography>
           <Box
             sx={{
@@ -211,7 +233,11 @@ const AssignValuationStaff = () => {
               marginTop: "20px",
             }}
           >
-            <IconButton onClick={handleClose}>
+            <IconButton
+              onClick={() =>
+                handleSend(selectedValuationStaffResponse?.orderDetailId!)
+              }
+            >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
                 Yes
               </Typography>
