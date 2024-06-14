@@ -23,6 +23,10 @@ function Navbar() {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleValuationOrder = () => {
+    navigate("/valuation-order");
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("customerId");
@@ -84,8 +88,8 @@ function Navbar() {
               <MenuItem key="profile" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
-              <MenuItem key="account" onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Account</Typography>
+              <MenuItem key="account" onClick={handleValuationOrder}>
+                <Typography textAlign="center">Valuation Order</Typography>
               </MenuItem>
               <MenuItem key="logout" onClick={handleLogout}>
                 <Typography textAlign="center">Logout</Typography>
