@@ -30,6 +30,7 @@ import ValuationStaffIcon from "../../assets/staff.png";
 import AssignIcon from "../../assets/delegation.png";
 import ApproveIcon from "../../assets/approved.png";
 import DashboardIcon from "../../assets/statisctics.png";
+import AvatarBoy from "../../assets/boy_12894580.png";
 
 const drawerWidth = 240;
 
@@ -160,7 +161,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
           <Box sx={{ flexGrow: 0, marginLeft: "80%" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={AvatarBoy} />
               </IconButton>
             </Tooltip>
             <Menu

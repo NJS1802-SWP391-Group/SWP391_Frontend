@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
-import YesButton from "../../assets/YesButton.png";
+import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
 import managerAssignsApi from "../../services/managerService/managerApi";
 
@@ -51,14 +51,28 @@ const ApprovalManager = () => {
 
   const navigate = useNavigate();
   const handleNavigateToCertificate = (
-    orderDetailID: number,
+    resultId: number,
     managerResponse: ManagerApprovalResponse
   ) => {
-    navigate(`/Result/Get-Result-By-Order-Detail-Id/${orderDetailID}`, {
-      state: { managerResponse },
+    navigate(`/manager/approval/${resultId}`, {
+      state: managerResponse,
     });
+    console.log("resultId:", resultId);
   };
 
+  const handleReject = (orderDetailID: number) => {
+    managerAssignsApi.changeStatusToReAssigning(orderDetailID).then(
+      (response) => {
+        console.log("response:", response);
+        alert(`Valuating is rejected.`);
+        // Reload the page after successful save
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -84,7 +98,8 @@ const ApprovalManager = () => {
   >([]);
   useEffect(() => {
     const fetchManagerApprovalList = async () => {
-      const response: any = await managerAssignsApi.getAll();
+      const response: any = await managerAssignsApi.getAllCompledted();
+      console.log("FetchData", response);
       if (response && response.length > 0) {
         setManagerResponseList(response);
       }
@@ -108,9 +123,8 @@ const ApprovalManager = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>
-                Order Detail ID
+                Order Detail Code
               </StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>Diamond</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
                 Valuation Staff
@@ -126,16 +140,15 @@ const ApprovalManager = () => {
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderDetailID}>
                 <StyledTableCell>
-                  {managerResponse.orderDetailID}
-                </StyledTableCell>
-                <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
                 <StyledTableCell>{managerResponse.serviceName}</StyledTableCell>
                 <StyledTableCell>
                   {managerResponse.valuationStaffName}
                 </StyledTableCell>
-                <StyledTableCell>{managerResponse.resultPrice}</StyledTableCell>
+                <StyledTableCell>
+                  {managerResponse.valuatingPrice}
+                </StyledTableCell>
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
@@ -151,17 +164,17 @@ const ApprovalManager = () => {
                     <IconButton
                       onClick={() =>
                         handleNavigateToCertificate(
-                          managerResponse.orderDetailID,
+                          managerResponse.resultId,
                           managerResponse
                         )
                       }
                     >
                       <img
-                        src={YesButton}
+                        src={ViewImage}
                         width="35"
                         height="35"
-                        alt="YesButton"
-                        className="YesButton"
+                        alt="ViewImage"
+                        className="ViewImage"
                       />
                     </IconButton>
                   </Box>
@@ -187,7 +200,7 @@ const ApprovalManager = () => {
           sx={{
             backgroundColor: "White",
             borderRadius: "10px",
-            width: "40%",
+            width: "35%",
             margin: "auto",
             marginTop: "10%",
             padding: "20px",
@@ -196,9 +209,8 @@ const ApprovalManager = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Diamond:{" "}
-            {selectedManagerResponse?.orderDetailCode} with Price:{" "}
-            {selectedManagerResponse?.resultPrice}?
+            Do you want to decline Order Detail Code:{" "}
+            {selectedManagerResponse?.orderDetailCode}?
           </Typography>
           <Box
             sx={{
@@ -208,7 +220,11 @@ const ApprovalManager = () => {
               paddingRight: "20px",
             }}
           >
-            <IconButton onClick={handleClose}>
+            <IconButton
+              onClick={() =>
+                handleReject(selectedManagerResponse!.orderDetailID)
+              }
+            >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
                 Yes
               </Typography>

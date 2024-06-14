@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
 // import { isEmpty } from "lodash";
 
-// const token = localStorage.getItem(USER_TOKEN_KEY);
 const axiosClient = axios.create({
   baseURL: "https://localhost:7158/api",
   headers: {
@@ -11,12 +10,12 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   function (config) {
+    const token = localStorage.getItem("token");
     // Do something before request is sent
-    // if (token !== null && !isEmpty(token)) {
-    //   console.log("In if");
-    //   console.log("Token: ", token);
-    //   config.headers["Authorization"] = `Bearer ${token}`;
-    // }
+    if (token !== null) {
+      console.log("Token: ", token);
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {

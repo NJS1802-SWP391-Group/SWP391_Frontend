@@ -15,6 +15,8 @@ import DiavanLogo from "../../assets/Diavan.png";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
 import { useNavigate } from "react-router-dom";
+import { LOGIN_SUCCESS } from "../../constants";
+import accountApi from "../../services/accountApi";
 
 function Copyright(props: any) {
   return (
@@ -25,8 +27,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Diavan
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -52,8 +54,34 @@ export default function LoginSystem() {
       (response: any) => {
         console.log(response);
         if (response.success == true) {
-          alert("Đăng nhập thành công");
-          navigate("/consulting-page");
+          localStorage.setItem("customerId", response.result.customerId);
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("token", response.result.accessToken);
+          switch (response.result.roleName) {
+            case "Customer":
+              alert(LOGIN_SUCCESS);
+              navigate("/");
+              break;
+            case "ConsultingStaff":
+              alert(LOGIN_SUCCESS);
+              navigate("/consulting-page");
+              break;
+            case "ValuationStaff":
+              alert(LOGIN_SUCCESS);
+              navigate("/valuationStaff/assigned");
+              break;
+            case "Manager":
+              alert(LOGIN_SUCCESS);
+              navigate("/manager/assign");
+              break;
+            case "Admin":
+              alert(LOGIN_SUCCESS);
+              break;
+            default:
+              alert("You do not have permission to access this page");
+              navigate("/home");
+              break;
+          }
         } else {
           alert(response.result.message);
         }
@@ -127,7 +155,7 @@ export default function LoginSystem() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

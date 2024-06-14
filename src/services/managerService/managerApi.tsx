@@ -1,4 +1,4 @@
-import { RequetsBody } from "../../components/manager/assignManager";
+import { RequetsBody } from "../../components/valuationStaff/assignValuationStaff";
 import axiosClient from "../axiosClient";
 
 const managerAssignsApi = {
@@ -7,12 +7,17 @@ const managerAssignsApi = {
     return axiosClient.get(url);
   },
 
-  assignValuationStaff(data: RequetsBody | undefined) {
+  getAllCompledted() {
+    const url = "/OrderDetail/Get-Completed-Order-Details";
+    return axiosClient.get(url);
+  },
+
+  assignValuationStaff: (data: RequetsBody | undefined) => {
     return axiosClient.put("/OrderDetail/Assign-Staff-To-Order-Detail", data);
   },
 
-  // assignValuationStaff: (assignRequest: AssignRequest) => {
-  //   return axiosClient.put("assignValuationStaff", assignRequest);
-  // },
+  changeStatusToReAssigning: (orderDetailID: number) => {
+    return axiosClient.put(`/OrderDetail/Reject-Valuate/${orderDetailID}`);
+  },
 };
 export default managerAssignsApi;

@@ -1,11 +1,13 @@
 export interface OrderResponse {
   orderID: number;
   code: string;
-  customerId: number;
+  firstName: string;
+  lastName: string;
   quantity: number;
   time: string;
   status: string;
   totalPay: number;
+  statusPayment: string;
   detailValuations: DetailValuation[];
 }
 

@@ -24,10 +24,6 @@ import { ValuationStaffResponse } from "../../interfaces/valuationStaff/valuatio
 import managerAssignsApi from "../../services/managerService/managerApi";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 
-export interface RequetsBody {
-  orderDetailID: number;
-  valuationStaffID: number | undefined;
-}
 const AssignManager: React.FC = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -54,7 +50,7 @@ const AssignManager: React.FC = () => {
     left: number;
   }>({ top: 0, left: 0 });
   const [searchQuery, setSearchQuery] = useState("");
-  const [requestBody, setRequestBody] = useState<RequetsBody>();
+
   const [showSelection, setShowSelection] = useState(false);
 
   const handleShow = () => {
@@ -164,6 +160,14 @@ const AssignManager: React.FC = () => {
     managerAssignsApi.assignValuationStaff(newRequestBody).then(
       (response) => {
         console.log(response);
+        const selectedManager = managers.find(
+          (manager) => manager.accountId === accountId
+        );
+        if (selectedManager) {
+          alert(`Assign ${selectedManager.userName} successfully`);
+        }
+        // Reload the page after successful save
+        window.location.reload();
       },
       (error) => {
         console.log(error);
@@ -189,12 +193,7 @@ const AssignManager: React.FC = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Order Code
-              </StyledTableCell>
-              <StyledTableCell
-                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
-              >
-                Diamond code
+                Order Detail Code
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
@@ -214,6 +213,11 @@ const AssignManager: React.FC = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
+                Status
+              </StyledTableCell>
+              <StyledTableCell
+                sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
+              >
                 Assign
               </StyledTableCell>
               <StyledTableCell
@@ -227,9 +231,6 @@ const AssignManager: React.FC = () => {
             {paginatedManagerResponseList.map((managerResponse) => (
               <StyledTableRow key={managerResponse.orderDetailID}>
                 <StyledTableCell>
-                  {managerResponse.orderDetailID}
-                </StyledTableCell>
-                <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
                 <StyledTableCell>{managerResponse.serviceName}</StyledTableCell>
@@ -239,27 +240,60 @@ const AssignManager: React.FC = () => {
                 <StyledTableCell>
                   {managerResponse.estimateLength}
                 </StyledTableCell>
-                <StyledTableCell defaultValue={valuationSelectedStaff}>
-                  {managerResponse.valuationStaffName ? (
-                    managerResponse.valuationStaffName
-                  ) : (
-                    <IconButton
-                      onClick={(event) =>
-                        handleOpenMenu(event, managerResponse)
-                      }
-                    >
-                      <img
-                        src={PlusButton}
-                        width="33"
-                        height="33"
-                        alt="PlusButton"
-                      />
-                    </IconButton>
-                  )}
+                <StyledTableCell>{managerResponse.status}</StyledTableCell>
+                <StyledTableCell>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {managerResponse.valuationStaffName ? (
+                      <>
+                        <Box
+                          sx={{
+                            marginRight: 1,
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {managerResponse.valuationStaffName}
+                        </Box>
+                        <IconButton
+                          onClick={(event) =>
+                            handleOpenMenu(event, managerResponse)
+                          }
+                          sx={{ padding: 0 }}
+                        >
+                          <img
+                            src={PlusButton}
+                            width="20"
+                            height="20"
+                            alt="PlusButton"
+                          />
+                        </IconButton>
+                      </>
+                    ) : (
+                      <IconButton
+                        onClick={(event) =>
+                          handleOpenMenu(event, managerResponse)
+                        }
+                        sx={{ padding: 0 }}
+                      >
+                        <img
+                          src={PlusButton}
+                          width="20"
+                          height="20"
+                          alt="PlusButton"
+                        />
+                      </IconButton>
+                    )}
+                  </Box>
                 </StyledTableCell>
                 <StyledTableCell>
                   <IconButton
-                    onClick={(event) =>
+                    onClick={() =>
                       handleSave(
                         managerResponse.orderDetailID,
                         valuationSelectedStaff
@@ -268,8 +302,8 @@ const AssignManager: React.FC = () => {
                   >
                     <img
                       src={SaveButton}
-                      width="32"
-                      height="32"
+                      width="30"
+                      height="30"
                       alt="SaveButton"
                     />
                   </IconButton>
@@ -343,6 +377,7 @@ const AssignManager: React.FC = () => {
                       onClick={() =>
                         handleManagerSelect(valuationStaff.accountId)
                       }
+                      sx={{ padding: 0 }}
                     >
                       <img
                         src={PlusButton}
@@ -433,7 +468,7 @@ const AssignManager: React.FC = () => {
                 <Box>
                   <Box>{valuationStaff.userName}</Box>
                 </Box>
-                <IconButton>
+                <IconButton sx={{ padding: 0 }}>
                   <img
                     src={PlusButton}
                     width="20"
