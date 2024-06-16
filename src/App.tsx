@@ -19,6 +19,7 @@ import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
 import SendEmail from "./components/consulting/SendEmail";
 import DiamondDetail from "./components/valuationStaff/diamondDetail";
+import ServiceDetailPage from "./pages/manager/serviceDetailPage";
 import ServicePage from "./pages/manager/servicePage";
 import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
@@ -58,6 +59,10 @@ function App() {
             />
 
             <Route path="/manager/service" element={<ServicePage />} />
+            <Route
+              path="/manager/serviceDetail"
+              element={<ServiceDetailPage />}
+            />
 
             <Route path="/about" element={<AboutPage />} />
 
