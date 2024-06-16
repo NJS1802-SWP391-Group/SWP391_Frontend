@@ -12,6 +12,4 @@ export interface DiamondDetailResponse {
   description: string;
   diamondValue: number;
   orderDetailId: number;
-  issueDate: string;
-  expireDate: string;
 }

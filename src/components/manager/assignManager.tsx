@@ -1,10 +1,15 @@
 import {
   Box,
+  FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
   Menu,
+  MenuItem,
   Modal,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -50,11 +55,20 @@ const AssignManager: React.FC = () => {
     left: number;
   }>({ top: 0, left: 0 });
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
 
   const [showSelection, setShowSelection] = useState(false);
 
   const handleShow = () => {
     setShowSelection(true);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleFilterChange = (event: SelectChangeEvent<string>) => {
+    setFilterStatus(event.target.value);
   };
 
   const [managers, setManagers] = useState<ValuationStaffResponse[]>([]);
@@ -186,6 +200,29 @@ const AssignManager: React.FC = () => {
 
   return (
     <Box sx={{ padding: 2 }}>
+      <Box>
+        <TextField
+          label="Search by Username, Email, or Phone"
+          variant="outlined"
+          size="small"
+          onChange={handleSearchChange}
+          value={searchQuery}
+          sx={{ marginRight: 2 }}
+        />
+        <FormControl variant="outlined" size="small">
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={filterStatus}
+            onChange={handleFilterChange}
+            label="Status"
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="Active">Active</MenuItem>
+            <MenuItem value="Inactive">Inactive</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
       <TableContainer component={Paper} sx={{ maxHeight: "50vh" }}>
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -208,7 +245,7 @@ const AssignManager: React.FC = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Estimate Length
+                Size
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
