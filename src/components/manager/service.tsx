@@ -1,6 +1,11 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -9,10 +14,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
+  Typography,
   styled,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-
+import PlusAdd from "../../assets/PlusAdd.png";
 import { ServiceResponse } from "../../interfaces/services/Service";
 import serviceApi from "../../services/service";
 
@@ -77,6 +84,47 @@ const Service = () => {
     );
   };
 
+  const handleSaveService = () => {
+    if (editService) {
+      setServiceList((prevService) =>
+        prevService.map((m) =>
+          m.serviceID === editService.serviceID ? editService : m
+        )
+      );
+      setEditService(null);
+    } else if (newService) {
+      setServiceList((prevService) => [
+        ...prevService,
+        {
+          ...newService,
+          FeID: `FE${prevService.length + 1}`,
+          CreatedTime: new Date().toISOString(),
+        },
+      ]);
+      setNewService(null);
+    }
+  };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    if (editService) {
+      setEditService((prevService) =>
+        prevService ? { ...prevService, [name]: value } : null
+      );
+    } else if (newService) {
+      setNewService((prevService) =>
+        prevService ? { ...prevService, [name]: value } : null
+      );
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setEditService(null);
+    setNewService(null);
+  };
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -104,15 +152,16 @@ const Service = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 140 }}
+          sx={{ marginLeft: 135 }}
           onClick={handleAddService}
         >
-          New service
+          <img src={PlusAdd} height={20} width={20} />
+          <Typography sx={{ paddingLeft: "4px" }}>New service</Typography>
         </Button>
       </Box>
       <TableContainer
         component={Paper}
-        sx={{ maxHeight: "50vh", marginTop: "35px" }}
+        sx={{ maxHeight: "50vh", marginTop: "25px" }}
       >
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -171,6 +220,112 @@ const Service = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+      {editService && (
+        <Dialog open={true} onClose={handleCloseDialog}>
+          <DialogTitle>Edit Service</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Update the details of the Service.
+            </DialogContentText>
+            <TextField
+              margin="dense"
+              label="Service ID"
+              type="text"
+              fullWidth
+              name="ServiceID"
+              value={editService.serviceID}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Service name"
+              type="text"
+              fullWidth
+              name="ServiceName"
+              value={editService.name}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Description"
+              type="text"
+              fullWidth
+              name="Description"
+              value={editService.description}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Status"
+              type="text"
+              fullWidth
+              name="Status"
+              value={editService.status}
+              onChange={handleInputChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleSaveService}>Save</Button>
+          </DialogActions>
+        </Dialog>
+      )}
+
+      {newService && (
+        <Dialog open={true} onClose={handleCloseDialog}>
+          <DialogTitle>New Service</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Enter the details of the new Service.
+            </DialogContentText>
+            <TextField
+              margin="dense"
+              label="Service ID"
+              type="text"
+              fullWidth
+              name="ServiceID"
+              value={newService.serviceID}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Service Name"
+              type="text"
+              fullWidth
+              name="ServiceName"
+              value={newService.name}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Description"
+              type="text"
+              fullWidth
+              name="Description"
+              value={newService.description}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
+              label="Status"
+              type="text"
+              fullWidth
+              name="Status"
+              value={newService.status}
+              onChange={handleInputChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={handleSaveService} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Box>
   );
 };
