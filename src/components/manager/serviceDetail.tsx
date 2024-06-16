@@ -1,0 +1,121 @@
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  styled,
+} from "@mui/material";
+import { useState } from "react";
+
+import { ServiceResponse } from "../../interfaces/services/Service";
+
+const ServiceDetail = () => {
+  const [serviceList, setServiceList] = useState<ServiceResponse[]>([]);
+  const [newService, setNewService] = useState<ServiceResponse | null>(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const styleTableHead = {
+    fontWeight: "bold",
+    fontSize: "20px",
+    color: "black",
+  };
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    padding: theme.spacing(1),
+    textAlign: "center",
+  }));
+
+  const handleAddService = () => {
+    setNewService({
+      serviceID: 0,
+      name: "",
+      description: "",
+      status: "",
+    });
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginatedServiceResponseList = serviceList.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  return (
+    <Box sx={{ padding: 2 }}>
+      <Box
+        sx={{
+          marginBottom: 2,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{ marginRight: 2 }}
+          onClick={handleAddService}
+        >
+          New service
+        </Button>
+      </Box>
+      <TableContainer component={Paper} sx={{ maxHeight: "50vh" }}>
+        <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{ backgroundColor: "#4F46E5" }}>
+              <StyledTableCell sx={styleTableHead}>Service</StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Name</StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Description</StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedServiceResponseList.map((serviceResponse) => (
+              <StyledTableRow key={serviceResponse.serviceID}>
+                <StyledTableCell>{serviceResponse.serviceID}</StyledTableCell>
+                <StyledTableCell>{serviceResponse.name}</StyledTableCell>
+                <StyledTableCell>{serviceResponse.description}</StyledTableCell>
+                <StyledTableCell>{serviceResponse.status}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={serviceList.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Box>
+  );
+};
+
+export default ServiceDetail;
