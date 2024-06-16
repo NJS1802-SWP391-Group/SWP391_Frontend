@@ -27,6 +27,10 @@ function Navbar() {
     navigate("/valuation-order");
   };
 
+  const handleProfile = () => {
+    navigate("/profile");
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("customerId");
@@ -85,7 +89,7 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem key="profile" onClick={handleCloseUserMenu}>
+              <MenuItem key="profile" onClick={handleProfile}>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               <MenuItem key="account" onClick={handleValuationOrder}>
