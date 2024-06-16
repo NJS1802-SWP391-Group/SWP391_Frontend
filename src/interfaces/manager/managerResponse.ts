@@ -1,5 +1,5 @@
 export interface ManagerApprovalResponse {
-  orderDetailID: number;
+  orderDetailId: number;
   resultId: number;
   orderCode: string;
   orderDetailCode: string;
