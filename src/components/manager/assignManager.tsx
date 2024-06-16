@@ -54,7 +54,7 @@ const AssignManager: React.FC = () => {
     top: number;
     left: number;
   }>({ top: 0, left: 0 });
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
 
   const [showSelection, setShowSelection] = useState(false);
@@ -193,21 +193,34 @@ const AssignManager: React.FC = () => {
     valuationStaff.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const paginatedManagerResponseList = managerAssignList.slice(
+  const filter = managerAssignList.filter((managerAssignList) => {
+    const keyword = searchQuery.toLowerCase();
+    const orderDetailCodeLower =
+      managerAssignList.orderDetailCode.toLowerCase();
+    const serviceLower = managerAssignList.serviceName.toLowerCase();
+
+    return (
+      (orderDetailCodeLower.includes(keyword) ||
+        serviceLower.includes(keyword)) &&
+      (filterStatus === "" || managerAssignList.status === filterStatus)
+    );
+  });
+
+  const paginatedManagerResponseList = filter.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Box>
+      <Box sx={{ marginBottom: "15px" }}>
         <TextField
-          label="Search by Username, Email, or Phone"
+          label="🔎 Search OD Code, ServiceName"
           variant="outlined"
           size="small"
           onChange={handleSearchChange}
           value={searchQuery}
-          sx={{ marginRight: 2 }}
+          sx={{ marginRight: 2, width: "300px" }}
         />
         <FormControl variant="outlined" size="small">
           <InputLabel>Status</InputLabel>
@@ -218,8 +231,8 @@ const AssignManager: React.FC = () => {
             sx={{ minWidth: 120 }}
           >
             <MenuItem value="">All</MenuItem>
-            <MenuItem value="Active">Active</MenuItem>
-            <MenuItem value="Inactive">Inactive</MenuItem>
+            <MenuItem value="Active">Assigning</MenuItem>
+            <MenuItem value="Inactive">ReAssigning</MenuItem>
           </Select>
         </FormControl>
       </Box>
