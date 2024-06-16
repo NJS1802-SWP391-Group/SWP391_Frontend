@@ -17,10 +17,11 @@ import CertificatePage from "./pages/manager/certicatePage";
 import ManagerApprovalPage from "./pages/manager/managerApprovalPage";
 import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
+import SendEmail from "./components/consulting/SendEmail";
 import DiamondDetail from "./components/valuationStaff/diamondDetail";
+import ServicePage from "./pages/manager/servicePage";
 import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
-import SendEmail from "./components/consulting/SendEmail";
 
 function App() {
   return (
@@ -55,6 +56,8 @@ function App() {
               path="/valuationStaff/assigned"
               element={<AssignedValuationStaffPage />}
             />
+
+            <Route path="/manager/service" element={<ServicePage />} />
 
             <Route path="/about" element={<AboutPage />} />
 
