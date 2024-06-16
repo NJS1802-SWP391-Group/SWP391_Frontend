@@ -11,13 +11,16 @@ import {
   TableRow,
   styled,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ServiceResponse } from "../../interfaces/services/Service";
+import serviceApi from "../../services/service";
 
 const Service = () => {
   const [serviceList, setServiceList] = useState<ServiceResponse[]>([]);
+  console.log("service:", serviceList);
   const [newService, setNewService] = useState<ServiceResponse | null>(null);
+  const [editService, setEditService] = useState<ServiceResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -40,6 +43,21 @@ const Service = () => {
     textAlign: "center",
   }));
 
+  useEffect(() => {
+    const fetchServiceList = async () => {
+      const response: any = await serviceApi.getAll();
+      console.log("FetchData", response);
+      if (response && response.length > 0) {
+        setServiceList(response);
+      }
+    };
+
+    const initUseEffect = async () => {
+      await fetchServiceList();
+    };
+    initUseEffect();
+  }, []);
+
   const handleAddService = () => {
     setNewService({
       serviceID: 0,
@@ -47,6 +65,16 @@ const Service = () => {
       description: "",
       status: "",
     });
+  };
+
+  const handleEditService = (service: ServiceResponse) => {
+    setEditService(service);
+  };
+
+  const handleDeleteService = (serviceID: number) => {
+    setServiceList((prevService) =>
+      prevService.filter((m) => m.serviceID !== serviceID)
+    );
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -76,13 +104,16 @@ const Service = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginRight: 2 }}
+          sx={{ marginLeft: 140 }}
           onClick={handleAddService}
         >
           New service
         </Button>
       </Box>
-      <TableContainer component={Paper} sx={{ maxHeight: "50vh" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "50vh", marginTop: "35px" }}
+      >
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
@@ -90,6 +121,7 @@ const Service = () => {
               <StyledTableCell sx={styleTableHead}>Name</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Description</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,6 +131,31 @@ const Service = () => {
                 <StyledTableCell>{serviceResponse.name}</StyledTableCell>
                 <StyledTableCell>{serviceResponse.description}</StyledTableCell>
                 <StyledTableCell>{serviceResponse.status}</StyledTableCell>
+                <StyledTableCell>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => handleEditService(serviceResponse)}
+                    sx={{
+                      marginRight: 1,
+                      backgroundColor: "lightgrey",
+                      color: "black",
+                      opacity: "90%",
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() =>
+                      handleDeleteService(serviceResponse.serviceID)
+                    }
+                    sx={{ backgroundColor: "ButtonShadow", color: "black" }}
+                  >
+                    Delete
+                  </Button>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
