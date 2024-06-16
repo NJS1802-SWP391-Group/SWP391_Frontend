@@ -1,56 +1,76 @@
 import { Card } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ValuationOrders.css";
+import orderApi from "../../services/orderApi";
 import OrderListCustomer from "./OrderListCustomer";
+import { OrderListCustomerInterface } from "../../interfaces/order/orderListCustomer";
 
 const ValuationOrders = () => {
-  const [activePage, setActivePage] = useState("all");
-
+  const [activePage, setActivePage] = useState("All");
+  const [orderList, setOrderList] = useState<OrderListCustomerInterface[]>();
   const handlePageChange = (page: string) => {
     setActivePage(page);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const customerId = localStorage.getItem("customerId");
+      if (customerId != null) {
+        const ordersByCustomerId: any = await orderApi.getOrdersByCustomer(
+          parseInt(customerId)
+        );
+        setOrderList(ordersByCustomerId);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const renderOrderList = orderList?.filter(
+    (order) => order.status === activePage || activePage === "All"
+  );
+  console.log(renderOrderList);
   return (
     <div>
       <nav className="tablist">
         <div
-          className={`nav-item ${activePage === "all" ? "active" : ""}`}
-          onClick={() => handlePageChange("all")}
+          className={`nav-item ${activePage === "All" ? "active" : ""}`}
+          onClick={() => handlePageChange("All")}
         >
           All
         </div>
         <div
-          className={`nav-item ${activePage === "pending" ? "active" : ""}`}
-          onClick={() => handlePageChange("pending")}
+          className={`nav-item ${activePage === "Pending" ? "active" : ""}`}
+          onClick={() => handlePageChange("Pending")}
         >
           Pending
         </div>
         <div
-          className={`nav-item ${activePage === "processing" ? "active" : ""}`}
-          onClick={() => handlePageChange("processing")}
+          className={`nav-item ${activePage === "Processing" ? "active" : ""}`}
+          onClick={() => handlePageChange("Processing")}
         >
           Processing
         </div>
         <div
-          className={`nav-item ${activePage === "completed" ? "active" : ""}`}
-          onClick={() => handlePageChange("completed")}
+          className={`nav-item ${activePage === "Completed" ? "active" : ""}`}
+          onClick={() => handlePageChange("Completed")}
         >
           Completed
         </div>
         <div
-          className={`nav-item ${activePage === "finished" ? "active" : ""}`}
-          onClick={() => handlePageChange("finished")}
+          className={`nav-item ${activePage === "Finished" ? "active" : ""}`}
+          onClick={() => handlePageChange("Finished")}
         >
           Finished
         </div>
         <div
-          className={`nav-item ${activePage === "sealed" ? "active" : ""}`}
-          onClick={() => handlePageChange("sealed")}
+          className={`nav-item ${activePage === "Sealed" ? "active" : ""}`}
+          onClick={() => handlePageChange("Sealed")}
         >
           Sealed
         </div>
       </nav>
       <div className="content">
-        {activePage === "all" && <OrderListCustomer />}
+        <OrderListCustomer orderList={renderOrderList} />
       </div>
     </div>
   );
