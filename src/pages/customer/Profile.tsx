@@ -17,13 +17,27 @@ import ContactsIcon from "@mui/icons-material/Contacts";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import CakeIcon from "@mui/icons-material/Cake";
 import CoPresentIcon from "@mui/icons-material/CoPresent";
-import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+
+interface Profile {
+  customerId: number;
+  email: string;
+  dob: string;
+  firstName: string;
+  lastName: string;
+  cccd: string;
+  phoneNumber: string;
+  address: string;
+  status: string;
+  accountId: number;
+}
+
 const Profile = () => {
-  const [accoutInfo, setAccountInfo] = useState();
+  const [accoutInfo, setAccountInfo] = useState<Profile>();
   useEffect(() => {
     const fetchData = async () => {
       const getProfile: any = await accountApi.getAccountInfo();
-      setAccountInfo(getProfile.result.user);
+      setAccountInfo(getProfile.result.customer);
     };
     fetchData();
   }, []);
@@ -34,7 +48,8 @@ const Profile = () => {
       <Container>
         <div
           style={{
-            height: "400px",
+            height: "auto",
+            padding: "10px 0",
             margin: "20px 250px",
             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
             borderBottomRightRadius: "45px",
@@ -43,9 +58,22 @@ const Profile = () => {
           <Link to="/">
             <IconButton>
               <ArrowBackIcon />
-              Home
+              <HomeIcon />
             </IconButton>
           </Link>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              fontWeight: "bold0",
+              fontSize: "30px",
+            }}
+          >
+            <span style={{ color: "green", marginRight: "10px" }}>
+              {accoutInfo?.firstName} {accoutInfo?.lastName}'s
+            </span>
+            Profile
+          </div>
           <div style={{ margin: "30px" }}>
             <div
               style={{
@@ -62,6 +90,7 @@ const Profile = () => {
                   sx={{ width: "100px", height: "100px" }}
                 />
               </IconButton>
+
               <div
                 style={{
                   display: "flex",
@@ -70,11 +99,20 @@ const Profile = () => {
                   paddingLeft: "10px",
                 }}
               >
-                <p style={{ fontWeight: "bolder" }}>Vo Mong Luan</p>
-                <p>luanvmse173594@fpt.eud.vn</p>
+                <p style={{ fontWeight: "bolder" }}>
+                  {accoutInfo?.firstName} {accoutInfo?.lastName}
+                </p>
+                <p>{accoutInfo?.email}</p>
               </div>
             </div>
-            <div style={{ display: "flex", fontWeight: "bold" }}>
+            <div
+              style={{
+                display: "flex",
+                fontWeight: "bold",
+                justifyContent: "center",
+                gap: 100,
+              }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -83,21 +121,67 @@ const Profile = () => {
                   margin: "10px 10px",
                 }}
               >
-                <p>
-                  <BadgeOutlinedIcon color="success" /> Name:
+                <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <CoPresentIcon color="success" /> CCCD{" "}
                 </p>
-                <p>
-                  <CoPresentIcon color="success" /> CCCD:{" "}
+                <p
+                  style={{
+                    backgroundColor: "#CEE3E3",
+                    padding: "5px",
+                    borderRadius: "10px",
+                    width: "auto",
+                  }}
+                >
+                  {accoutInfo?.cccd}
                 </p>
-                <p>
-                  <CakeIcon color="success" /> Date of birth:
+                <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <CakeIcon color="success" /> Date of birth
                 </p>
-                <p>
-                  <ContactPhoneIcon color="success" /> Phone Number:
+                <p
+                  style={{
+                    backgroundColor: "#CEE3E3",
+                    padding: "5px",
+                    borderRadius: "10px",
+                    width: "auto",
+                  }}
+                >
+                  {accoutInfo?.dob}
                 </p>
-                <p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                  margin: "10px 10px",
+                }}
+              >
+                <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <ContactPhoneIcon color="success" /> Phone Number
+                </p>
+                <p
+                  style={{
+                    backgroundColor: "#CEE3E3",
+                    padding: "5px",
+                    borderRadius: "10px",
+                    width: "auto",
+                  }}
+                >
+                  {accoutInfo?.phoneNumber}
+                </p>
+                <p style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   {" "}
-                  <ContactsIcon color="success" /> Address:{" "}
+                  <ContactsIcon color="success" /> Address{" "}
+                </p>
+                <p
+                  style={{
+                    backgroundColor: "#CEE3E3",
+                    padding: "5px",
+                    borderRadius: "10px",
+                    width: "auto",
+                  }}
+                >
+                  {accoutInfo?.address}
                 </p>
               </div>
             </div>
