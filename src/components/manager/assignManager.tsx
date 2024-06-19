@@ -164,7 +164,7 @@ const AssignManager: React.FC = () => {
     setSelectedManagerResponse(null);
   };
 
-  console.log(valuationSelectedStaff);
+  console.log("valuationSelectedStaff:", valuationSelectedStaff);
   const handleSave = (orderDetailID: number, accountId: number | undefined) => {
     const newRequestBody = {
       orderDetailID: orderDetailID,
@@ -205,7 +205,7 @@ const AssignManager: React.FC = () => {
       (filterStatus === "" || managerAssignList.status === filterStatus)
     );
   });
-
+  console.log("filter:", filter);
   const paginatedManagerResponseList = filter.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
