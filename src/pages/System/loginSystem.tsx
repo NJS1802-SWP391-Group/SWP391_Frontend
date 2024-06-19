@@ -17,6 +17,8 @@ import loginAPI from "../../services/loginApi";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_SUCCESS } from "../../constants";
 import accountApi from "../../services/accountApi";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { IconButton } from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -40,6 +42,7 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function LoginSystem() {
+  const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -132,14 +135,24 @@ export default function LoginSystem() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <IconButton
+                onClick={() => {
+                  setShowPassword(!showPassword);
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </div>
+
             <Button
               type="submit"
               fullWidth

@@ -112,6 +112,9 @@ const ValuationForm = () => {
             name="quantity"
             autoFocus
             type="number"
+            InputProps={{
+              inputProps: { min: 0 },
+            }}
             onChange={handleQuantity}
           />
           <TextField

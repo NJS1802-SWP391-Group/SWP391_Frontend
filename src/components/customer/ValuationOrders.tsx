@@ -23,7 +23,7 @@ const ValuationOrders = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [orderList]);
 
   const renderOrderList = orderList?.filter(
     (order) => order.status === activePage || activePage === "All"
