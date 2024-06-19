@@ -27,12 +27,6 @@ import DetailImage from "../../assets/DetailImage.png";
 import valuationStaffApi from "../../services/managerService/valuationStaffApi";
 import NavBarSystem from "../system/NavBarSystem";
 
-const Container = styled(Box)({
-  maxWidth: "800px",
-  margin: "auto",
-  padding: "20px",
-});
-
 const Section = styled(Paper)({
   marginBottom: "20px",
   padding: "15px",
@@ -70,11 +64,14 @@ const DiamondDetail = () => {
     cutGrade: "",
     description: "",
     diamondValue: 0,
+    propotionImage: "",
+    clarityImages: [],
     orderDetailId: state.orderDetailId,
   };
 
   const [diamondDetail, setDiamondDetail] = useState(initialDiamondDetail);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormEnabled, setIsFormEnabled] = useState(true);
   const [success, setSuccess] = useState(false);
 
@@ -111,7 +108,22 @@ const DiamondDetail = () => {
     setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const {
+    getRootProps: getRootPropsSingle,
+    getInputProps: getInputPropsSingle,
+    isDragActive: isDragActiveSingle,
+  } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUploadedImage(acceptedFiles[0]);
+    },
+    multiple: false,
+  });
+
+  const {
+    getRootProps: getRootPropsMultiple,
+    getInputProps: getInputPropsMultiple,
+    isDragActive: isDragActiveMultiple,
+  } = useDropzone({
     onDrop,
     multiple: true,
   });
@@ -126,7 +138,14 @@ const DiamondDetail = () => {
         orderDetailId: state.orderDetailId,
       };
       console.log("log submit:", diamondDetailWithDates);
-
+      // accountApi
+      //   .getAccountInfo()
+      //   .then((response) => {
+      //     console.log("fetchData:", response);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error", error);
+      //   });
       const response = await valuationStaffApi.createDiamondDetail(
         diamondDetailWithDates
       );
@@ -149,10 +168,15 @@ const DiamondDetail = () => {
     }
   }, [success, navigate]);
 
-  // const todayDate = new Date().toISOString().split("T")[0];
-
   return (
-    <Paper sx={{ width: "50%", marginLeft: "450px", marginTop: "35px" }}>
+    <Paper
+      sx={{
+        width: "50%",
+        height: "1750px",
+        marginLeft: "450px",
+        marginTop: "35px",
+      }}
+    >
       <NavBarSystem marginBottom="100px" />
       <Box
         sx={{
@@ -220,20 +244,6 @@ const DiamondDetail = () => {
               REPORT DETAILS
             </Typography>
           </Box>
-          {/* <FieldContainer>
-            <TextField
-              fullWidth
-              type="date"
-              label="Certificate Date"
-              name="issueDate"
-              value={diamondDetail.issueDate}
-              onChange={handleChange}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ min: todayDate }}
-              disabled={!isFormEnabled}
-            />
-          </FieldContainer> */}
-
           <FieldContainer>
             <FormControl fullWidth disabled={!isFormEnabled}>
               <InputLabel id="origin-label">Origin</InputLabel>
@@ -280,35 +290,20 @@ const DiamondDetail = () => {
               value={diamondDetail.carat}
               min={0.3}
               max={5}
-              step={0.1}
+              step={0.01}
               onChange={handleCaratChange}
               disabled={!isFormEnabled}
-              valueLabelDisplay="auto"
             />
           </FieldContainer>
-        </Section>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              GRADING RESULTS
-            </Typography>
-          </Box>
           <FieldContainer>
             <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="color-label">Color Grade</InputLabel>
+              <InputLabel id="color-label">Color</InputLabel>
               <Select
                 labelId="color-label"
                 id="color"
                 name="color"
                 value={diamondDetail.color}
-                label="Color Grade"
+                label="Color"
                 onChange={handleChange}
               >
                 <MenuItem value="D">D</MenuItem>
@@ -319,18 +314,20 @@ const DiamondDetail = () => {
                 <MenuItem value="I">I</MenuItem>
                 <MenuItem value="J">J</MenuItem>
                 <MenuItem value="K">K</MenuItem>
+                <MenuItem value="L">L</MenuItem>
+                <MenuItem value="M">M</MenuItem>
               </Select>
             </FormControl>
           </FieldContainer>
           <FieldContainer>
             <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="clarity-label">Clarity Grade</InputLabel>
+              <InputLabel id="clarity-label">Clarity</InputLabel>
               <Select
                 labelId="clarity-label"
                 id="clarity"
                 name="clarity"
                 value={diamondDetail.clarity}
-                label="Clarity Grade"
+                label="Clarity"
                 onChange={handleChange}
               >
                 <MenuItem value="FL">FL</MenuItem>
@@ -341,74 +338,10 @@ const DiamondDetail = () => {
                 <MenuItem value="VS2">VS2</MenuItem>
                 <MenuItem value="SI1">SI1</MenuItem>
                 <MenuItem value="SI2">SI2</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="cutGrade-label">Cut Grade</InputLabel>
-              <Select
-                labelId="cutGrade-label"
-                id="cutGrade"
-                name="cutGrade"
-                value={diamondDetail.cutGrade}
-                label="Cut Grade"
-                onChange={handleChange}
-              >
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="V.GOOD">V.GOOD</MenuItem>
-                <MenuItem value="EX.">EX.</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-        </Section>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              ADDITIONAL GRADING INFORMATION
-            </Typography>
-          </Box>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="polish-label">Polish</InputLabel>
-              <Select
-                labelId="polish-label"
-                id="polish"
-                name="polish"
-                value={diamondDetail.polish}
-                label="Polish"
-                onChange={handleChange}
-              >
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="V.GOOD">V.GOOD</MenuItem>
-                <MenuItem value="EX.">EX.</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="symmetry-label">Symmetry</InputLabel>
-              <Select
-                labelId="symmetry-label"
-                id="symmetry"
-                name="symmetry"
-                value={diamondDetail.symmetry}
-                label="Symmetry"
-                onChange={handleChange}
-              >
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="V.GOOD">V.GOOD</MenuItem>
-                <MenuItem value="EX.">EX.</MenuItem>
+                <MenuItem value="SI3">SI3</MenuItem>
+                <MenuItem value="I1">I1</MenuItem>
+                <MenuItem value="I2">I2</MenuItem>
+                <MenuItem value="I3">I3</MenuItem>
               </Select>
             </FormControl>
           </FieldContainer>
@@ -423,67 +356,85 @@ const DiamondDetail = () => {
                 label="Fluorescence"
                 onChange={handleChange}
               >
-                <MenuItem value="VSTG">VSTG</MenuItem>
-                <MenuItem value="STG">STG</MenuItem>
-                <MenuItem value="MED">MED</MenuItem>
-                <MenuItem value="FNT">FNT</MenuItem>
-                <MenuItem value="NON">NON</MenuItem>
+                <MenuItem value="None">None</MenuItem>
+                <MenuItem value="Faint">Faint</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="Strong">Strong</MenuItem>
+                <MenuItem value="Very Strong">Very Strong</MenuItem>
               </Select>
             </FormControl>
           </FieldContainer>
-        </Section>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              VALUATING PRICING
-            </Typography>
-          </Box>
           <FieldContainer>
-            <TextField
-              fullWidth
-              type="number"
-              label="Diamond Value"
-              name="diamondValue"
-              value={diamondDetail.diamondValue}
-              onChange={handleChange}
-              disabled={!isFormEnabled}
-              inputProps={{ min: 1 }}
-            />
+            <FormControl fullWidth disabled={!isFormEnabled}>
+              <InputLabel id="symmetry-label">Symmetry</InputLabel>
+              <Select
+                labelId="symmetry-label"
+                id="symmetry"
+                name="symmetry"
+                value={diamondDetail.symmetry}
+                label="Symmetry"
+                onChange={handleChange}
+              >
+                <MenuItem value="Excellent">Excellent</MenuItem>
+                <MenuItem value="Very Good">Very Good</MenuItem>
+                <MenuItem value="Good">Good</MenuItem>
+                <MenuItem value="Fair">Fair</MenuItem>
+                <MenuItem value="Poor">Poor</MenuItem>
+              </Select>
+            </FormControl>
           </FieldContainer>
-        </Section>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              marginTop: "5px",
-              marginBottom: "5px",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              DESCRIPTION
-            </Typography>
-          </Box>
+          <FieldContainer>
+            <FormControl fullWidth disabled={!isFormEnabled}>
+              <InputLabel id="polish-label">Polish</InputLabel>
+              <Select
+                labelId="polish-label"
+                id="polish"
+                name="polish"
+                value={diamondDetail.polish}
+                label="Polish"
+                onChange={handleChange}
+              >
+                <MenuItem value="Excellent">Excellent</MenuItem>
+                <MenuItem value="Very Good">Very Good</MenuItem>
+                <MenuItem value="Good">Good</MenuItem>
+                <MenuItem value="Fair">Fair</MenuItem>
+                <MenuItem value="Poor">Poor</MenuItem>
+              </Select>
+            </FormControl>
+          </FieldContainer>
+          <FieldContainer>
+            <FormControl fullWidth disabled={!isFormEnabled}>
+              <InputLabel id="cutGrade-label">Cut Grade</InputLabel>
+              <Select
+                labelId="cutGrade-label"
+                id="cutGrade"
+                name="cutGrade"
+                value={diamondDetail.cutGrade}
+                label="Cut Grade"
+                onChange={handleChange}
+              >
+                <MenuItem value="Excellent">Excellent</MenuItem>
+                <MenuItem value="Very Good">Very Good</MenuItem>
+                <MenuItem value="Good">Good</MenuItem>
+                <MenuItem value="Fair">Fair</MenuItem>
+                <MenuItem value="Poor">Poor</MenuItem>
+              </Select>
+            </FormControl>
+          </FieldContainer>
           <FieldContainer>
             <TextField
-              fullWidth
-              multiline
-              rows={4}
               label="Description"
               name="description"
               value={diamondDetail.description}
               onChange={handleChange}
+              fullWidth
               disabled={!isFormEnabled}
+              multiline
+              rows={4}
             />
           </FieldContainer>
         </Section>
+
         <Section sx={{ width: "94%", marginLeft: "26px" }}>
           <Box
             sx={{
@@ -494,68 +445,112 @@ const DiamondDetail = () => {
             }}
           >
             <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
-              UPLOAD IMAGES
+              VALUATING PRICE
             </Typography>
           </Box>
+          <FieldContainer>
+            <TextField
+              fullWidth
+              id="diamondValue"
+              name="diamondValue"
+              label="Diamond Value"
+              value={diamondDetail.diamondValue}
+              onChange={handleChange}
+              disabled={!isFormEnabled}
+            />
+          </FieldContainer>
+        </Section>
+
+        <Section sx={{ width: "94%", marginLeft: "26px" }}>
+          <Title sx={{ fontSize: "20px" }}>Proportions</Title>
           <Box
-            {...getRootProps()}
+            {...getRootPropsSingle()}
             sx={{
-              border: "2px dashed #4F46E5",
+              border: "2px dashed grey",
               padding: "20px",
               textAlign: "center",
               cursor: "pointer",
-              backgroundColor: isDragActive ? "#f1f1f1" : "#fafafa",
+              marginBottom: "20px",
             }}
           >
-            <input {...getInputProps()} multiple />
-            <Box>
-              <CloudUploadIcon sx={{ fontSize: "48px", color: "#4F46E5" }} />
-              <Typography>
-                Drag & drop images here, or click to select
-              </Typography>
-            </Box>
+            <input {...getInputPropsSingle()} disabled={!isFormEnabled} />
+            {isDragActiveSingle ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop a single file here, or click to select file</p>
+            )}
+            <CloudUploadIcon sx={{ fontSize: "50px" }} />
           </Box>
-          {uploadedImages.length > 0 && (
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography sx={{ fontWeight: "bold" }}>
-                Uploaded Images:
-              </Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                {uploadedImages.map((image, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                      padding: "10px",
-                      margin: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Uploaded ${index}`}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <Typography variant="caption">{image.name}</Typography>
-                  </Box>
-                ))}
-              </Box>
+
+          {uploadedImage && (
+            <Box
+              sx={{
+                marginTop: "20px",
+                textAlign: "center",
+              }}
+            >
+              <Typography>Uploaded Image:</Typography>
+              <img
+                src={URL.createObjectURL(uploadedImage)}
+                alt="Uploaded file"
+                style={{ maxWidth: "100%", maxHeight: "300px" }}
+              />
             </Box>
           )}
         </Section>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ marginBottom: "20px", marginLeft: "380px", width: "120px" }}
-        >
-          Submit
-        </Button>
+
+        <Section sx={{ width: "94%", marginLeft: "26px" }}>
+          <Title sx={{ fontSize: "20px" }}> Clarity Characteristic</Title>
+          <Box
+            {...getRootPropsMultiple()}
+            sx={{
+              border: "2px dashed grey",
+              padding: "20px",
+              textAlign: "center",
+              cursor: "pointer",
+              marginBottom: "20px",
+            }}
+          >
+            <input {...getInputPropsMultiple()} disabled={!isFormEnabled} />
+            {isDragActiveMultiple ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag 'n' drop multiple files here, or click to select files</p>
+            )}
+            <CloudUploadIcon sx={{ fontSize: "50px" }} />
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "10px",
+              justifyContent: "center",
+            }}
+          >
+            {uploadedImages.map((file, index) => (
+              <Box key={index} sx={{ textAlign: "center" }}>
+                <Typography>Image {index + 1}</Typography>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`Uploaded file ${index + 1}`}
+                  style={{ maxWidth: "100%", maxHeight: "150px" }}
+                />
+              </Box>
+            ))}
+          </Box>
+        </Section>
+
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            sx={{ mt: 2 }}
+          >
+            Submit
+          </Button>
+        </Box>
       </form>
     </Paper>
   );
