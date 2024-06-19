@@ -21,6 +21,8 @@ import DiamondDetail from "./components/valuationStaff/diamondDetail";
 import RegisterPage from "./pages/register/RegisterPage";
 import AssignedValuationStaffPage from "./pages/valuationStaff/assignedValuationStaffPage";
 import SendEmail from "./components/consulting/SendEmail";
+import ValuationOrderPage from "./pages/customer/ValuationOrderPage";
+import Profile from "./pages/customer/Profile";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
             <Route path="/calculate" element={<CalculatePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/form-result" element={<FormResult />} />
+            <Route path="/valuation-order" element={<ValuationOrderPage />} />
+            <Route path="/profile" element={<Profile />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />

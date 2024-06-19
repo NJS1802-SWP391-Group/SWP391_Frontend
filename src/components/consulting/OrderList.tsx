@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import orderApi from "../../services/orderApi";
 import { error } from "console";
+import emailApi from "../../services/emailApi";
 
 // type Props = {
 //   orders: OrderInterface[];
@@ -59,7 +60,18 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
     );
   };
 
-  const onClickSendEmail = (orderId: number) => {};
+  const onClickSendEmail = (orderID: number) => {
+    emailApi
+      .getEmailByOrderId(orderID)
+      .then((response) => {
+        navigate(`/send-email/${orderID}`, {
+          state: response,
+        });
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

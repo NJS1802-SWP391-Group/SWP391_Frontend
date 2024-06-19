@@ -191,7 +191,9 @@ function OrderDetail({ order, closeModal }: Props) {
                   <TableHead>
                     <TableRow>
                       <StyledTableCell align="center">Service</StyledTableCell>
-                      <StyledTableCell align="center">Size(mm)</StyledTableCell>
+                      <StyledTableCell align="center">
+                        Estimate Length
+                      </StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>

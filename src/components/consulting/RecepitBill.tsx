@@ -77,6 +77,7 @@ const RecepitBill: React.FC = () => {
 
   const location = useLocation();
   const data: OrderResponse = location.state;
+  console.log("Data: ", data);
   const [fetchData, setFetchData] = useState<OrderResponse>(data);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
@@ -124,16 +125,20 @@ const RecepitBill: React.FC = () => {
   };
 
   const onClickDelete = (orderDetailId: number) => {
-    confirm(`Do you want delte order detail ${orderDetailId}`);
-    orderDetailApi.deleteByOrderDetailId(orderDetailId).then(
-      (response: any) => {
-        console.log("Delete response:", response);
-        setFetchData(response);
-      },
-      (error) => {
-        console.log("Delete error:", error);
-      }
+    const confirmDelete = confirm(
+      `Do you want delte order detail ${orderDetailId}`
     );
+    if (confirmDelete) {
+      orderDetailApi.deleteByOrderDetailId(orderDetailId).then(
+        (response: any) => {
+          console.log("Delete response:", response);
+          setFetchData(response);
+        },
+        (error) => {
+          console.log("Delete error:", error);
+        }
+      );
+    }
   };
 
   const handleEdit = (orderDetailId: number) => {
@@ -255,7 +260,9 @@ const RecepitBill: React.FC = () => {
                         Order detail code
                       </StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
-                      <StyledTableCell align="center">Size(mm)</StyledTableCell>
+                      <StyledTableCell align="center">
+                        Estimate Length
+                      </StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
