@@ -2,13 +2,28 @@ import { Button, Card, Container, Divider, Typography } from "@mui/material";
 import React from "react";
 import Logo from "../../assets/Diavan.png";
 import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { InforEmail } from "../../interfaces/email/EmailInterface";
+import emailApi from "../../services/emailApi";
 
 const SendEmail = () => {
+  const { state } = useLocation();
+  const inforEmail: InforEmail = state;
   const navigate = useNavigate();
 
   const onCLickBack = () => {
     navigate(-1);
+  };
+
+  const handleSendEmail = (orderId: number) => {
+    emailApi
+      .sendEmail(orderId)
+      .then((response) => {
+        console.log("Send email:", response);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
   };
   return (
     <div>
@@ -38,15 +53,15 @@ const SendEmail = () => {
           <br />
           <div style={{ padding: "0 5%" }}>
             <div className="typography-email" style={{ margin: "10px 0" }}>
-              Xin chào VoMongLuan,
+              Xin chào {inforEmail.firstName} {inforEmail.lastName},
               <br />
               Đơn nhận định giá {""}
               <span style={{ fontWeight: "bold", color: "green" }}>
-                #240528GYY423E0
+                {inforEmail.code}
               </span>{" "}
               của bạn đã được hoàn thành vào ngày{" "}
               <span style={{ fontWeight: "bold", color: "green" }}>
-                31/05/2024
+                {inforEmail.completeDate}
               </span>
               . Vui lòng đến Diavan để làm các thủ tục nhận lại sản phẩm. Nếu
               sau 30 ngày mà quý khách vẫn chưa đến nhận thủ tục nhận lại,Diavan
@@ -81,18 +96,18 @@ const SendEmail = () => {
                           color: "green",
                         }}
                       >
-                        #240528GYY423E0
+                        {inforEmail.code}
                       </span>
                     </li>
 
-                    <li>2</li>
+                    <li>{inforEmail.quantity}</li>
                     <li
                       style={{
                         textDecorationLine: "underline",
                         color: "green",
                       }}
                     >
-                      28/05/2024 15:28:07
+                      {inforEmail.time}
                     </li>
                     <li
                       style={{
@@ -100,40 +115,45 @@ const SendEmail = () => {
                         color: "green",
                       }}
                     >
-                      28/05/2024 15:28:07
+                      {inforEmail.completeDate}
                     </li>
                   </ul>
                 </div>
               </div>
               {/* Map thông tin ở đây */}
-              <div style={{ padding: "0 200px", margin: "10px 0" }}>
-                <span>
-                  <img src={DiamondImg} alt="" width={180} height={180} />
-                </span>
-                <Typography>1.Chi tiết đơn hàng 1</Typography>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <ul style={{ listStyle: "none" }}>
-                      <li>Mã đơn:</li>
-                      <li>Loại dịch vụ:</li>
-                      <li>Kích cỡ:</li>
-                      <li>Giá dịch vụ:</li>
-                      <li>Giá trị kim cương:</li>
-                    </ul>
-                  </div>
-                  <div style={{ marginRight: "15px" }}>
-                    <ul style={{ listStyle: "none" }}>
-                      <li>123</li>
-                      <li>Standard Valuation</li>
-                      <li>10(mm)</li>
-                      <li>100$</li>
-                      <li>2000$</li>
-                    </ul>
+              {inforEmail.detailValuations.map((item, index) => (
+                <div style={{ padding: "0 200px", margin: "10px 0" }}>
+                  <span>
+                    <img src={DiamondImg} alt="" width={180} height={180} />
+                  </span>
+                  <Typography>
+                    {index + 1}.Chi tiết đơn hàng {index + 1}
+                  </Typography>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div>
+                      <ul style={{ listStyle: "none" }}>
+                        <li>Mã đơn:</li>
+                        <li>Loại dịch vụ:</li>
+                        <li>Kích cỡ:</li>
+                        <li>Giá dịch vụ:</li>
+                        <li>Giá trị kim cương:</li>
+                      </ul>
+                    </div>
+                    <div style={{ marginRight: "15px" }}>
+                      <ul style={{ listStyle: "none" }}>
+                        <li>{item.code}</li>
+                        <li>{item.serviceName}</li>
+                        <li>{item.estimateLength}(mm)</li>
+                        <li>{item.servicePrice}</li>
+                        <li>{item.price}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
+
               <Divider variant="middle" />
               <div
                 style={{
@@ -144,7 +164,9 @@ const SendEmail = () => {
                 }}
               >
                 <Typography>Tổng thanh toán:</Typography>
-                <Typography sx={{ marginRight: "115px" }}>100$</Typography>
+                <Typography sx={{ marginRight: "115px" }}>
+                  {inforEmail.totalPay}
+                </Typography>
               </div>
               <Divider variant="middle" />
               <div style={{ padding: "0 200px", margin: "10px 0" }}>
@@ -179,7 +201,14 @@ const SendEmail = () => {
         >
           Back
         </Button>
-        <Button variant="contained">Send</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleSendEmail(inforEmail.orderID);
+          }}
+        >
+          Send
+        </Button>
       </div>
     </div>
   );
