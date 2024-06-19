@@ -23,6 +23,10 @@ const orderApi = {
     const url = `/Orders/View/Id${data}`;
     return axiosClient.get(url);
   },
+  getOrdersByCustomer(id: number) {
+    const url = `/Orders/View/CustomerId${id}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default orderApi;
