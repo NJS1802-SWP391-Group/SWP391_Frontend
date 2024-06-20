@@ -30,6 +30,8 @@ export interface SendRequest {
 const ValuationForm = () => {
   const [account, setAccount] = useState<AccountInfo>();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState("");
+  const [time, setTime] = useState("");
 
   useEffect(() => {
     const getAccount = async () => {
@@ -39,8 +41,25 @@ const ValuationForm = () => {
     getAccount();
   }, []);
 
+  const handleQuantity = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setQuantity(e.target.value);
+  };
+
+  const handleTime = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setTime(e.target.value);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const customerId = localStorage.key(1);
+    {
+      customerId == null &&
+        (navigate("/login"), alert("You must login to send valuation request"));
+    }
     const data = new FormData(event.currentTarget);
 
     console.log("Account:", account?.result.user.customerId);
@@ -93,6 +112,10 @@ const ValuationForm = () => {
             name="quantity"
             autoFocus
             type="number"
+            InputProps={{
+              inputProps: { min: 0 },
+            }}
+            onChange={handleQuantity}
           />
           <TextField
             margin="normal"
@@ -103,12 +126,14 @@ const ValuationForm = () => {
             id="date"
             label="Date Meeting"
             focused
+            onChange={handleTime}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={quantity && time ? false : true}
           >
             Send
           </Button>

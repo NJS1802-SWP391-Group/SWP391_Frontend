@@ -1,16 +1,13 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ConsultingStaffPage.css";
 
-import NavBarSystem from "../../components/system/NavBarSystem";
 import {
-  Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import OrderDetail from "../../components/consulting/OrderDetail";
 import OrderList from "../../components/consulting/OrderList";
@@ -23,6 +20,11 @@ const ConsultingStaffPage = () => {
   const [orders, setOrders] = useState<OrderInterface[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = React.useState("All");
+
+  const handleStatusFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatusFilter((event.target as HTMLInputElement).value);
+  };
 
   const handleOrderClick = (orderID: number) => {
     setSelectedOrderId(orderID);
@@ -51,11 +53,13 @@ const ConsultingStaffPage = () => {
       }
     };
     fectOrders();
-  }, []);
+  }, [orders]);
 
-  const filteredStudents: OrderInterface[] = orders.filter((order) =>
-    order.code.toString().includes(searchValue)
-  );
+  const filteredStudents: OrderInterface[] = orders.filter((order) => {
+    if (statusFilter === "All" || order.status === statusFilter) {
+      return order.code.toString().includes(searchValue);
+    }
+  });
 
   // console.log("Orders: ", orders);
   return (
@@ -130,6 +134,38 @@ const ConsultingStaffPage = () => {
               </svg>
             </span>
           </div>
+          <FormControl>
+            <FormLabel id="status-filter">Status</FormLabel>
+            <RadioGroup
+              aria-labelledby="status-filter"
+              name="status-filter"
+              value={statusFilter}
+              onChange={handleStatusFilter}
+              row
+            >
+              <FormControlLabel value="All" control={<Radio />} label="All" />
+              <FormControlLabel
+                value="Pending"
+                control={<Radio color="primary" />}
+                label="Pending"
+              />
+              <FormControlLabel
+                value="Received"
+                control={<Radio color="secondary" />}
+                label="Received"
+              />
+              <FormControlLabel
+                value="Processing"
+                control={<Radio color="warning" />}
+                label="Processing"
+              />
+              <FormControlLabel
+                value="Completed"
+                control={<Radio color="success" />}
+                label="Completed"
+              />
+            </RadioGroup>
+          </FormControl>
         </div>
         <OrderList orders={filteredStudents} onOrderClick={handleOrderClick} />
         <OrderDetail order={selectedOrder} closeModal={closeOrderDetailModal} />

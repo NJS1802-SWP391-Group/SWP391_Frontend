@@ -1,7 +1,7 @@
 import DiamondOutlinedIcon from "@mui/icons-material/DiamondOutlined";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { Card, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Banner from "../../assets/2022_LE-GuidetoDiamonds-LP-TILE-1-Desktop 2.png";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import accountApi from "../../services/accountApi";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const listInfor = [
     {
       id: 1,
@@ -62,6 +63,9 @@ const HomePage = () => {
     },
   ];
 
+  const onClickToDiamondCheck = () => {
+    navigate("/diamond-check");
+  };
   return (
     <div className="container">
       <Navbar />
@@ -172,7 +176,8 @@ const HomePage = () => {
           >
             price and quality
           </Typography>
-          <button>Free check</button>
+
+          <button onClick={onClickToDiamondCheck}>Free check</button>
         </div>
       </div>
       <div className="home-inforamation">
