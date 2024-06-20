@@ -134,7 +134,7 @@ const DiamondDetail = () => {
     try {
       const diamondDetailWithDates = {
         ...diamondDetail,
-        carat: String(diamondDetail.carat), // Convert carat to string before sending if necessary
+        carat: String(diamondDetail.carat),
         orderDetailId: state.orderDetailId,
       };
       console.log("log submit:", diamondDetailWithDates);
@@ -172,7 +172,7 @@ const DiamondDetail = () => {
     <Paper
       sx={{
         width: "50%",
-        height: "1750px",
+        height: "100%",
         marginLeft: "450px",
         marginTop: "35px",
       }}
@@ -541,7 +541,13 @@ const DiamondDetail = () => {
           </Box>
         </Section>
 
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            paddingBottom: "15px",
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
