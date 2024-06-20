@@ -1,10 +1,15 @@
 import {
   Box,
+  FormControl,
   IconButton,
   InputAdornment,
+  InputLabel,
   Menu,
+  MenuItem,
   Modal,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -49,12 +54,21 @@ const AssignManager: React.FC = () => {
     top: number;
     left: number;
   }>({ top: 0, left: 0 });
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
 
   const [showSelection, setShowSelection] = useState(false);
 
   const handleShow = () => {
     setShowSelection(true);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleFilterChange = (event: SelectChangeEvent<string>) => {
+    setFilterStatus(event.target.value);
   };
 
   const [managers, setManagers] = useState<ValuationStaffResponse[]>([]);
@@ -150,7 +164,7 @@ const AssignManager: React.FC = () => {
     setSelectedManagerResponse(null);
   };
 
-  console.log(valuationSelectedStaff);
+  console.log("valuationSelectedStaff:", valuationSelectedStaff);
   const handleSave = (orderDetailID: number, accountId: number | undefined) => {
     const newRequestBody = {
       orderDetailID: orderDetailID,
@@ -179,13 +193,50 @@ const AssignManager: React.FC = () => {
     valuationStaff.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const paginatedManagerResponseList = managerAssignList.slice(
+  const filter = managerAssignList.filter((managerAssignList) => {
+    console.log("mngAL:", managerAssignList.status);
+    const keyword = searchQuery.toLowerCase();
+    const orderDetailCodeLower =
+      managerAssignList.orderDetailCode.toLowerCase();
+    const serviceLower = managerAssignList.serviceName.toLowerCase();
+
+    return (
+      (orderDetailCodeLower.includes(keyword) ||
+        serviceLower.includes(keyword)) &&
+      (filterStatus === "" || managerAssignList.status === filterStatus)
+    );
+  });
+  console.log("filter:", filter);
+  const paginatedManagerResponseList = filter.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   return (
     <Box sx={{ padding: 2 }}>
+      <Box sx={{ marginBottom: "15px" }}>
+        <TextField
+          label="🔎 Search OD Code, ServiceName"
+          variant="outlined"
+          size="small"
+          onChange={handleSearchChange}
+          value={searchQuery}
+          sx={{ marginRight: 2, width: "300px" }}
+        />
+        <FormControl variant="outlined" size="small">
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={filterStatus}
+            onChange={handleFilterChange}
+            label="Status"
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="Assigning">Assigning</MenuItem>
+            <MenuItem value="ReAssigning">ReAssigning</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
       <TableContainer component={Paper} sx={{ maxHeight: "50vh" }}>
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -208,7 +259,7 @@ const AssignManager: React.FC = () => {
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
               >
-                Estimate Length
+                Size
               </StyledTableCell>
               <StyledTableCell
                 sx={{ fontWeight: "bold", fontSize: "20px", color: "black" }}
