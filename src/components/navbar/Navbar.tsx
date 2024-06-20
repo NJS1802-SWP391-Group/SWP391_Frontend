@@ -32,9 +32,7 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("customerId");
-    localStorage.removeItem("token");
+    sessionStorage.clear();
     alert("Logout successfully");
     navigate("/");
   };
@@ -61,12 +59,12 @@ function Navbar() {
           <li>About</li>
         </Link>
         <Link to="/contact">
-          <li>Contact</li>
+          <li>Valuate Diamond</li>
         </Link>
       </ul>
 
       <div>
-        {localStorage.getItem("loggedIn") == "true" ? (
+        {sessionStorage.getItem("loggedIn") == "true" ? (
           <Box sx={{ flexGrow: 0, marginLeft: "80%" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
