@@ -194,6 +194,7 @@ const AssignManager: React.FC = () => {
   );
 
   const filter = managerAssignList.filter((managerAssignList) => {
+    console.log("mngAL:", managerAssignList.status);
     const keyword = searchQuery.toLowerCase();
     const orderDetailCodeLower =
       managerAssignList.orderDetailCode.toLowerCase();
@@ -231,8 +232,8 @@ const AssignManager: React.FC = () => {
             sx={{ minWidth: 120 }}
           >
             <MenuItem value="">All</MenuItem>
-            <MenuItem value="Active">Assigning</MenuItem>
-            <MenuItem value="Inactive">ReAssigning</MenuItem>
+            <MenuItem value="Assigning">Assigning</MenuItem>
+            <MenuItem value="ReAssigning">ReAssigning</MenuItem>
           </Select>
         </FormControl>
       </Box>
