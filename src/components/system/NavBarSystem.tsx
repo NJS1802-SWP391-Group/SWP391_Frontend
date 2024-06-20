@@ -31,6 +31,7 @@ import AssignIcon from "../../assets/delegation.png";
 import ApproveIcon from "../../assets/approved.png";
 import DashboardIcon from "../../assets/statisctics.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -64,9 +65,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const settings = ["Profile", "Account", "Logout"];
+const settings = ["Profile", "Logout"];
 
 export default function NavBarSystem(marginBottom: { marginBottom: string }) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -99,6 +101,13 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("customerId");
+    localStorage.removeItem("token");
+    alert("Logout successfully");
+    navigate("/");
+  };
   return (
     <Box sx={{ display: "flex", marginBottom: marginBottom }}>
       <CssBaseline />
@@ -180,11 +189,9 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem key="logout" onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

@@ -19,6 +19,8 @@ import ManagerAssignPage from "./pages/manager/managerAssignPage";
 
 import SendEmail from "./components/consulting/SendEmail";
 import DiamondDetail from "./components/valuationStaff/diamondDetail";
+import Profile from "./pages/customer/Profile";
+import ValuationOrderPage from "./pages/customer/ValuationOrderPage";
 import ManageDiamondPage from "./pages/manager/manageDiamondPage";
 import ServiceDetailPage from "./pages/manager/serviceDetailPage";
 import ServicePage from "./pages/manager/servicePage";
@@ -42,6 +44,8 @@ function App() {
             <Route path="/calculate" element={<CalculatePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/form-result" element={<FormResult />} />
+            <Route path="/valuation-order" element={<ValuationOrderPage />} />
+            <Route path="/profile" element={<Profile />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
 
             <Route path="/contact" element={<ValuationRequestForm />} />
