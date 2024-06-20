@@ -1,7 +1,6 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { useState } from "react";
 import AssignManager from "../../components/manager/assignManager";
-import SearchBar from "../../components/manager/searchBar";
 import NavBarSystem from "../../components/system/NavBarSystem";
 
 const ManagerAssignPage = () => {
@@ -13,13 +12,8 @@ const ManagerAssignPage = () => {
 
   return (
     <Grid>
-      <NavBarSystem marginBottom="100px" />
-      <Box sx={{ marginLeft: "900px" }}>
-        <SearchBar
-          searchQuery={searchQuery}
-          handleSearchChange={handleSearchChange}
-        />
-      </Box>
+      <NavBarSystem marginBottom="130px" />
+
       <Paper
         sx={{
           width: "1300px",

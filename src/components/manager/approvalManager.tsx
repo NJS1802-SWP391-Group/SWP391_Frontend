@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   IconButton,
   Modal,
   Paper,
@@ -14,7 +15,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
 import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
@@ -25,6 +26,7 @@ const ApprovalManager = () => {
   const [selectedManagerResponse, setSelectedManagerResponse] =
     React.useState<ManagerApprovalResponse | null>(null);
 
+  const { state } = useLocation();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -60,12 +62,15 @@ const ApprovalManager = () => {
     console.log("resultId:", resultId);
   };
 
-  const handleReject = (orderDetailID: number) => {
-    managerAssignsApi.changeStatusToReAssigning(orderDetailID).then(
+  const handleReject = (orderDetailId: number) => {
+    // confirm(`Do you want reject order : ${orderDetailId}`);
+    managerAssignsApi.changeStatusToReAssigning(orderDetailId).then(
       (response) => {
+        console.log("orderDetailId:", orderDetailId);
         console.log("response:", response);
-        alert(`Valuating is rejected.`);
-        // Reload the page after successful save
+
+        // alert(`Valuating is rejected.`);
+        // // Reload the page after successful save
         window.location.reload();
       },
       (error) => {
@@ -96,6 +101,7 @@ const ApprovalManager = () => {
   const [managerResponseList, setManagerResponseList] = useState<
     ManagerApprovalResponse[]
   >([]);
+  console.log("ManagerResponse:", managerResponseList);
   useEffect(() => {
     const fetchManagerApprovalList = async () => {
       const response: any = await managerAssignsApi.getAllCompledted();
@@ -138,7 +144,7 @@ const ApprovalManager = () => {
           </TableHead>
           <TableBody>
             {paginatedManagerResponseList.map((managerResponse) => (
-              <StyledTableRow key={managerResponse.orderDetailID}>
+              <StyledTableRow key={managerResponse.orderDetailId}>
                 <StyledTableCell>
                   {managerResponse.orderDetailCode}
                 </StyledTableCell>
@@ -152,7 +158,11 @@ const ApprovalManager = () => {
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
-                    <IconButton onClick={() => handleOpen(managerResponse)}>
+                    <IconButton
+                      onClick={() =>
+                        handleReject(managerResponse.orderDetailId)
+                      }
+                    >
                       <img
                         src={NoButton}
                         width="35"
@@ -179,6 +189,53 @@ const ApprovalManager = () => {
                     </IconButton>
                   </Box>
                 </StyledTableCell>
+                <Modal open={open} onClose={handleClose}>
+                  <Box
+                    sx={{
+                      backgroundColor: "White",
+                      borderRadius: "10px",
+                      width: "35%",
+                      margin: "auto",
+                      marginTop: "10%",
+                      padding: "20px",
+                      boxShadow: 24,
+                      outline: "none",
+                    }}
+                  >
+                    <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                      Do you want to decline Order Detail Code:{" "}
+                      {selectedManagerResponse?.orderDetailCode}?
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "right",
+                        marginTop: "20px",
+                        paddingRight: "20px",
+                      }}
+                    >
+                      <Button
+                        onClick={() =>
+                          handleReject(managerResponse.orderDetailId)
+                        }
+                      >
+                        Reject
+                        <Typography
+                          sx={{ fontSize: "20px", fontWeight: "bold" }}
+                        >
+                          Yes
+                        </Typography>
+                      </Button>
+                      <IconButton onClick={handleClose}>
+                        <Typography
+                          sx={{ fontSize: "20px", fontWeight: "bold" }}
+                        >
+                          No
+                        </Typography>
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </Modal>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -194,49 +251,6 @@ const ApprovalManager = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-
-      <Modal open={open} onClose={handleClose}>
-        <Box
-          sx={{
-            backgroundColor: "White",
-            borderRadius: "10px",
-            width: "35%",
-            margin: "auto",
-            marginTop: "10%",
-            padding: "20px",
-            boxShadow: 24,
-            outline: "none",
-          }}
-        >
-          <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-            Do you want to decline Order Detail Code:{" "}
-            {selectedManagerResponse?.orderDetailCode}?
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "right",
-              marginTop: "20px",
-              paddingRight: "20px",
-            }}
-          >
-            <IconButton
-              onClick={() =>
-                handleReject(selectedManagerResponse!.orderDetailID)
-              }
-            >
-              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                Yes
-              </Typography>
-            </IconButton>
-            <IconButton onClick={handleClose}>
-              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                No
-              </Typography>
-            </IconButton>
-          </Box>
-        </Box>
-      </Modal>
     </Box>
   );
 };

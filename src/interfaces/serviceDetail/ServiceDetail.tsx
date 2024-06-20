@@ -1,14 +1,10 @@
-export interface ServiceDetail {
+export interface ServiceDetailResponse {
   serviceDetailID: number;
   code: string;
   minRange: number;
   maxRange: number;
   price: number;
   extraPricePerMM: number;
-  status: Status;
+  status: string;
   serviceID: number;
-}
-
-export enum Status {
-  Active = "Active",
 }
