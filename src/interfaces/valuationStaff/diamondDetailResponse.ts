@@ -11,7 +11,7 @@ export interface DiamondDetailResponse {
   cutGrade: string;
   description: string;
   diamondValue: number;
-  propotionImage: string;
-  clarityImages: string[];
+  propotionImage: File | null;
+  clarityImages: File[] | null;
   orderDetailId: number;
 }

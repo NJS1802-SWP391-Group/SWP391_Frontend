@@ -7,8 +7,17 @@ const valuationStaffApi = {
     return axiosClient.get(url);
   },
 
-  createDiamondDetail: (diamondDetailResponse: DiamondDetailResponse) => {
-    return axiosClient.post("/Result/Create-Result", diamondDetailResponse);
+  // createDiamondDetail: (diamondDetailResponse: DiamondDetailResponse) => {
+  //   return axiosClient.post("/Result/Create-Result", diamondDetailResponse);
+  // },
+
+  createDiamondDetail: (formData: DiamondDetailResponse) => {
+    const response = axiosClient.post("/Result/Create-Result", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
   },
 
   getOrderDetailByValuationStaffId: (accountId: number | undefined) => {
