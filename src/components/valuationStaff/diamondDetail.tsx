@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useLocation, useNavigate } from "react-router-dom";
 import DetailImage from "../../assets/DetailImage.png";
@@ -56,14 +56,15 @@ const DiamondDetail = () => {
     cutGrade: "",
     description: "",
     diamondValue: 0,
-    propotionImage: null,
-    clarityImages: [],
+    ProportionImage: null,
+    ClarityImages: null,
     orderDetailId: state.orderDetailId,
   };
 
   const [diamondDetail, setDiamondDetail] = useState(initialDiamondDetail);
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<File | null>(null);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  console.log("uploadImage:", uploadedImage);
   const [isFormEnabled, setIsFormEnabled] = useState(true);
   const [success, setSuccess] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false); // New state for button click
@@ -99,9 +100,9 @@ const DiamondDetail = () => {
     setDiamondDetail({ ...diamondDetail, carat: value as number });
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
-  }, []);
+  // const onDrop = useCallback((acceptedFiles: File[]) => {
+  //   setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
+  // }, []);
 
   const {
     getRootProps: getRootPropsSingle,
@@ -120,47 +121,21 @@ const DiamondDetail = () => {
     isDragActive: isDragActiveMultiple,
   } = useDropzone({
     onDrop: (acceptedFiles) => {
-      setUploadedImages(acceptedFiles);
+      setUploadedImages(acceptedFiles[0]);
     },
-    multiple: true,
+    multiple: false,
   });
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.currentTarget);
-  //   console.log("diamondDetail before creating formData:", diamondDetail);
-  //   try {
-  //     formData.append("isDiamond", String(diamondDetail.isDiamond));
-  //     console.log("Test:", diamondDetail.isDiamond);
-  //     formData.append("origin", diamondDetail.origin);
-  //     formData.append("shape", diamondDetail.shape);
-  //     formData.append("carat", String(diamondDetail.carat));
-  //     formData.append("color", diamondDetail.color);
-  //     formData.append("clarity", diamondDetail.clarity);
-  //     formData.append("fluorescence", diamondDetail.fluorescence);
-  //     formData.append("symmetry", diamondDetail.symmetry);
-  //     formData.append("polish", diamondDetail.polish);
-  //     formData.append("cutGrade", diamondDetail.cutGrade);
-  //     formData.append("description", diamondDetail.description);
-  //     formData.append("diamondValue", String(diamondDetail.diamondValue));
-  //     formData.append("orderDetailId", String(diamondDetail.orderDetailId));
-
-  //     if (uploadedImage) {
-  //       formData.append("propotionImage", uploadedImage);
-  //     }
-
-  //     uploadedImages.forEach((image, index) => {
-  //       formData.append(`clarityImages[${index}]`, image);
-  //     });
-  //     console.log("formData", formData);
-
-  //     const response = await valuationStaffApi.createDiamondDetail(formData);
-  //     console.log("Diamond data added:", response);
-  //     setSuccess(true);
-  //   } catch (error) {
-  //     console.error("There was an error adding the diamond data!", error);
-  //   }
-  // };
+  // const {
+  //   getRootProps: getRootPropsMultiple,
+  //   getInputProps: getInputPropsMultiple,
+  //   isDragActive: isDragActiveMultiple,
+  // } = useDropzone({
+  //   onDrop: (acceptedFiles) => {
+  //     setUploadedImages(acceptedFiles);
+  //   },
+  //   multiple: true,
+  // });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -170,7 +145,7 @@ const DiamondDetail = () => {
       isDiamond: Boolean(data.get("isDiamond") as string),
       origin: data.get("origin") as string,
       shape: data.get("shape") as string,
-      carat: data.get("carat") as string,
+      carat: parseFloat(data.get("carat") as string),
       color: data.get("color") as string,
       clarity: data.get("clarity") as string,
       fluorescence: data.get("fluorescence") as string,
@@ -178,9 +153,9 @@ const DiamondDetail = () => {
       polish: data.get("polish") as string,
       cutGrade: data.get("cutGrade") as string,
       description: data.get("description") as string,
-      diamondValue: parseInt(data.get("diamondValue") as string),
-      propotionImage: (data.get("propotionImage") as File) || null,
-      clarityImages: (data.getAll("clarityImages") as File[]) || null,
+      diamondValue: parseFloat(data.get("diamondValue") as string),
+      ProportionImages: uploadedImage,
+      ClarityImages: uploadedImages,
       orderDetailId: diamondDetail.orderDetailId,
     };
     console.log("formData", formData);
@@ -209,7 +184,11 @@ const DiamondDetail = () => {
 
   const handleButtonClick = () => {
     setIsButtonClicked(true); // Set the button click state
-    // navigate("/valuationStaff/assigned"); // Navigate to the desired page
+    alert("Create successfully");
+    const timer = setTimeout(() => {
+      setSuccess(false);
+      navigate("/valuationStaff/assigned");
+    }, 3000);
   };
 
   return (
@@ -331,26 +310,7 @@ const DiamondDetail = () => {
               </Select>
             </FormControl>
           </FieldContainer>
-          {/* <FieldContainer>
-            <Box sx={{ width: "100%", paddingTop: "20px" }}>
-              <Typography
-                id="carat-slider"
-                gutterBottom
-                sx={{ color: !isFormEnabled ? "gray" : "inherit" }}
-              >
-                Carat: {diamondDetail.carat.toFixed(1)}
-              </Typography>
-              <Slider
-                value={diamondDetail.carat}
-                onChange={handleCaratChange}
-                aria-labelledby="carat-slider"
-                step={0.1}
-                min={0.3}
-                max={5.0}
-                disabled={!isFormEnabled}
-              />
-            </Box>
-          </FieldContainer> */}
+
           <FieldContainer>
             <TextField
               fullWidth
@@ -360,7 +320,7 @@ const DiamondDetail = () => {
               value={diamondDetail.carat}
               onChange={handleChange}
               type="number"
-              inputProps={{ min: "0" }}
+              inputProps={{ min: "0", step: "0.00001" }}
               disabled={!isFormEnabled}
             />
           </FieldContainer>
@@ -551,15 +511,16 @@ const DiamondDetail = () => {
                   : "transparent",
               }}
             >
-              <input {...getInputPropsMultiple()} />
-              {uploadedImages.length > 0 ? (
-                <Typography>
-                  {uploadedImages.length} file(s) selected
-                </Typography>
+              <input
+                {...getInputPropsMultiple()}
+                id="clarityImages"
+                name="clarityImages"
+              />
+              {uploadedImages ? (
+                <Typography>{uploadedImages.name}</Typography>
               ) : (
                 <Typography>
-                  Drag 'n' drop clarity images here, or click to select multiple
-                  files
+                  Drag 'n' drop a clarity image here, or click to select one
                 </Typography>
               )}
             </Box>

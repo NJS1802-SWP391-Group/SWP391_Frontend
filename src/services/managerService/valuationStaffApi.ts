@@ -12,12 +12,17 @@ const valuationStaffApi = {
   // },
 
   createDiamondDetail: (formData: DiamondDetailResponse) => {
-    const response = axiosClient.post("/Result/Create-Result", formData, {
+    const url = "/Result/Create-Result";
+    // const response = axiosClient.post("/Result/Create-Result", formData, {
+    //   // headers: {
+    //   //   "Content-Type": "multipart/form-data",
+    //   // },
+    // });
+    return axiosClient.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    return response;
   },
 
   getOrderDetailByValuationStaffId: (accountId: number | undefined) => {

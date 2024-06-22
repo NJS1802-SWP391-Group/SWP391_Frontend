@@ -2,7 +2,7 @@ export interface DiamondDetailResponse {
   isDiamond: boolean;
   origin: string;
   shape: string;
-  carat: string;
+  carat: number;
   color: string;
   clarity: string;
   fluorescence: string;
@@ -11,7 +11,7 @@ export interface DiamondDetailResponse {
   cutGrade: string;
   description: string;
   diamondValue: number;
-  propotionImage: File | null;
-  clarityImages: File[] | null;
+  ProportionImages: File | null;
+  ClarityImages: File | null;
   orderDetailId: number;
 }

@@ -10,12 +10,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import styled from "styled-components";
-import ClarityImage from "../../assets/ClarityImage.png";
 import Diavan from "../../assets/Diavan.png";
 import DiavanSign from "../../assets/DiavanSign.png";
-import FeatherImage from "../../assets/FeatherImage.png";
-import PinpointImage from "../../assets/PinpointImage.png";
-import PropotionImage from "../../assets/PropotionImage.png";
 import { CertificateResponse } from "../../interfaces/certificate/certificateResponse";
 import certificateApi from "../../services/certificateService/certificateApi";
 
@@ -207,13 +203,18 @@ const Certificate = () => {
                 </Typography>
               </SectionTitle>
               <Box sx={{ marginLeft: "130px", paddingTop: "2px" }}>
-                <img
-                  src={PropotionImage}
-                  width="230"
-                  height="115"
-                  alt="PropotionImage"
-                  className="PropotionImage"
-                />
+                {certificate.resultImages.map(
+                  (image) =>
+                    image.imageType === "Proportions" && (
+                      <img
+                        key={image.imageUrl}
+                        src={image.imageUrl}
+                        width="230"
+                        height="115"
+                        alt="Proportions"
+                      />
+                    )
+                )}
               </Box>
             </Section>
 
@@ -253,10 +254,6 @@ const Certificate = () => {
                 </Typography>
               </SectionTitle>
               <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
-                <Typography>
-                  Certificate Date:{" "}
-                  {new Date(certificate.issueDate).toLocaleDateString()}
-                </Typography>
                 <Typography>Report Number: {certificate.code}</Typography>
                 <Typography>Shape: {certificate.shape}</Typography>
               </Box>
@@ -303,69 +300,18 @@ const Certificate = () => {
                   marginLeft: "50px",
                 }}
               >
-                <Box sx={{ paddingTop: "10px" }}>
-                  <img
-                    src={ClarityImage}
-                    width="190"
-                    height="75"
-                    alt="ClarityImage"
-                    className="ClarityImage"
-                  />
-                </Box>
-                <Box>
-                  <Box
-                    sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-                  >
-                    <Box
-                      sx={{
-                        backgroundColor: "#f8f9fa",
-                        width: "100px",
-                        height: "30px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "5px",
-                        border: "0.5px solid lightgray",
-                      }}
-                    >
+                {certificate.resultImages.map(
+                  (image) =>
+                    image.imageType === "Clarity Characteristics" && (
                       <img
-                        src={PinpointImage}
-                        width="25"
-                        height="25"
-                        alt="PinpointImage"
-                        className="PinpointImage"
+                        key={image.imageUrl}
+                        src={image.imageUrl}
+                        width="90"
+                        height="85"
+                        alt="Clarity Characteristics"
                       />
-                      <Typography>Pinpoint</Typography>
-                    </Box>
-                  </Box>
-                </Box>
-                <Box>
-                  <Box
-                    sx={{ display: "flex", alignItems: "center", gap: "5px" }}
-                  >
-                    <Box
-                      sx={{
-                        backgroundColor: "#f8f9fa",
-                        width: "100px",
-                        height: "30px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "5px",
-                        border: "0.5px solid lightgray",
-                      }}
-                    >
-                      <img
-                        src={FeatherImage}
-                        width="25"
-                        height="25"
-                        alt="FeatherImage"
-                        className="FeatherImage"
-                      />
-                      <Typography>Feather</Typography>
-                    </Box>
-                  </Box>
-                </Box>
+                    )
+                )}
               </Box>
             </Section>
           </Container>
