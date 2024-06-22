@@ -65,7 +65,7 @@ const RecepitBill: React.FC = () => {
   const [service, setService] = React.useState("");
   const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
-  const [payment, setPayment] = useState("direct");
+  const [payment, setPayment] = useState("cash");
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const [editingId, setEditingId] = useState<number>();
@@ -464,14 +464,19 @@ const RecepitBill: React.FC = () => {
                 <FormLabel id="radio-payment">Payment</FormLabel>
                 <RadioGroup row value={payment} onChange={handleChangePayment}>
                   <FormControlLabel
-                    value="direct"
+                    value="cash"
                     control={<Radio />}
-                    label="Direct"
+                    label="Cash"
                   />
                   <FormControlLabel
-                    value="online"
+                    value="momo"
                     control={<Radio />}
-                    label="Online"
+                    label="Momo"
+                  />
+                  <FormControlLabel
+                    value="banking"
+                    control={<Radio />}
+                    label="Banking"
                   />
                 </RadioGroup>
               </FormControl>

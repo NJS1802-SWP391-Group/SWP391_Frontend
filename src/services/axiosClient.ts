@@ -10,7 +10,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   function (config) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     // Do something before request is sent
     if (token !== null) {
       console.log("Token: ", token);

@@ -32,6 +32,7 @@ function Navbar() {
   };
 
   const handleLogout = () => {
+    localStorage.clear();
     sessionStorage.clear();
     alert("Logout successfully");
     navigate("/");
@@ -64,7 +65,7 @@ function Navbar() {
       </ul>
 
       <div>
-        {sessionStorage.getItem("loggedIn") == "true" ? (
+        {localStorage.getItem("loggedIn") == "true" ? (
           <Box sx={{ flexGrow: 0, marginLeft: "80%" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

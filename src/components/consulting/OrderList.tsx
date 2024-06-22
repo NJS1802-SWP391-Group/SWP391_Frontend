@@ -72,6 +72,21 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
         console.log("Error", error);
       });
   };
+
+  const onClickSeal = (orderId: number, orderCode: string) => {
+    const confirmSeal = confirm(`Do you want seal Order ${orderCode}`);
+    {
+      confirmSeal &&
+        orderApi
+          .sealOrder(orderId)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log("Seal error: ", error);
+          });
+    }
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -126,6 +141,17 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   }}
                 >
                   Send Email
+                </Button>
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Completed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="error"
+                  onClick={() => {
+                    onClickSeal(item.orderID, item.code);
+                  }}
+                >
+                  Seal
                 </Button>
               </StyledTableCell>
             </StyledTableRow>

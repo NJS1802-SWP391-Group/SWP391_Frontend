@@ -57,33 +57,29 @@ export default function LoginSystem() {
       (response: any) => {
         console.log(response);
         if (response.success == true) {
-          sessionStorage.setItem("customerId", response.result.customerId);
-          sessionStorage.setItem("loggedIn", "true");
-
+          localStorage.setItem("customerId", response.result.customerId);
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem(`token`, response.result.accessToken);
+          localStorage.setItem("role", response.result.roleName);
           switch (response.result.roleName) {
             case "Customer":
               alert(LOGIN_SUCCESS);
-              sessionStorage.setItem(`token`, response.result.accessToken);
               navigate("/");
               break;
             case "ConsultingStaff":
               alert(LOGIN_SUCCESS);
-              sessionStorage.setItem(`token`, response.result.accessToken);
               navigate("/consulting-page");
               break;
             case "ValuationStaff":
               alert(LOGIN_SUCCESS);
-              sessionStorage.setItem(`token`, response.result.accessToken);
               navigate("/valuationStaff/assigned");
               break;
             case "Manager":
               alert(LOGIN_SUCCESS);
-              sessionStorage.setItem(`token`, response.result.accessToken);
               navigate("/manager/assign");
               break;
             case "Admin":
               alert(LOGIN_SUCCESS);
-              sessionStorage.setItem(`token`, response.result.accessToken);
               break;
             default:
               alert("You do not have permission to access this page");

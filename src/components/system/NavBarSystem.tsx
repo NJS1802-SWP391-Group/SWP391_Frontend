@@ -102,6 +102,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
   };
 
   const handleLogout = () => {
+    localStorage.clear();
     sessionStorage.clear();
     alert("Logout successfully");
     navigate("/");
