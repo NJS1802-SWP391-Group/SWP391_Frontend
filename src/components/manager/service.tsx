@@ -69,14 +69,14 @@ const Service = () => {
     initUseEffect();
   }, []);
 
-  const handleAddService = () => {
-    setNewService({
-      serviceID: 0,
-      name: "",
-      description: "",
-      status: "",
-    });
-  };
+  // const handleAddService = () => {
+  //   setNewService({
+  //     serviceID: 0,
+  //     name: "",
+  //     description: "",
+  //     status: "",
+  //   });
+  // };
 
   const initialService = {
     serviceID: 0,
@@ -95,6 +95,19 @@ const Service = () => {
     );
   };
 
+  const handleAddService = () => {
+    const nextServiceID =
+      serviceList.length > 0
+        ? serviceList[serviceList.length - 1].serviceID + 1
+        : 1;
+    setNewService({
+      serviceID: nextServiceID,
+      name: "",
+      description: "",
+      status: "",
+    });
+  };
+
   const handleSaveService = () => {
     if (editService) {
       setServiceList((prevService) =>
@@ -108,7 +121,10 @@ const Service = () => {
         ...prevService,
         {
           ...newService,
-          FeID: `FE${prevService.length + 1}`,
+          serviceID:
+            serviceList.length > 0
+              ? serviceList[serviceList.length - 1].serviceID + 1
+              : 1,
           CreatedTime: new Date().toISOString(),
         },
       ]);
@@ -252,7 +268,7 @@ const Service = () => {
             <DialogContentText>
               Update the details of the Service.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Service ID"
               type="text"
@@ -260,7 +276,7 @@ const Service = () => {
               name="ServiceID"
               value={editService.serviceID}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Service name"
@@ -308,7 +324,7 @@ const Service = () => {
             <DialogContentText>
               Enter the details of the new Service.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Service ID"
               type="text"
@@ -316,7 +332,7 @@ const Service = () => {
               name="ServiceID"
               value={newService.serviceID}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Service Name"
@@ -335,7 +351,7 @@ const Service = () => {
               value={newService.description}
               onChange={handleInputChange}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Status"
               type="text"
@@ -343,7 +359,7 @@ const Service = () => {
               name="Status"
               value={newService.status}
               onChange={handleInputChange}
-            />
+            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="secondary">

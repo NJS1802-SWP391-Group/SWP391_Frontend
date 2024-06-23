@@ -140,6 +140,7 @@ const ServiceDetail = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -168,7 +169,7 @@ const ServiceDetail = () => {
           sx={{ marginLeft: 135 }}
           onClick={handleAddServiceDetail}
         >
-          <img src={PlusAdd} height={20} width={20} />
+          <img src={PlusAdd} height={20} width={20} alt="PlusAdd" />
           <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
             New service detail
           </Typography>
@@ -182,7 +183,7 @@ const ServiceDetail = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>
-                Code Service Detail
+                Service Detail Code
               </StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Min Range</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Max Range</StyledTableCell>
@@ -259,7 +260,7 @@ const ServiceDetail = () => {
             <DialogContentText>
               Update the details of the ServiceDetail.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Code ServiceDetail"
               type="text"
@@ -267,7 +268,7 @@ const ServiceDetail = () => {
               name="ServiceDetailID"
               value={editServiceDetail.code}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Min Range"
@@ -332,7 +333,7 @@ const ServiceDetail = () => {
             <DialogContentText>
               Enter the details of the new ServiceDetail.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="ServiceDetail Code"
               type="text"
@@ -340,7 +341,7 @@ const ServiceDetail = () => {
               name="ServiceDetailCode"
               value={newServiceDetail.code}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Min Range"
