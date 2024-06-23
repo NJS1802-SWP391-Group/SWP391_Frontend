@@ -40,7 +40,71 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function RegisterForm() {
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [cccd, setCccd] = React.useState("");
+  const [dob, setDob] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [address, setAddress] = React.useState("");
   const navigate = useNavigate();
+
+  const onChangeFirstName = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFirstName(e.target.value);
+  };
+
+  const onChangeLastName = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setLastName(e.target.value);
+  };
+
+  const onChangeEmail = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(e.target.value);
+  };
+
+  const onChangeUserName = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUserName(e.target.value);
+  };
+
+  const onChangePassword = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(e.target.value);
+  };
+
+  const onChangeCccd = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setCccd(e.target.value);
+  };
+
+  const onChangeDob = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setDob(e.target.value);
+  };
+
+  const onChangePhone = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPhone(e.target.value);
+  };
+
+  const onChangeAddress = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setAddress(e.target.value);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -105,6 +169,7 @@ export default function RegisterForm() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onChange={onChangeFirstName}
                   autoFocus
                 />
               </Grid>
@@ -115,6 +180,7 @@ export default function RegisterForm() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  onChange={onChangeLastName}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -125,6 +191,7 @@ export default function RegisterForm() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  onChange={onChangeEmail}
                   autoComplete="email"
                 />
               </Grid>
@@ -134,6 +201,7 @@ export default function RegisterForm() {
                   id="username"
                   type="text"
                   label="Username"
+                  onChange={onChangeUserName}
                   name="userName"
                   fullWidth
                 />
@@ -145,12 +213,14 @@ export default function RegisterForm() {
                   name="password"
                   label="Password"
                   type="password"
+                  onChange={onChangePassword}
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={onChangeCccd}
                   required
                   id="cccd"
                   type="string"
@@ -161,6 +231,7 @@ export default function RegisterForm() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={onChangeDob}
                   required
                   id="dob"
                   type="date"
@@ -172,6 +243,7 @@ export default function RegisterForm() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={onChangePhone}
                   required
                   id="phone-number"
                   name="phoneNumber"
@@ -182,6 +254,7 @@ export default function RegisterForm() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onChange={onChangeAddress}
                   required
                   id="address"
                   name="address"
@@ -200,6 +273,19 @@ export default function RegisterForm() {
               </Grid>
             </Grid>
             <Button
+              disabled={
+                firstName &&
+                lastName &&
+                email &&
+                userName &&
+                password &&
+                cccd &&
+                dob &&
+                phone &&
+                address
+                  ? false
+                  : true
+              }
               type="submit"
               fullWidth
               variant="contained"

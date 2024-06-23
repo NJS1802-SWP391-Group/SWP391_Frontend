@@ -74,7 +74,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
   };
 
   const onClickSeal = (orderId: number, orderCode: string) => {
-    const confirmSeal = confirm(`Do you want seal Order ${orderCode}`);
+    const confirmSeal = confirm(`Do you want seal Order: ${orderCode}`);
     {
       confirmSeal &&
         orderApi
@@ -85,6 +85,16 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
           .catch((error) => {
             console.log("Seal error: ", error);
           });
+    }
+  };
+
+  const onClickReturn = async (orderId: number, orderCode: string) => {
+    const confirmReturn = confirm(
+      `Did you send Order: ${orderCode} to customer?`
+    );
+    if (confirmReturn) {
+      const returnOrder = await orderApi.returnOrder(orderId);
+      console.log("Return order:", returnOrder);
     }
   };
   return (
@@ -152,6 +162,17 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   }}
                 >
                   Seal
+                </Button>
+                <Button
+                  variant="contained"
+                  disabled={item.status == "Completed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="error"
+                  onClick={() => {
+                    onClickReturn(item.orderID, item.code);
+                  }}
+                >
+                  Return
                 </Button>
               </StyledTableCell>
             </StyledTableRow>

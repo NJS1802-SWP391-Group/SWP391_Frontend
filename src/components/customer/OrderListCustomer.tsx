@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { OrderListCustomerInterface } from "../../interfaces/order/orderListCustomer";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ProductionQuantityLimits from "@mui/icons-material/ProductionQuantityLimits";
-import DiamondLogo from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
+import DiamondLogo from "../../assets/diamond.png";
 import PriceChangeOutlined from "@mui/icons-material/PriceChangeOutlined";
 import QrCode from "@mui/icons-material/QrCode";
 import SortIcon from "@mui/icons-material/Sort";
@@ -105,7 +105,7 @@ const OrderListCustomer = ({ orderList }: Props) => {
                     }}
                   >
                     <span>
-                      <img src={DiamondLogo} width={120} height={120} />
+                      <img src={DiamondLogo} width={64} height={64} />
                     </span>
                     <div style={{ alignContent: "center" }}>
                       <Typography>
