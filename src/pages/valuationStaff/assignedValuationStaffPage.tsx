@@ -22,7 +22,7 @@ const AssignedValuationStaffPage = () => {
       <Paper
         sx={{
           width: "1300px",
-          marginLeft: "250px",
+          marginLeft: "60px",
           marginTop: "5px",
         }}
       >

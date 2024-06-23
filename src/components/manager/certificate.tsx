@@ -50,9 +50,10 @@ const Certificate = () => {
   });
 
   const Section = styled(Paper)({
-    flex: "1 1 45%",
+    flex: "1 1 30%", // Adjusted the width to 30%
     padding: "15px",
     backgroundColor: "#fff",
+    boxSizing: "border-box", // Ensure padding is included in width calculation
   });
 
   const SectionTitle = styled(Typography)({
@@ -102,29 +103,33 @@ const Certificate = () => {
   }
 
   return (
-    <Grid container justifyContent="center" sx={{ paddingRight: "900px" }}>
+    <Grid container justifyContent="center" sx={{ paddingRight: "1000px" }}>
       <Box
         ref={componentRef}
-        sx={{ padding: 3, width: "70%", height: "100vh" }}
+        sx={{
+          padding: 3,
+          width: "70%",
+          height: "100vh",
+        }}
       >
-        <Box sx={{ height: "60%", paddingLeft: "100px" }}>
+        <Box sx={{ height: "60%", paddingLeft: "0px" }}>
           <Box
             sx={{
               paddingBottom: "20px",
               display: "flex",
-              paddingLeft: "70px",
+
               paddingTop: "30px",
               height: "40%",
             }}
           >
             <Box>
-              <Typography sx={{ fontWeight: "bold", fontSize: "35px" }}>
+              <Typography sx={{ fontWeight: "bold", fontSize: "25px" }}>
                 DIAVAN
               </Typography>
               <Typography
                 sx={{
                   fontWeight: "bold",
-                  fontSize: "60px",
+                  fontSize: "45px",
                   fontFamily: "revert",
                   fontStyle: "italic",
                 }}
@@ -137,12 +142,13 @@ const Certificate = () => {
                 paddingLeft: "30px",
                 display: "flex",
                 alignItems: "center",
+                marginBottom: "50px",
               }}
             >
               <img
                 src={Diavan}
-                width="90"
-                height="90"
+                width="70"
+                height="70"
                 alt="Diavan"
                 className="Diavan"
               />
@@ -150,7 +156,7 @@ const Certificate = () => {
                 sx={{
                   fontFamily: "revert-layer",
                   fontStyle: "italic",
-                  fontSize: "20px",
+                  fontSize: "15px",
                   paddingLeft: "190px",
                   width: "780px",
                 }}
@@ -162,9 +168,8 @@ const Certificate = () => {
           </Box>
           <Container
             sx={{
-              width: "1100px",
+              width: "1000px",
               marginTop: "85px",
-              marginLeft: "70px",
               height: "550px",
             }}
           >
@@ -259,69 +264,74 @@ const Certificate = () => {
               </Box>
             </Section>
 
-            <Section sx={{ height: "140px" }}>
-              <SectionTitle
-                sx={{
-                  backgroundColor: "#2D5477",
-                  fontWeight: "bold",
-                  color: "white",
-                  paddingLeft: "10px",
-                }}
-              >
-                <Typography sx={{ color: "white", fontWeight: "bold" }}>
-                  Diamond Value
-                </Typography>
-              </SectionTitle>
-              <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
-                <Typography>
-                  Valuing Price: {certificate.diamondValue}
-                </Typography>
-              </Box>
-            </Section>
+            {/* Add a wrapper Box to align Diamond Value and Clarity Characteristic sections side by side */}
+            <Box sx={{ display: "flex", gap: "20px", width: "1100px" }}>
+              <Section sx={{ height: "140px", flex: 1 }}>
+                <SectionTitle
+                  sx={{
+                    backgroundColor: "#2D5477",
+                    fontWeight: "bold",
+                    color: "white",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                    Diamond Value
+                  </Typography>
+                </SectionTitle>
+                <Box sx={{ paddingLeft: "15px", paddingTop: "5px" }}>
+                  <Typography>
+                    Valuing Price: {certificate.diamondValue}
+                  </Typography>
+                </Box>
+              </Section>
 
-            <Section sx={{ height: "140px", marginBottom: "20px" }}>
-              <SectionTitle
-                sx={{
-                  backgroundColor: "#2D5477",
-                  fontWeight: "bold",
-                  color: "white",
-                  paddingLeft: "10px",
-                }}
-              >
-                <Typography sx={{ color: "white", fontWeight: "bold" }}>
-                  Clarity Characteristic
-                </Typography>
-              </SectionTitle>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "20px",
-                  marginLeft: "50px",
-                }}
-              >
-                {certificate.resultImages.map(
-                  (image) =>
-                    image.imageType === "Clarity Characteristics" && (
-                      <img
-                        key={image.imageUrl}
-                        src={image.imageUrl}
-                        width="90"
-                        height="85"
-                        alt="Clarity Characteristics"
-                      />
-                    )
-                )}
-              </Box>
-            </Section>
+              <Section sx={{ height: "140px", flex: 1 }}>
+                <SectionTitle
+                  sx={{
+                    backgroundColor: "#2D5477",
+                    fontWeight: "bold",
+                    color: "white",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  <Typography sx={{ color: "white", fontWeight: "bold" }}>
+                    Clarity Characteristic
+                  </Typography>
+                </SectionTitle>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "20px",
+                    marginLeft: "50px",
+                  }}
+                >
+                  {certificate.resultImages.map(
+                    (image) =>
+                      image.imageType === "Clarity Characteristics" && (
+                        <img
+                          key={image.imageUrl}
+                          src={image.imageUrl}
+                          width="90"
+                          height="85"
+                          alt="Clarity Characteristics"
+                        />
+                      )
+                  )}
+                </Box>
+              </Section>
+            </Box>
           </Container>
-          <Box sx={{ width: "100%", marginLeft: "800px", marginTop: "15px" }}>
-            <Typography sx={{ fontWeight: "bold", fontSize: "22px" }}>
+          <Box sx={{ width: "100%", marginLeft: "750px", marginTop: "15px" }}>
+            <Typography
+              sx={{ fontWeight: "bold", fontSize: "18px", width: "180px" }}
+            >
               Granted by:
             </Typography>
             <img
               src={DiavanSign}
-              width="450"
+              width="400"
               height="150"
               alt="DiavanSign"
               className="DiavanSign"
@@ -332,8 +342,9 @@ const Certificate = () => {
 
       <Box
         sx={{
-          marginLeft: "2550px",
+          marginLeft: "2300px",
           paddingLeft: "50px",
+          marginTop: "100px",
           marginBottom: "15px",
         }}
       >
@@ -347,7 +358,14 @@ const Certificate = () => {
           }}
           onClick={handleDoneClick}
         >
-          <Typography sx={{ paddingLeft: "35px", paddingRight: "30px" }}>
+          <Typography
+            sx={{
+              paddingLeft: "35px",
+              paddingRight: "30px",
+              fontSize: "10px",
+              fontWeight: "bold",
+            }}
+          >
             Confirm
           </Typography>
         </Button>
@@ -361,7 +379,11 @@ const Certificate = () => {
           onClick={handlePrint}
           disabled={!isDone}
         >
-          <Typography sx={{ paddingLeft: "5px" }}>Print this out</Typography>
+          <Typography
+            sx={{ paddingLeft: "5px", fontSize: "10px", fontWeight: "bold" }}
+          >
+            Print this out
+          </Typography>
         </Button>
       </Box>
     </Grid>

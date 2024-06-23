@@ -81,11 +81,14 @@ const AssignValuationStaff = () => {
     orderDetailId: number,
     assignValuationStaffResponse: AssignValuationStaffResponse
   ) => {
-    setClickedOrderDetailId(orderDetailId);
-    navigate(`/diamond/${orderDetailId}`, {
-      state: assignValuationStaffResponse,
-    });
-    console.log("Log test", assignValuationStaffResponse);
+    if (clickedOrderDetailId === orderDetailId) {
+      setClickedOrderDetailId(null); // Toggle back to PlusButton
+    } else {
+      setClickedOrderDetailId(orderDetailId); // Set to DoneButton
+      navigate(`/diamond/${orderDetailId}`, {
+        state: assignValuationStaffResponse,
+      });
+    }
   };
 
   const styleTableHead = {

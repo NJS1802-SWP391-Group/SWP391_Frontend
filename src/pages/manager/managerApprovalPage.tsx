@@ -26,7 +26,7 @@ const ManagerApprovalPage = () => {
         <Paper
           sx={{
             width: "1300px",
-            marginLeft: "250px",
+            marginLeft: "60px",
             marginTop: "15px",
           }}
         >
