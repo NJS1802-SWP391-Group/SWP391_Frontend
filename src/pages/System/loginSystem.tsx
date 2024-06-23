@@ -16,9 +16,13 @@ import DiavanLogo from "../../assets/Diavan.png";
 import { LOGIN_SUCCESS } from "../../constants";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
-
+import * as yup from "yup";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IconButton } from "@mui/material";
+
+// const validationSchema = yup.object({
+//   username: yup.string().required("Can't empty in the Account blank"),
+// });
 
 function Copyright(props: any) {
   return (
@@ -42,8 +46,23 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function LoginSystem() {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
+
+  const onChangeUsername = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUsername(e.target.value);
+  };
+
+  const onChangePassword = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(e.target.value);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -122,6 +141,7 @@ export default function LoginSystem() {
             sx={{ mt: 1 }}
           >
             <TextField
+              onChange={onChangeUsername}
               margin="normal"
               required
               fullWidth
@@ -129,8 +149,11 @@ export default function LoginSystem() {
               label="User name"
               name="userName"
               autoFocus
+              error={username ? false : true}
+              helperText={username ? "" : "User name cannot empty"}
             />
             <TextField
+              onChange={onChangePassword}
               margin="normal"
               required
               fullWidth
@@ -139,6 +162,8 @@ export default function LoginSystem() {
               type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
+              error={password ? false : true}
+              helperText={password ? "" : "Please input password"}
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <FormControlLabel
@@ -155,6 +180,7 @@ export default function LoginSystem() {
             </div>
 
             <Button
+              disabled={username && password ? false : true}
               type="submit"
               fullWidth
               variant="contained"

@@ -14,7 +14,7 @@ const ValuationOrders = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const customerId = sessionStorage.getItem("customerId");
+      const customerId = localStorage.getItem("customerId");
       if (customerId != null) {
         const ordersByCustomerId: any = await orderApi.getOrdersByCustomer(
           parseInt(customerId)
