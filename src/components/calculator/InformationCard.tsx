@@ -66,7 +66,7 @@ const InformationCard = ({
             textAlign: "center",
           }}
         >
-          $5,115
+          {value}
         </Typography>
       )}
     </Box>
