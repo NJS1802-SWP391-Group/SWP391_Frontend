@@ -1,5 +1,4 @@
 import { Button, Card, Container, Divider, Typography } from "@mui/material";
-import React from "react";
 import Logo from "../../assets/Diavan.png";
 import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
 import { useLocation, useNavigate } from "react-router-dom";

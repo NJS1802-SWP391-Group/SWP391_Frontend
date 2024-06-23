@@ -1,4 +1,3 @@
-import React from "react";
 import "./Footer.css";
 import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";

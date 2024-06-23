@@ -1,5 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
-import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 const ConsultingRoutes = () => {
   const auth = localStorage.getItem("loggedIn");

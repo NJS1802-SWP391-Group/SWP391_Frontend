@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DiavanLogo from "../../assets/Diavan.png";
 import "./OrderDetail.css";
 import {
@@ -34,9 +34,6 @@ import SuccessfullAlert from "../SuccessfullAlert";
 import BackButton from "../BackButton";
 import orderDetailApi from "../../services/orderDetailApi";
 import { DetailValuation } from "../../interfaces/order/orderInterface";
-import { url } from "inspector";
-import { error } from "console";
-import OrderDetail from "./OrderDetail";
 import { UpdateOrderDetail } from "../../interfaces/orderDetail/OrderDetailInterface";
 import accountApi from "../../services/accountApi";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
@@ -273,7 +270,7 @@ const RecepitBill: React.FC = () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">
-                        Estimate Length
+                        Estimate Length(mm)
                       </StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>

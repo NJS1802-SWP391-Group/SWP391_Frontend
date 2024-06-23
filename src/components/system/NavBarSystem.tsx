@@ -63,7 +63,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const settings = ["Profile", "Logout"];
+// const settings = ["Profile", "Logout"];
 
 export default function NavBarSystem(marginBottom: { marginBottom: string }) {
   const navigate = useNavigate();

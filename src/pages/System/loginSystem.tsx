@@ -16,7 +16,6 @@ import DiavanLogo from "../../assets/Diavan.png";
 import { LOGIN_SUCCESS } from "../../constants";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
-import * as yup from "yup";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IconButton } from "@mui/material";
 
@@ -99,6 +98,7 @@ export default function LoginSystem() {
               break;
             case "Admin":
               alert(LOGIN_SUCCESS);
+              navigate("/admin/service");
               break;
             default:
               alert("You do not have permission to access this page");

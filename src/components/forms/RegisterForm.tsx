@@ -12,10 +12,8 @@ import DiavanLogo from "../../assets/Diavan.png";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useForm } from "react-hook-form";
 import signUpApi from "../../services/signUpApi";
 import { RegisterRequest } from "../../interfaces/register/RegisterRequest";
-import { formatDate } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {

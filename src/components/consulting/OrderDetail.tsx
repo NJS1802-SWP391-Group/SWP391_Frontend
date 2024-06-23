@@ -12,7 +12,6 @@ import {
   Divider,
   FormControl,
   InputLabel,
-  Menu,
   MenuItem,
   Paper,
   Select,
@@ -28,7 +27,7 @@ import {
 } from "@mui/material";
 import orderApi from "../../services/orderApi";
 import { formatDate } from "../../utils/utils";
-import { OrderResponse } from "../../interfaces/order/orderResponse";
+// import { OrderResponse } from "../../interfaces/order/orderResponse";
 
 import { useNavigate } from "react-router-dom";
 import accountApi from "../../services/accountApi";
@@ -85,7 +84,7 @@ function OrderDetail({ order, closeModal }: Props) {
   );
   const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
-  const [responseOrder, setResponseOrder] = useState<OrderResponse>();
+  // const [responseOrder, setResponseOrder] = useState<OrderResponse>();
   const navigate = useNavigate();
   const [service, setService] = React.useState("");
   const [accountInfo, setAccountInfo] = useState<AccountInfo>();
@@ -148,7 +147,7 @@ function OrderDetail({ order, closeModal }: Props) {
     const data = orderRequest;
     orderApi.sendRequest(data).then(
       (response: any) => {
-        setResponseOrder(response.data);
+        // setResponseOrder(response.data);
         // console.log(response);
         navigate(`/receipt-bill/${data.orderID}`, {
           state: response,

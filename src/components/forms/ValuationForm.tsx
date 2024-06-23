@@ -5,12 +5,12 @@ import { AccountInfo } from "../../interfaces/account/AccountInterface";
 import accountApi from "../../services/accountApi";
 import orderApi from "../../services/orderApi";
 
-const textFieldStyle = {
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  marginTop: "10px",
-};
+// const textFieldStyle = {
+//   width: "100%",
+//   display: "flex",
+//   justifyContent: "center",
+//   marginTop: "10px",
+// };
 
 export interface SendRequest {
   customerId: number | undefined;

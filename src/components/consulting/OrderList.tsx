@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +11,6 @@ import { OrderInterface } from "../../interfaces/order/orderInterface";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import orderApi from "../../services/orderApi";
-import { error } from "console";
 import emailApi from "../../services/emailApi";
 
 // type Props = {

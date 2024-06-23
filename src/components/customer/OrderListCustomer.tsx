@@ -7,7 +7,7 @@ import {
   Fade,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { OrderListCustomerInterface } from "../../interfaces/order/orderListCustomer";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ProductionQuantityLimits from "@mui/icons-material/ProductionQuantityLimits";
