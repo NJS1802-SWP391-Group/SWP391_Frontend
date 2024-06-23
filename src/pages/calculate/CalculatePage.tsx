@@ -1,9 +1,8 @@
 import { Container } from "@mui/material";
 import React from "react";
+import Calculator from "../../components/calculator/Calculator";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-import CalculatorInput from "../../components/calculator/CalculatorInput";
-import CalculatorOutput from "../../components/calculator/CalculatorOutput";
 import "./CalculatePage.css";
 export type shapeDiamond = {
   id: number;
@@ -22,8 +21,7 @@ const CalculatePage = () => {
       <Navbar />
       <Container>
         <div className="cal">
-          <CalculatorInput />
-          <CalculatorOutput />
+          <Calculator />
         </div>
       </Container>
       <Footer />

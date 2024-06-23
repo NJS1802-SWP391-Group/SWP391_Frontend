@@ -1,7 +1,3 @@
-import * as React from "react";
-import "./Navbar.css";
-import DiavanImage from "../../assets/Diavan.png";
-import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -11,7 +7,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import DiavanImage from "../../assets/Diavan.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
+import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
