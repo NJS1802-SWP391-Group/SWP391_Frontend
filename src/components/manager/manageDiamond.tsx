@@ -69,6 +69,7 @@ const ManageDiamond = () => {
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleRowsPerPageChange = (
@@ -127,10 +128,6 @@ const ManageDiamond = () => {
   const handleCloseDialog = () => {
     setNewDiamond(null);
   };
-
-  // const handleDeleteMember = (memberId: string) => {
-  //   setMembers((prevMembers) => prevMembers.filter((m) => m.FeID !== memberId));
-  // };
 
   const filteredDiamond = diamond.filter((diamond) => {
     const keyword = searchKeyword.toLowerCase();

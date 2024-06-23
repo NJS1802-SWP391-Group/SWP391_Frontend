@@ -69,22 +69,6 @@ const Service = () => {
     initUseEffect();
   }, []);
 
-  const handleAddService = () => {
-    setNewService({
-      serviceID: 0,
-      name: "",
-      description: "",
-      status: "",
-    });
-  };
-
-  const initialService = {
-    serviceID: 0,
-    name: "",
-    description: "",
-    status: "",
-  };
-
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
@@ -93,6 +77,19 @@ const Service = () => {
     setServiceList((prevService) =>
       prevService.filter((m) => m.serviceID !== serviceID)
     );
+  };
+
+  const handleAddService = () => {
+    const nextServiceID =
+      serviceList.length > 0
+        ? serviceList[serviceList.length - 1].serviceID + 1
+        : 1;
+    setNewService({
+      serviceID: nextServiceID,
+      name: "",
+      description: "",
+      status: "",
+    });
   };
 
   const handleSaveService = () => {
@@ -108,7 +105,10 @@ const Service = () => {
         ...prevService,
         {
           ...newService,
-          FeID: `FE${prevService.length + 1}`,
+          serviceID:
+            serviceList.length > 0
+              ? serviceList[serviceList.length - 1].serviceID + 1
+              : 1,
           CreatedTime: new Date().toISOString(),
         },
       ]);
@@ -138,6 +138,7 @@ const Service = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -146,17 +147,6 @@ const Service = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  // const handleChange = (
-  //   e:
-  //     | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  //     | SelectChangeEvent<string>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   // Convert carat to string if it's expected to be a string
-  //   const updatedValue = name === "carat" ? String(value) : value;
-  //   setService({ ...service, [name]: updatedValue });
-  // };
 
   const paginatedServiceResponseList = serviceList.slice(
     page * rowsPerPage,
@@ -177,7 +167,7 @@ const Service = () => {
           sx={{ marginLeft: 140 }}
           onClick={handleAddService}
         >
-          <img src={PlusAdd} height={20} width={20} />
+          <img src={PlusAdd} height={20} width={20} alt="PLusAdd" />
           <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
             New service
           </Typography>
@@ -252,7 +242,7 @@ const Service = () => {
             <DialogContentText>
               Update the details of the Service.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Service ID"
               type="text"
@@ -260,7 +250,7 @@ const Service = () => {
               name="ServiceID"
               value={editService.serviceID}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Service name"
@@ -308,7 +298,7 @@ const Service = () => {
             <DialogContentText>
               Enter the details of the new Service.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Service ID"
               type="text"
@@ -316,7 +306,7 @@ const Service = () => {
               name="ServiceID"
               value={newService.serviceID}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Service Name"
@@ -335,7 +325,7 @@ const Service = () => {
               value={newService.description}
               onChange={handleInputChange}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Status"
               type="text"
@@ -343,7 +333,7 @@ const Service = () => {
               name="Status"
               value={newService.status}
               onChange={handleInputChange}
-            />
+            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="secondary">

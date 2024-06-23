@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import styled from "styled-components";
 import Diavan from "../../assets/Diavan.png";
@@ -18,7 +18,7 @@ import certificateApi from "../../services/certificateService/certificateApi";
 const Certificate = () => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { resultId } = useParams<{ resultId: string }>();
-  const { state } = useLocation();
+
   const [certificate, setCertificate] = useState<CertificateResponse>();
   const [loading, setLoading] = useState<boolean>(true);
   const [isDone, setIsDone] = useState<boolean>(false);
