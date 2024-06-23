@@ -54,10 +54,24 @@
   font-weight: 700;
   line-height: 1rem;
   color: #111827;
-  width: calc(25% - 0.5rem);
+  width: calc(25% - 0.4rem);
+}
+
+.shape-button-sm {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #f3f4f6;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  color: #111827;
+  width: calc(20% - 0.4rem);
 }
 .origin-button.active-button,
-.shape-button.active-button {
+.shape-button.active-button,
+.shape-button-sm.active-button {
   background-color: #4f46e5;
   color: #fff;
   border: 1px solid #4f46e5;
