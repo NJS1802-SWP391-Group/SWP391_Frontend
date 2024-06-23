@@ -23,7 +23,7 @@ import AssignedValuationStaffPage from "../pages/valuationStaff/assignedValuatio
 import ConsultingRoutes from "./ConsultingRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 
-const AppRoutes = (props) => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/contact" element={<PrivateRoutes />}>

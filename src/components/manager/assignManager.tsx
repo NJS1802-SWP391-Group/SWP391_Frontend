@@ -57,12 +57,6 @@ const AssignManager: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
 
-  const [showSelection, setShowSelection] = useState(false);
-
-  const handleShow = () => {
-    setShowSelection(true);
-  };
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -108,6 +102,7 @@ const AssignManager: React.FC = () => {
   console.log("fetchData", managerAssignList);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -115,11 +110,6 @@ const AssignManager: React.FC = () => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleOpen = (managerResponse: ManagerAssignResponse) => {
-    setSelectedManagerResponse(managerResponse);
-    setOpen(true);
   };
 
   const handleClose = () => {
