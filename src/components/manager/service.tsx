@@ -69,22 +69,6 @@ const Service = () => {
     initUseEffect();
   }, []);
 
-  // const handleAddService = () => {
-  //   setNewService({
-  //     serviceID: 0,
-  //     name: "",
-  //     description: "",
-  //     status: "",
-  //   });
-  // };
-
-  const initialService = {
-    serviceID: 0,
-    name: "",
-    description: "",
-    status: "",
-  };
-
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
@@ -154,6 +138,7 @@ const Service = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -162,17 +147,6 @@ const Service = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  // const handleChange = (
-  //   e:
-  //     | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  //     | SelectChangeEvent<string>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   // Convert carat to string if it's expected to be a string
-  //   const updatedValue = name === "carat" ? String(value) : value;
-  //   setService({ ...service, [name]: updatedValue });
-  // };
 
   const paginatedServiceResponseList = serviceList.slice(
     page * rowsPerPage,
@@ -193,7 +167,7 @@ const Service = () => {
           sx={{ marginLeft: 140 }}
           onClick={handleAddService}
         >
-          <img src={PlusAdd} height={20} width={20} />
+          <img src={PlusAdd} height={20} width={20} alt="PLusAdd" />
           <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
             New service
           </Typography>
