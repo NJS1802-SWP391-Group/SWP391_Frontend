@@ -53,7 +53,7 @@ const ConsultingStaffPage = () => {
       }
     };
     fectOrders();
-  }, []);
+  }, [orders]);
 
   const filteredStudents: OrderInterface[] = orders.filter((order) => {
     if (statusFilter === "All" || order.status === statusFilter) {

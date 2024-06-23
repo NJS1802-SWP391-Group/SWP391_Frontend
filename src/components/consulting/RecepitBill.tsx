@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DiavanLogo from "../../assets/Diavan.png";
 import "./OrderDetail.css";
 import {
@@ -38,6 +38,8 @@ import { url } from "inspector";
 import { error } from "console";
 import OrderDetail from "./OrderDetail";
 import { UpdateOrderDetail } from "../../interfaces/orderDetail/OrderDetailInterface";
+import accountApi from "../../services/accountApi";
+import { AccountInfo } from "../../interfaces/account/AccountInterface";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -63,7 +65,7 @@ const RecepitBill: React.FC = () => {
   const [service, setService] = React.useState("");
   const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
-  const [payment, setPayment] = useState("direct");
+  const [payment, setPayment] = useState("cash");
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const [editingId, setEditingId] = useState<number>();
@@ -79,6 +81,16 @@ const RecepitBill: React.FC = () => {
   const data: OrderResponse = location.state;
   console.log("Data: ", data);
   const [fetchData, setFetchData] = useState<OrderResponse>(data);
+
+  const [accountInfo, setAccountInfo] = useState<AccountInfo>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const accountInfo: any = await accountApi.getAccountInfo();
+      setAccountInfo(accountInfo);
+    };
+    fetchData();
+  }, [accountInfo]);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -246,7 +258,7 @@ const RecepitBill: React.FC = () => {
               <br />
               Customer name: {fetchData.firstName + " "} {fetchData.lastName}
               <br />
-              Consulting staff: Vo Mong Luan
+              Consulting staff: {accountInfo?.result.user.userName}
               <br />
               Date Created: {fetchData.time}
             </div>
@@ -452,14 +464,19 @@ const RecepitBill: React.FC = () => {
                 <FormLabel id="radio-payment">Payment</FormLabel>
                 <RadioGroup row value={payment} onChange={handleChangePayment}>
                   <FormControlLabel
-                    value="direct"
+                    value="cash"
                     control={<Radio />}
-                    label="Direct"
+                    label="Cash"
                   />
                   <FormControlLabel
-                    value="online"
+                    value="momo"
                     control={<Radio />}
-                    label="Online"
+                    label="Momo"
+                  />
+                  <FormControlLabel
+                    value="banking"
+                    control={<Radio />}
+                    label="Banking"
                   />
                 </RadioGroup>
               </FormControl>
