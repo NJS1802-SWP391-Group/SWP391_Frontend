@@ -26,13 +26,6 @@ const Section = styled(Paper)({
   backgroundColor: "#f7f7f7",
 });
 
-const Title = styled(Typography)({
-  fontWeight: "bold",
-  fontSize: "24px",
-  marginBottom: "10px",
-  color: "#4F46E5",
-});
-
 const FieldContainer = styled(Box)({
   marginBottom: "10px",
 });
@@ -67,6 +60,7 @@ const DiamondDetail = () => {
   console.log("uploadImage:", uploadedImage);
   const [isFormEnabled, setIsFormEnabled] = useState(true);
   const [success, setSuccess] = useState(false);
+  console.log("success:", success);
   const [isButtonClicked, setIsButtonClicked] = useState(false); // New state for button click
 
   useEffect(() => {
@@ -96,14 +90,6 @@ const DiamondDetail = () => {
     console.log("cbox:", e.target.checked);
   };
 
-  const handleCaratChange = (event: Event, value: number | number[]) => {
-    setDiamondDetail({ ...diamondDetail, carat: value as number });
-  };
-
-  // const onDrop = useCallback((acceptedFiles: File[]) => {
-  //   setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
-  // }, []);
-
   const {
     getRootProps: getRootPropsSingle,
     getInputProps: getInputPropsSingle,
@@ -125,17 +111,6 @@ const DiamondDetail = () => {
     },
     multiple: false,
   });
-
-  // const {
-  //   getRootProps: getRootPropsMultiple,
-  //   getInputProps: getInputPropsMultiple,
-  //   isDragActive: isDragActiveMultiple,
-  // } = useDropzone({
-  //   onDrop: (acceptedFiles) => {
-  //     setUploadedImages(acceptedFiles);
-  //   },
-  //   multiple: true,
-  // });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -189,6 +164,7 @@ const DiamondDetail = () => {
       setSuccess(false);
       navigate("/valuationStaff/assigned");
     }, 3000);
+    console.log("timer", timer);
   };
 
   return (
