@@ -100,9 +100,8 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("customerId");
-    localStorage.removeItem("token");
+    localStorage.clear();
+    sessionStorage.clear();
     alert("Logout successfully");
     navigate("/");
   };

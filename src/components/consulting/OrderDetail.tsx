@@ -96,7 +96,7 @@ function OrderDetail({ order, closeModal }: Props) {
       setAccountInfo(accountInfo);
     };
     fetchData();
-  }, []);
+  }, [accountInfo]);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -192,7 +192,7 @@ function OrderDetail({ order, closeModal }: Props) {
                     <TableRow>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">
-                        Estimate Length
+                        Estimate Length (mm)
                       </StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>

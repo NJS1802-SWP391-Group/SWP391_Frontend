@@ -32,9 +32,8 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("customerId");
-    localStorage.removeItem("token");
+    localStorage.clear();
+    sessionStorage.clear();
     alert("Logout successfully");
     navigate("/");
   };
@@ -61,7 +60,7 @@ function Navbar() {
           <li>About</li>
         </Link>
         <Link to="/contact">
-          <li>Contact</li>
+          <li>Valuate Diamond</li>
         </Link>
       </ul>
 

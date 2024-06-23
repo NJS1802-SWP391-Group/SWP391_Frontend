@@ -27,6 +27,14 @@ const orderApi = {
     const url = `/Orders/View/CustomerId${id}`;
     return axiosClient.get(url);
   },
+  sealOrder(orderId: number) {
+    const url = `/Orders/Confirm-Seal-Order/${orderId}`;
+    return axiosClient.put(url);
+  },
+  returnOrder(orderId: number) {
+    const url = `/Orders/Confirm-Return-Order/${orderId}`;
+    return axiosClient.put(url);
+  },
 };
 
 export default orderApi;

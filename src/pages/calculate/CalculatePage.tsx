@@ -4,6 +4,7 @@ import Calculator from "../../components/calculator/Calculator";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import "./CalculatePage.css";
+import Calculator from "../../components/calculator/Calculator";
 export type shapeDiamond = {
   id: number;
   name: string;
