@@ -1,18 +1,9 @@
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  Container,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
-import orderApi from "../../services/orderApi";
-import { useNavigate } from "react-router-dom";
-import accountApi from "../../services/accountApi";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
+import accountApi from "../../services/accountApi";
+import orderApi from "../../services/orderApi";
 
 const textFieldStyle = {
   width: "100%",

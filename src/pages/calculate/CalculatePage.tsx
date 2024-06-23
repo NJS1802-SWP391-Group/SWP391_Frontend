@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
 import React from "react";
+import Calculator from "../../components/calculator/Calculator";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import "./CalculatePage.css";

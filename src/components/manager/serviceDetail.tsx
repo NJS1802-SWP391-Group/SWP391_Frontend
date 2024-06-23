@@ -6,7 +6,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -161,11 +165,11 @@ const ServiceDetail = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 127 }}
+          sx={{ marginLeft: 135 }}
           onClick={handleAddServiceDetail}
         >
           <img src={PlusAdd} height={20} width={20} />
-          <Typography sx={{ paddingLeft: "4px" }}>
+          <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
             New service detail
           </Typography>
         </Button>
@@ -178,7 +182,7 @@ const ServiceDetail = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
               <StyledTableCell sx={styleTableHead}>
-                Code Service
+                Code Service Detail
               </StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Min Range</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Max Range</StyledTableCell>
@@ -257,7 +261,7 @@ const ServiceDetail = () => {
             </DialogContentText>
             <TextField
               margin="dense"
-              label="ServiceDetail Code"
+              label="Code ServiceDetail"
               type="text"
               fullWidth
               name="ServiceDetailID"
@@ -339,15 +343,6 @@ const ServiceDetail = () => {
             />
             <TextField
               margin="dense"
-              label="Price"
-              type="text"
-              fullWidth
-              name="Price"
-              value={newServiceDetail.price}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
               label="Min Range"
               type="text"
               fullWidth
@@ -366,6 +361,15 @@ const ServiceDetail = () => {
             />
             <TextField
               margin="dense"
+              label="Price"
+              type="text"
+              fullWidth
+              name="Price"
+              value={newServiceDetail.price}
+              onChange={handleInputChange}
+            />
+            <TextField
+              margin="dense"
               label="Extra PricePerMM"
               type="text"
               fullWidth
@@ -373,15 +377,20 @@ const ServiceDetail = () => {
               value={newServiceDetail.extraPricePerMM}
               onChange={handleInputChange}
             />
-            <TextField
-              margin="dense"
-              label="Status"
-              type="text"
-              fullWidth
-              name="Status"
-              value={newServiceDetail.status}
-              onChange={handleInputChange}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="status">Status</InputLabel>
+              <Select
+                labelId="status"
+                id="status"
+                name="status"
+                value={newServiceDetail.status}
+                label="Status"
+                // onChange={handleInputChange}
+              >
+                <MenuItem value={"Active"}>Active</MenuItem>
+                <MenuItem value={"Inactive"}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="secondary">

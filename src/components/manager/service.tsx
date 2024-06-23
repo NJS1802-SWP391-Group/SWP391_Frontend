@@ -6,7 +6,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+<<<<<<< HEAD
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
+=======
+  Paper,
+>>>>>>> a1c4a516b9e1f4147ecbf74af3f8c1ae9ea6eaf7
   Table,
   TableBody,
   TableCell,
@@ -74,6 +82,16 @@ const Service = () => {
     });
   };
 
+<<<<<<< HEAD
+  const initialService = {
+    serviceID: 0,
+    name: "",
+    description: "",
+    status: "",
+  };
+
+=======
+>>>>>>> a1c4a516b9e1f4147ecbf74af3f8c1ae9ea6eaf7
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
@@ -136,6 +154,20 @@ const Service = () => {
     setPage(0);
   };
 
+<<<<<<< HEAD
+  // const handleChange = (
+  //   e:
+  //     | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  //     | SelectChangeEvent<string>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   // Convert carat to string if it's expected to be a string
+  //   const updatedValue = name === "carat" ? String(value) : value;
+  //   setService({ ...service, [name]: updatedValue });
+  // };
+
+=======
+>>>>>>> a1c4a516b9e1f4147ecbf74af3f8c1ae9ea6eaf7
   const paginatedServiceResponseList = serviceList.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
@@ -152,11 +184,21 @@ const Service = () => {
       >
         <Button
           variant="contained"
+<<<<<<< HEAD
+          sx={{ marginLeft: 140 }}
+          onClick={handleAddService}
+        >
+          <img src={PlusAdd} height={20} width={20} />
+          <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
+            New service
+          </Typography>
+=======
           sx={{ marginLeft: 135 }}
           onClick={handleAddService}
         >
           <img src={PlusAdd} height={20} width={20} />
           <Typography sx={{ paddingLeft: "4px" }}>New service</Typography>
+>>>>>>> a1c4a516b9e1f4147ecbf74af3f8c1ae9ea6eaf7
         </Button>
       </Box>
       <TableContainer
@@ -255,6 +297,22 @@ const Service = () => {
               value={editService.description}
               onChange={handleInputChange}
             />
+<<<<<<< HEAD
+            <FormControl fullWidth>
+              <InputLabel id="status">Status</InputLabel>
+              <Select
+                labelId="status"
+                id="status"
+                name="status"
+                value={editService.status}
+                label="Status"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Active"}>Active</MenuItem>
+                <MenuItem value={"Inactive"}>Inactive</MenuItem>
+              </Select>
+            </FormControl>
+=======
             <TextField
               margin="dense"
               label="Status"
@@ -264,6 +322,7 @@ const Service = () => {
               value={editService.status}
               onChange={handleInputChange}
             />
+>>>>>>> a1c4a516b9e1f4147ecbf74af3f8c1ae9ea6eaf7
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>

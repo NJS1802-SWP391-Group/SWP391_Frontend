@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DoneButton from "../../assets/DoneButton.png"; // Import DoneButton image
 import PlusButton from "../../assets/PlusButton.png";
 import SendButton from "../../assets/SendButton.png";
 import { AssignValuationStaffResponse } from "../../interfaces/valuationStaff/valuationStaffResponse";
@@ -28,16 +29,19 @@ export interface RequetsBody {
 
 const AssignValuationStaff = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedValuationStaffResponse, setSelectedValuationStaffResponse] =
-    React.useState<AssignValuationStaffResponse | null>(null);
-
+    useState<AssignValuationStaffResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [
     assignValuationStaffResponseList,
     setAssignValuationStaffResponseList,
   ] = useState<AssignValuationStaffResponse[]>([]);
+  const [clickedOrderDetailId, setClickedOrderDetailId] = useState<
+    number | null
+  >(null);
+
   const handleOpen = (valuationStaffResponse: AssignValuationStaffResponse) => {
     setSelectedValuationStaffResponse(valuationStaffResponse);
     setOpen(true);
@@ -77,10 +81,14 @@ const AssignValuationStaff = () => {
     orderDetailId: number,
     assignValuationStaffResponse: AssignValuationStaffResponse
   ) => {
-    navigate(`/diamond/${orderDetailId}`, {
-      state: assignValuationStaffResponse,
-    });
-    console.log("Log test", assignValuationStaffResponse);
+    if (clickedOrderDetailId === orderDetailId) {
+      setClickedOrderDetailId(null); // Toggle back to PlusButton
+    } else {
+      setClickedOrderDetailId(orderDetailId); // Set to DoneButton
+      navigate(`/diamond/${orderDetailId}`, {
+        state: assignValuationStaffResponse,
+      });
+    }
   };
 
   const styleTableHead = {
@@ -164,7 +172,12 @@ const AssignValuationStaff = () => {
                         }
                       >
                         <img
-                          src={PlusButton}
+                          src={
+                            clickedOrderDetailId ===
+                            valuationStaffResponse.orderDetailId
+                              ? DoneButton
+                              : PlusButton
+                          }
                           width="30"
                           height="30"
                           alt="PlusButton"
