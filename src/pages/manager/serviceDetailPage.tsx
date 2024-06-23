@@ -10,7 +10,7 @@ const ServiceDetailPage = () => {
       <Paper
         sx={{
           width: "1300px",
-          marginLeft: "250px",
+          marginLeft: "70px",
           marginTop: "5px",
         }}
       >
