@@ -95,7 +95,7 @@ function OrderDetail({ order, closeModal }: Props) {
       setAccountInfo(accountInfo);
     };
     fetchData();
-  }, [accountInfo]);
+  }, []);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -138,7 +138,7 @@ function OrderDetail({ order, closeModal }: Props) {
 
   const orderRequest: OrderRequest = {
     orderID: order?.orderID,
-    consultingStaffName: "Vo Mong Luan",
+    consultingStaffName: accountInfo?.result.user.userName,
     time: formatDate(new Date()),
     detailValuations: detailValuations,
   };
@@ -179,7 +179,7 @@ function OrderDetail({ order, closeModal }: Props) {
               Order Code: {order.code} <br />
               Customer name: {order.firstName + " " + order.lastName} <br />
               Consulting staff:{" "}
-              {accountInfo ? accountInfo.result.user.userName : 123}
+              {accountInfo ? accountInfo.result.user.userName : ""}
               <br />
               Date Created: {order.time.toString()}
             </div>
