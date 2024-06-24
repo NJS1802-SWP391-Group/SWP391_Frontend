@@ -103,7 +103,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
     localStorage.clear();
     sessionStorage.clear();
     alert("Logout successfully");
-    navigate("/");
+    navigate("/system");
   };
   return (
     <Box sx={{ display: "flex", marginBottom: marginBottom }}>
