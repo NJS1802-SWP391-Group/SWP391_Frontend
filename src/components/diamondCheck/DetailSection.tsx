@@ -1,5 +1,4 @@
 import { Box, Container, Grid, Typography, styled } from "@mui/material";
-import React from "react";
 
 const DiamondPriceChart = styled("img")({
   borderRadius: "8px",

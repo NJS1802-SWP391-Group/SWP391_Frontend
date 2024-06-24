@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import {
-  Avatar,
-  Button,
-  Card,
-  Container,
-  IconButton,
-  boxClasses,
-} from "@mui/material";
+import { Avatar, Container, IconButton } from "@mui/material";
 import AvatarBoy from "../../assets/boy_12894580.png";
 import accountApi from "../../services/accountApi";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

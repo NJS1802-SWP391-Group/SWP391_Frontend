@@ -1,3 +1,4 @@
+import { SendEmail } from "../interfaces/email/EmailInterface";
 import axiosClient from "./axiosClient";
 
 const emailApi = {
@@ -5,9 +6,9 @@ const emailApi = {
     const url = `/Email/Get-Result/${id}`;
     return axiosClient.get(url);
   },
-  sendEmail: (orderID: number) => {
+  sendEmail: (data: SendEmail) => {
     const url = "/Email/Send-Email-Result";
-    return axiosClient.post(url, orderID);
+    return axiosClient.post(url, data);
   },
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DiavanLogo from "../../assets/Diavan.png";
 import "./OrderDetail.css";
 import {
@@ -22,6 +22,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
   styled,
   tableCellClasses,
@@ -34,9 +35,6 @@ import SuccessfullAlert from "../SuccessfullAlert";
 import BackButton from "../BackButton";
 import orderDetailApi from "../../services/orderDetailApi";
 import { DetailValuation } from "../../interfaces/order/orderInterface";
-import { url } from "inspector";
-import { error } from "console";
-import OrderDetail from "./OrderDetail";
 import { UpdateOrderDetail } from "../../interfaces/orderDetail/OrderDetailInterface";
 import accountApi from "../../services/accountApi";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
@@ -79,7 +77,7 @@ const RecepitBill: React.FC = () => {
 
   const location = useLocation();
   const data: OrderResponse = location.state;
-  console.log("Data: ", data);
+  // console.log("Data: ", data);
   const [fetchData, setFetchData] = useState<OrderResponse>(data);
 
   const [accountInfo, setAccountInfo] = useState<AccountInfo>();
@@ -88,9 +86,10 @@ const RecepitBill: React.FC = () => {
     const fetchData = async () => {
       const accountInfo: any = await accountApi.getAccountInfo();
       setAccountInfo(accountInfo);
+      setFetchData(data);
     };
     fetchData();
-  }, [accountInfo]);
+  }, [accountInfo?.result.user.userName, data]);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
@@ -181,6 +180,12 @@ const RecepitBill: React.FC = () => {
     }
   };
 
+  const handleEditEstimateLength = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setEditEstimateLength(parseFloat(event.target.value));
+  };
+
   const handleSave = (
     orderDetailId: number,
     estimateLength: number | undefined,
@@ -191,18 +196,19 @@ const RecepitBill: React.FC = () => {
       estimateLength: estimateLength,
       serviceId: serviceId,
     };
+    console.log("Save data", saveData);
     orderDetailApi.updateOrderDetail(saveData).then(
       (response: any) => {
         console.log("Update response: ", response);
-        setEditingId(0);
-        setEditService("");
-        setEditEstimateLength(0);
         setFetchData(response);
       },
       (error) => {
         console.log("Error update:", error);
       }
     );
+    setEditingId(0);
+    setEditService("");
+    setEditEstimateLength(undefined);
   };
 
   const onSubmitPrintBill = () => {
@@ -273,7 +279,7 @@ const RecepitBill: React.FC = () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">Service</StyledTableCell>
                       <StyledTableCell align="center">
-                        Estimate Length
+                        Estimate Length(mm)
                       </StyledTableCell>
                       <StyledTableCell align="center">Price</StyledTableCell>
                       <StyledTableCell align="center">Action</StyledTableCell>
@@ -368,7 +374,10 @@ const RecepitBill: React.FC = () => {
                         <StyledTableCell align="center">
                           {editingId === item.orderDetailId ? (
                             <input
-                              style={{ padding: "20px 20px", margin: "0 30px" }}
+                              style={{
+                                padding: "20px 20px",
+                                margin: "0 30px",
+                              }}
                               type="number"
                               step="0.1"
                               value={
@@ -376,13 +385,7 @@ const RecepitBill: React.FC = () => {
                                   ? editEstimateLength
                                   : item.estimateLength
                               }
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) => {
-                                setEditEstimateLength(
-                                  parseFloat(e.target.value)
-                                );
-                              }}
+                              onChange={handleEditEstimateLength}
                               min={0}
                             />
                           ) : (
@@ -398,19 +401,34 @@ const RecepitBill: React.FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {editingId === item.orderDetailId ? (
-                            <Button
-                              onClick={() => {
-                                handleSave(
-                                  item.orderDetailId,
-                                  editEstimateLength,
-                                  editServiceId
-                                );
-                              }}
-                              color="primary"
-                              variant="contained"
-                            >
-                              Save
-                            </Button>
+                            <div>
+                              <Button
+                                disabled={
+                                  editService && editEstimateLength
+                                    ? false
+                                    : true
+                                }
+                                onClick={() => {
+                                  handleSave(
+                                    item.orderDetailId,
+                                    editEstimateLength,
+                                    editServiceId
+                                  );
+                                }}
+                                color="primary"
+                                variant="contained"
+                              >
+                                Save
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                onClick={() => {
+                                  setEditingId(0);
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
                           ) : (
                             <Button
                               onClick={() => {
