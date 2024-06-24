@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 
+import { Link } from "react-router-dom";
 import Manager from "../../assets/Manager.png";
 import ManagerNavbar from "../../components/manager/manageNavbar";
 
@@ -43,9 +44,15 @@ const ManagerNavbarPage = () => {
                 Determine the accurate value and reimburse the diamond's actual
                 worth.
               </Typography>
-              <Box sx={{ paddingTop: "60px", paddingLeft: "50px" }}>
-                <Typography sx={{ fontSize: "20px" }}>Start here,</Typography>
-                <Stack spacing={2} direction="row" sx={{ paddingLeft: "60px" }}>
+              <Box sx={{ paddingTop: "70px", paddingLeft: "50px" }}>
+                <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                  Start here,
+                </Typography>
+                <Stack
+                  spacing={2}
+                  direction="row"
+                  sx={{ paddingLeft: "60px", paddingTop: "20px" }}
+                >
                   <Typography>Go to Manager Assign:</Typography>
                   <Button
                     sx={{
@@ -54,10 +61,13 @@ const ManagerNavbarPage = () => {
                       fontSize: "12px",
                       width: "80px",
                     }}
+                    color="inherit"
+                    component={Link}
+                    to="/manager/assign"
                   >
                     Assign
                   </Button>
-                  <Typography sx={{ paddingLeft: "40px" }}>
+                  <Typography sx={{ paddingLeft: "60px" }}>
                     Go to Manager Appproval:
                   </Typography>
                   <Button
@@ -65,8 +75,11 @@ const ManagerNavbarPage = () => {
                       backgroundColor: "rgb(251 146 60)",
                       color: "white",
                       fontSize: "12px",
-                      paddingLeft: "40px",
+                      marginLeft: "60px",
                     }}
+                    color="inherit"
+                    component={Link}
+                    to="/manager/approval"
                   >
                     Approval
                   </Button>
