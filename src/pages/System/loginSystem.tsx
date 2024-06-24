@@ -1,3 +1,5 @@
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -16,9 +18,6 @@ import DiavanLogo from "../../assets/Diavan.png";
 import { LOGIN_SUCCESS } from "../../constants";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
-import * as yup from "yup";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { IconButton } from "@mui/material";
 
 // const validationSchema = yup.object({
 //   username: yup.string().required("Can't empty in the Account blank"),
@@ -95,7 +94,7 @@ export default function LoginSystem() {
               break;
             case "Manager":
               alert(LOGIN_SUCCESS);
-              navigate("/manager/assign");
+              navigate("/manager/managing");
               break;
             case "Admin":
               alert(LOGIN_SUCCESS);

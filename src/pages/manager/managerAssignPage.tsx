@@ -1,12 +1,11 @@
 import { Grid, Paper } from "@mui/material";
 import AssignManager from "../../components/manager/assignManager";
-import NavBarSystem from "../../components/system/NavBarSystem";
+import ManagerNavbar from "../../components/manager/manageNavbar";
 
 const ManagerAssignPage = () => {
   return (
     <Grid>
-      <NavBarSystem marginBottom="130px" />
-
+      <ManagerNavbar />
       <Paper
         sx={{
           width: "1300px",
