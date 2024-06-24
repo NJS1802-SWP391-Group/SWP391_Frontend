@@ -72,19 +72,26 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       });
   };
 
-  const onClickSeal = (orderId: number) => {
-    alert(orderId);
-    orderApi
-      .sealOrder(orderId)
-      .then((response: any) => {
-        // navigate(`/sealed/${orderId}`, {
-        //   state: response,
-        alert(response);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("Seal error: ", error);
-      });
+  const onClickSeal = async (orderId: number) => {
+    const data: any = await orderApi.sealOrder(orderId);
+    alert(data);
+
+    // orderApi
+    //   .sealOrder(orderId)
+    //   .then((response) => {
+    //     console.log(response);
+    //     alert(response);
+    //     // Handle the response here or uncomment the navigation code
+    //     // navigate(`/sealed/${orderId}`, { state: response });
+    //   })
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
+  };
+
+  const onClickUnSeal = async (orderId: number) => {
+    const data = await orderApi.unsealOrder(orderId);
+    alert(data);
   };
 
   const onClickReturn = (orderId: number) => {
@@ -165,9 +172,20 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                 </Button>
                 <Button
                   variant="contained"
+                  disabled={item.status == "Sealed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="success"
+                  onClick={() => {
+                    onClickUnSeal(item.orderID);
+                  }}
+                >
+                  UnSeal
+                </Button>
+                <Button
+                  variant="contained"
                   disabled={item.status == "Completed" ? false : true}
                   sx={{ marginLeft: "5px" }}
-                  color="error"
+                  color="success"
                   onClick={() => {
                     onClickReturn(item.orderID);
                   }}

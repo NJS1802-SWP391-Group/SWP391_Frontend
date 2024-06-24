@@ -29,7 +29,11 @@ const orderApi = {
   },
   sealOrder(orderId: number) {
     const url = `/Orders/Confirm-Seal-Order/${orderId}`;
-    return axiosClient.putForm(url);
+    return axiosClient.put(url);
+  },
+  unsealOrder(orderId: number) {
+    const url = `/Orders/Confirm-Unseal-Order/${orderId}`;
+    return axiosClient.put(url);
   },
   returnOrder(orderId: number) {
     const url = `/Orders/Confirm-Return-Order/${orderId}`;

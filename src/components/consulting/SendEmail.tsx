@@ -19,8 +19,12 @@ const SendEmail = () => {
       .sendEmail({
         orderID: orderId,
       })
-      .then((response) => {
+      .then((response: any) => {
         console.log("Send email:", response);
+        if (response === "Sent successfully") {
+          alert(response);
+          navigate(-1);
+        }
       })
       .catch((error) => {
         console.log("Error", error);
