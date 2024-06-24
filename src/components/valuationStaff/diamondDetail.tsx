@@ -145,18 +145,6 @@ const DiamondDetail = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (success) {
-  //     alert("Create successfully");
-  //     const timer = setTimeout(() => {
-  //       setSuccess(false);
-  //       navigate("/valuationStaff/assigned");
-  //     }, 3000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [success, navigate]);
-
   const handleButtonClick = () => {
     setIsButtonClicked(true); // Set the button click state
     alert("Create successfully");

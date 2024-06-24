@@ -54,6 +54,7 @@ const AssignValuationStaff = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (

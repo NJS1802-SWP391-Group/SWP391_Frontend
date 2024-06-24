@@ -2,8 +2,8 @@ import { Box, Grid, Paper } from "@mui/material";
 
 import { useState } from "react";
 import ApprovalManager from "../../components/manager/approvalManager";
+import ManagerNavbar from "../../components/manager/manageNavbar";
 import SearchBar from "../../components/manager/searchBar";
-import NavBarSystem from "../../components/system/NavBarSystem";
 
 const ManagerApprovalPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,7 +14,7 @@ const ManagerApprovalPage = () => {
 
   return (
     <Grid>
-      <NavBarSystem marginBottom="100px" />
+      <ManagerNavbar />
       <Grid sx={{}}>
         <Box sx={{ marginLeft: "900px" }}>
           <SearchBar
