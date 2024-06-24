@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +11,6 @@ import { OrderInterface } from "../../interfaces/order/orderInterface";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import orderApi from "../../services/orderApi";
-import { error } from "console";
 import emailApi from "../../services/emailApi";
 
 // type Props = {
@@ -73,29 +72,39 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       });
   };
 
-  const onClickSeal = (orderId: number, orderCode: string) => {
-    const confirmSeal = confirm(`Do you want seal Order: ${orderCode}`);
-    {
-      confirmSeal &&
-        orderApi
-          .sealOrder(orderId)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log("Seal error: ", error);
-          });
-    }
+  const onClickSeal = async (orderId: number) => {
+    const data: any = await orderApi.sealOrder(orderId);
+    alert(data);
+
+    // orderApi
+    //   .sealOrder(orderId)
+    //   .then((response) => {
+    //     console.log(response);
+    //     alert(response);
+    //     // Handle the response here or uncomment the navigation code
+    //     // navigate(`/sealed/${orderId}`, { state: response });
+    //   })
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
   };
 
-  const onClickReturn = async (orderId: number, orderCode: string) => {
-    const confirmReturn = confirm(
-      `Did you send Order: ${orderCode} to customer?`
-    );
-    if (confirmReturn) {
-      const returnOrder = await orderApi.returnOrder(orderId);
-      console.log("Return order:", returnOrder);
-    }
+  const onClickUnSeal = async (orderId: number) => {
+    const data = await orderApi.unsealOrder(orderId);
+    alert(data);
+  };
+
+  const onClickReturn = (orderId: number) => {
+    alert(orderId);
+    orderApi
+      .returnOrder(orderId)
+      .then((response: any) => {
+        console.log("Return response", response.data);
+        alert(response);
+      })
+      .catch((error) => {
+        console.log("Return error", error);
+      });
   };
   return (
     <TableContainer component={Paper}>
@@ -157,19 +166,28 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   disabled={item.status == "Completed" ? false : true}
                   sx={{ marginLeft: "5px" }}
                   color="error"
-                  onClick={() => {
-                    onClickSeal(item.orderID, item.code);
-                  }}
+                  onClick={() => onClickSeal(item.orderID)}
                 >
                   Seal
                 </Button>
                 <Button
                   variant="contained"
+                  disabled={item.status == "Sealed" ? false : true}
+                  sx={{ marginLeft: "5px" }}
+                  color="success"
+                  onClick={() => {
+                    onClickUnSeal(item.orderID);
+                  }}
+                >
+                  UnSeal
+                </Button>
+                <Button
+                  variant="contained"
                   disabled={item.status == "Completed" ? false : true}
                   sx={{ marginLeft: "5px" }}
-                  color="error"
+                  color="success"
                   onClick={() => {
-                    onClickReturn(item.orderID, item.code);
+                    onClickReturn(item.orderID);
                   }}
                 >
                   Return

@@ -1,5 +1,4 @@
 import { Button, Card, Container, Divider, Typography } from "@mui/material";
-import React from "react";
 import Logo from "../../assets/Diavan.png";
 import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,9 +16,15 @@ const SendEmail = () => {
 
   const handleSendEmail = (orderId: number) => {
     emailApi
-      .sendEmail(orderId)
-      .then((response) => {
+      .sendEmail({
+        orderID: orderId,
+      })
+      .then((response: any) => {
         console.log("Send email:", response);
+        if (response === "Sent successfully") {
+          alert(response);
+          navigate(-1);
+        }
       })
       .catch((error) => {
         console.log("Error", error);
