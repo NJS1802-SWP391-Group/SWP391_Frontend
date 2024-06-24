@@ -16,7 +16,9 @@ const SendEmail = () => {
 
   const handleSendEmail = (orderId: number) => {
     emailApi
-      .sendEmail(orderId)
+      .sendEmail({
+        orderID: orderId,
+      })
       .then((response) => {
         console.log("Send email:", response);
       })

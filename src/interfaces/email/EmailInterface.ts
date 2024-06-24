@@ -23,3 +23,7 @@ export interface DetailValuation {
   status: string;
   price: number;
 }
+
+export interface SendEmail {
+  orderID: number;
+}

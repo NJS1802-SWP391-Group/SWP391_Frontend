@@ -72,29 +72,32 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       });
   };
 
-  const onClickSeal = (orderId: number, orderCode: string) => {
-    const confirmSeal = confirm(`Do you want seal Order: ${orderCode}`);
-    {
-      confirmSeal &&
-        orderApi
-          .sealOrder(orderId)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log("Seal error: ", error);
-          });
-    }
+  const onClickSeal = (orderId: number) => {
+    alert(orderId);
+    orderApi
+      .sealOrder(orderId)
+      .then((response: any) => {
+        // navigate(`/sealed/${orderId}`, {
+        //   state: response,
+        alert(response);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("Seal error: ", error);
+      });
   };
 
-  const onClickReturn = async (orderId: number, orderCode: string) => {
-    const confirmReturn = confirm(
-      `Did you send Order: ${orderCode} to customer?`
-    );
-    if (confirmReturn) {
-      const returnOrder = await orderApi.returnOrder(orderId);
-      console.log("Return order:", returnOrder);
-    }
+  const onClickReturn = (orderId: number) => {
+    alert(orderId);
+    orderApi
+      .returnOrder(orderId)
+      .then((response: any) => {
+        console.log("Return response", response.data);
+        alert(response);
+      })
+      .catch((error) => {
+        console.log("Return error", error);
+      });
   };
   return (
     <TableContainer component={Paper}>
@@ -156,9 +159,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   disabled={item.status == "Completed" ? false : true}
                   sx={{ marginLeft: "5px" }}
                   color="error"
-                  onClick={() => {
-                    onClickSeal(item.orderID, item.code);
-                  }}
+                  onClick={() => onClickSeal(item.orderID)}
                 >
                   Seal
                 </Button>
@@ -168,7 +169,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
                   sx={{ marginLeft: "5px" }}
                   color="error"
                   onClick={() => {
-                    onClickReturn(item.orderID, item.code);
+                    onClickReturn(item.orderID);
                   }}
                 >
                   Return
