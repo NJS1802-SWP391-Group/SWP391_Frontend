@@ -55,10 +55,20 @@ const ManagerNavbar = () => {
               </Box>
             </Box>
           </Typography>
-          <Button color="inherit" component={Link} to="/manager/assign">
+          <Button
+            color="inherit"
+            component={Link}
+            to="/manager/assign"
+            sx={{ fontWeight: "bold" }}
+          >
             Assign
           </Button>
-          <Button color="inherit" component={Link} to="/manager/approval">
+          <Button
+            color="inherit"
+            component={Link}
+            to="/manager/approval"
+            sx={{ fontWeight: "bold" }}
+          >
             Approval
           </Button>
         </Toolbar>

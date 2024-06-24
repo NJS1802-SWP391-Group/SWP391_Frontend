@@ -26,7 +26,7 @@ const ManagerNavbarPage = () => {
             }}
           >
             <Box>
-              <img src={Manager} height="380" width="380" />
+              <img src={Manager} height="380" width="380" alt="ManagerImage" />
             </Box>
             <Box sx={{ paddingLeft: "60px" }}>
               <Typography sx={{ fontSize: "40px", width: "380px" }}>
