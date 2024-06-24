@@ -15,7 +15,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
 import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
@@ -26,14 +26,8 @@ const ApprovalManager = () => {
   const [selectedManagerResponse, setSelectedManagerResponse] =
     React.useState<ManagerApprovalResponse | null>(null);
 
-  const { state } = useLocation();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleOpen = (managerResponse: ManagerApprovalResponse) => {
-    setSelectedManagerResponse(managerResponse);
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -42,6 +36,7 @@ const ApprovalManager = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -63,14 +58,11 @@ const ApprovalManager = () => {
   };
 
   const handleReject = (orderDetailId: number) => {
-    // confirm(`Do you want reject order : ${orderDetailId}`);
     managerAssignsApi.changeStatusToReAssigning(orderDetailId).then(
       (response) => {
         console.log("orderDetailId:", orderDetailId);
         console.log("response:", response);
 
-        // alert(`Valuating is rejected.`);
-        // // Reload the page after successful save
         window.location.reload();
       },
       (error) => {
