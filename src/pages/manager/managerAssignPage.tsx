@@ -10,7 +10,7 @@ const ManagerAssignPage = () => {
         sx={{
           width: "1300px",
           marginLeft: "60px",
-          marginTop: "5px",
+          marginTop: "35px",
         }}
       >
         <AssignManager />
