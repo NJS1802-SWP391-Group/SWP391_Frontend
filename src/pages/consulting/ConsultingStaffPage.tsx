@@ -164,6 +164,16 @@ const ConsultingStaffPage = () => {
                 control={<Radio color="success" />}
                 label="Completed"
               />
+              <FormControlLabel
+                value="Sealed"
+                control={<Radio color="warning" />}
+                label="Sealed"
+              />
+              <FormControlLabel
+                value="Returned"
+                control={<Radio color="success" />}
+                label="Returned"
+              />
             </RadioGroup>
           </FormControl>
         </div>

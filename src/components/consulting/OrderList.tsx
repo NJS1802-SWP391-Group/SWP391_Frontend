@@ -72,40 +72,6 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
       });
   };
 
-  const onClickSeal = async (orderId: number) => {
-    const data: any = await orderApi.sealOrder(orderId);
-    alert(data);
-
-    // orderApi
-    //   .sealOrder(orderId)
-    //   .then((response) => {
-    //     console.log(response);
-    //     alert(response);
-    //     // Handle the response here or uncomment the navigation code
-    //     // navigate(`/sealed/${orderId}`, { state: response });
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
-  };
-
-  const onClickUnSeal = async (orderId: number) => {
-    const data = await orderApi.unsealOrder(orderId);
-    alert(data);
-  };
-
-  const onClickReturn = (orderId: number) => {
-    alert(orderId);
-    orderApi
-      .returnOrder(orderId)
-      .then((response: any) => {
-        console.log("Return response", response.data);
-        alert(response);
-      })
-      .catch((error) => {
-        console.log("Return error", error);
-      });
-  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -152,45 +118,20 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onOrderClick }) => {
 
                 <Button
                   variant="contained"
-                  disabled={item.status == "Completed" ? false : true}
+                  disabled={
+                    item.status == "Completed" ||
+                    item.status == "Sealed" ||
+                    item.status == "Returned"
+                      ? false
+                      : true
+                  }
                   sx={{ marginLeft: "5px" }}
                   color="success"
                   onClick={() => {
                     onClickSendEmail(item.orderID);
                   }}
                 >
-                  Send Email
-                </Button>
-                <Button
-                  variant="contained"
-                  disabled={item.status == "Completed" ? false : true}
-                  sx={{ marginLeft: "5px" }}
-                  color="error"
-                  onClick={() => onClickSeal(item.orderID)}
-                >
-                  Seal
-                </Button>
-                <Button
-                  variant="contained"
-                  disabled={item.status == "Sealed" ? false : true}
-                  sx={{ marginLeft: "5px" }}
-                  color="success"
-                  onClick={() => {
-                    onClickUnSeal(item.orderID);
-                  }}
-                >
-                  UnSeal
-                </Button>
-                <Button
-                  variant="contained"
-                  disabled={item.status == "Completed" ? false : true}
-                  sx={{ marginLeft: "5px" }}
-                  color="success"
-                  onClick={() => {
-                    onClickReturn(item.orderID);
-                  }}
-                >
-                  Return
+                  View
                 </Button>
               </StyledTableCell>
             </StyledTableRow>

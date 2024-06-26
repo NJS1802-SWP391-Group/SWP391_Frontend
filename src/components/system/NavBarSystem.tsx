@@ -110,7 +110,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -118,7 +118,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <span style={{ marginRight: "10px" }}>
             <img
               src={Logo}
@@ -193,7 +193,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -337,7 +337,7 @@ export default function NavBarSystem(marginBottom: { marginBottom: string }) {
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Drawer> */}
     </Box>
   );
 }

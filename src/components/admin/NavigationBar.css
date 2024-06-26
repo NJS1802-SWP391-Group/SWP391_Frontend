@@ -1,0 +1,19 @@
+.list-service{
+    list-style: none;
+    align-items: center;
+    width: 100%;
+}
+
+.list-service li {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 6;
+    font-size: 20px;
+}
+
+.list-service li:hover {
+    background-color: cornflowerblue;
+    transition: all;
+    transition-duration: 300;
+}
