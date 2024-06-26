@@ -3,6 +3,7 @@ export interface AssignValuationStaffResponse {
   orderDetailCode: string;
   serviceName: string;
   finalPrice: number;
+  resultId: number;
   status: string;
 }
 
