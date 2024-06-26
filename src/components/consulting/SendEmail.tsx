@@ -4,6 +4,7 @@ import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_
 import { useLocation, useNavigate } from "react-router-dom";
 import { InforEmail } from "../../interfaces/email/EmailInterface";
 import emailApi from "../../services/emailApi";
+import orderApi from "../../services/orderApi";
 
 const SendEmail = () => {
   const { state } = useLocation();
@@ -28,6 +29,44 @@ const SendEmail = () => {
       })
       .catch((error) => {
         console.log("Error", error);
+      });
+  };
+
+  const onClickSeal = async (orderId: number) => {
+    const data: any = await orderApi.sealOrder(orderId);
+    alert(data);
+    navigate("/consulting-page");
+
+    // orderApi
+    //   .sealOrder(orderId)
+    //   .then((response) => {
+    //     console.log(response);
+    //     alert(response);
+    //     // Handle the response here or uncomment the navigation code
+    //     // navigate(`/sealed/${orderId}`, { state: response });
+    //   })
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
+  };
+
+  const onClickUnSeal = async (orderId: number) => {
+    const data = await orderApi.unsealOrder(orderId);
+    alert(data);
+    navigate("/consulting-page");
+  };
+
+  const onClickReturn = (orderId: number) => {
+    alert(orderId);
+    orderApi
+      .returnOrder(orderId)
+      .then((response: any) => {
+        console.log("Return response", response.data);
+        alert(response);
+        navigate("/consulting-page");
+      })
+      .catch((error) => {
+        console.log("Return error", error);
       });
   };
   return (
@@ -205,6 +244,37 @@ const SendEmail = () => {
           variant="outlined"
         >
           Back
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ marginLeft: "5px" }}
+          color="error"
+          disabled={inforEmail.status === "Completed" ? false : true}
+          onClick={() => onClickSeal(inforEmail.orderID)}
+        >
+          Seal
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ marginLeft: "5px" }}
+          color="success"
+          disabled={inforEmail.status === "Sealed" ? false : true}
+          onClick={() => {
+            onClickUnSeal(inforEmail.orderID);
+          }}
+        >
+          UnSeal
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ marginLeft: "5px" }}
+          color="success"
+          disabled={inforEmail.status === "Completed" ? false : true}
+          onClick={() => {
+            onClickReturn(inforEmail.orderID);
+          }}
+        >
+          Return
         </Button>
         <Button
           variant="contained"

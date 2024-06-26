@@ -23,6 +23,7 @@ import RegisterPage from "../pages/register/RegisterPage";
 import AssignedValuationStaffPage from "../pages/valuationStaff/assignedValuationStaffPage";
 import ConsultingRoutes from "./ConsultingRoutes";
 import PrivateRoutes from "./PrivateRoutes";
+import AdminPage from "../pages/admin/AdminPage";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,7 @@ const AppRoutes = () => {
         element={<AssignedValuationStaffPage />}
       />
 
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/service" element={<ServicePage />} />
       <Route path="/admin/serviceDetail" element={<ServiceDetailPage />} />
 
