@@ -160,7 +160,7 @@ const DiamondDetail = () => {
       sx={{
         width: "50%",
         height: "100%",
-        marginLeft: "450px",
+        marginLeft: "370px",
         marginTop: "35px",
       }}
     >
@@ -188,7 +188,7 @@ const DiamondDetail = () => {
       </Box>
 
       <form onSubmit={handleSubmit}>
-        <Section sx={{ width: "94%", marginLeft: "26px" }}>
+        <Section sx={{ width: "94%", marginLeft: "20px" }}>
           <Box
             sx={{
               display: "flex",
@@ -437,60 +437,76 @@ const DiamondDetail = () => {
               disabled={!isFormEnabled}
             />
           </FieldContainer>
-          <FieldContainer>
-            <Box
-              {...getRootPropsSingle()}
-              sx={{
-                border: "2px dashed grey",
-                padding: "20px",
-                textAlign: "center",
-                cursor: "pointer",
-                backgroundColor: isDragActiveSingle ? "#e0e0e0" : "transparent",
-              }}
-            >
-              <input
-                {...getInputPropsSingle()}
-                id="propotionImage"
-                name="propotionImage"
-              />
-              {uploadedImage ? (
-                <Typography>{uploadedImage.name}</Typography>
-              ) : (
-                <Typography>
-                  Drag 'n' drop a propotion image here, or click to select one
-                </Typography>
-              )}
-            </Box>
-          </FieldContainer>
-          <FieldContainer>
-            <Box
-              {...getRootPropsMultiple()}
-              sx={{
-                border: "2px dashed grey",
-                padding: "20px",
-                textAlign: "center",
-                cursor: "pointer",
-                backgroundColor: isDragActiveMultiple
-                  ? "#e0e0e0"
-                  : "transparent",
-              }}
-            >
-              <input
-                {...getInputPropsMultiple()}
-                id="clarityImages"
-                name="clarityImages"
-              />
-              {uploadedImages ? (
-                <Typography>{uploadedImages.name}</Typography>
-              ) : (
-                <Typography>
-                  Drag 'n' drop a clarity image here, or click to select one
-                </Typography>
-              )}
-            </Box>
-          </FieldContainer>
+          <Section sx={{}}>
+            <FieldContainer>
+              <Typography sx={{ fontWeight: "bold" }}>Proportion</Typography>
+              <Box
+                {...getRootPropsSingle()}
+                sx={{
+                  border: "2px dashed grey",
+                  padding: "20px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  backgroundColor: isDragActiveSingle
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
+                <input
+                  {...getInputPropsSingle()}
+                  id="propotionImage"
+                  name="propotionImage"
+                />
+                {uploadedImage ? (
+                  <Typography>{uploadedImage.name}</Typography>
+                ) : (
+                  <Typography>
+                    Drag 'n' drop a propotion image here, or click to select one
+                  </Typography>
+                )}
+              </Box>
+            </FieldContainer>
+          </Section>
+          <Section sx={{}}>
+            <FieldContainer>
+              <Typography sx={{ fontWeight: "bold" }}>
+                Clarity Characteristic
+              </Typography>
+              <Box
+                {...getRootPropsMultiple()}
+                sx={{
+                  border: "2px dashed grey",
+                  padding: "20px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  backgroundColor: isDragActiveMultiple
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
+                <input
+                  {...getInputPropsMultiple()}
+                  id="clarityImages"
+                  name="clarityImages"
+                />
+                {uploadedImages ? (
+                  <Typography>{uploadedImages.name}</Typography>
+                ) : (
+                  <Typography>
+                    Drag 'n' drop a clarity image here, or click to select one
+                  </Typography>
+                )}
+              </Box>
+            </FieldContainer>
+          </Section>
         </Section>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            paddingBottom: "20px",
+          }}
+        >
           <Button
             type="submit"
             variant="contained"

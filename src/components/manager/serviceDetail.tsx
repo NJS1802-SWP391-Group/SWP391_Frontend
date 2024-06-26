@@ -260,7 +260,7 @@ const ServiceDetail = () => {
             <DialogContentText>
               Update the details of the ServiceDetail.
             </DialogContentText>
-            {/* <TextField
+            <TextField
               margin="dense"
               label="Code ServiceDetail"
               type="text"
@@ -268,7 +268,7 @@ const ServiceDetail = () => {
               name="ServiceDetailID"
               value={editServiceDetail.code}
               onChange={handleInputChange}
-            /> */}
+            />
             <TextField
               margin="dense"
               label="Min Range"
@@ -333,7 +333,7 @@ const ServiceDetail = () => {
             <DialogContentText>
               Enter the details of the new ServiceDetail.
             </DialogContentText>
-            {/* <TextField
+            <TextField
               margin="dense"
               label="ServiceDetail Code"
               type="text"
@@ -341,7 +341,7 @@ const ServiceDetail = () => {
               name="ServiceDetailCode"
               value={newServiceDetail.code}
               onChange={handleInputChange}
-            /> */}
+            />
             <TextField
               margin="dense"
               label="Min Range"

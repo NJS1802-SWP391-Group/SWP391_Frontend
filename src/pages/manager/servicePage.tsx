@@ -11,10 +11,9 @@ const ServicePage = () => {
         sx={{
           width: "1300px",
           marginLeft: "70px",
-          marginTop: "5px",
         }}
       >
-        <Service />;
+        <Service />
       </Paper>
     </Grid>
   );
