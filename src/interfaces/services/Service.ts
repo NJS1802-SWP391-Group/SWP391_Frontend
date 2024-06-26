@@ -4,3 +4,8 @@ export interface ServiceResponse {
   description: string;
   status: string;
 }
+
+export interface ServiceCreate {
+  name: string;
+  description: string;
+}

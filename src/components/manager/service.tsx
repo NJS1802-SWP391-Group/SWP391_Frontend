@@ -88,7 +88,7 @@ const Service = () => {
       serviceID: nextServiceID,
       name: "",
       description: "",
-      status: "",
+      status: "Active",
     });
   };
 
@@ -101,6 +101,25 @@ const Service = () => {
       );
       setEditService(null);
     } else if (newService) {
+      const nextServiceID =
+        serviceList.length > 0
+          ? serviceList[serviceList.length - 1].serviceID + 1
+          : 1;
+      const data: ServiceResponse = {
+        serviceID: nextServiceID,
+        name: "",
+        description: "",
+        status: "Active",
+      };
+      const response = serviceApi.createService(data).then(
+        (response: any) => {
+          console.log("res:", response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      console.log("res:", response);
       setServiceList((prevService) => [
         ...prevService,
         {
@@ -109,7 +128,6 @@ const Service = () => {
             serviceList.length > 0
               ? serviceList[serviceList.length - 1].serviceID + 1
               : 1,
-          CreatedTime: new Date().toISOString(),
         },
       ]);
       setNewService(null);
@@ -242,21 +260,14 @@ const Service = () => {
             <DialogContentText>
               Update the details of the Service.
             </DialogContentText>
-            {/* <TextField
-              margin="dense"
-              label="Service ID"
-              type="text"
-              fullWidth
-              name="ServiceID"
-              value={editService.serviceID}
-              onChange={handleInputChange}
-            /> */}
+
             <TextField
               margin="dense"
               label="Service name"
               type="text"
               fullWidth
-              name="ServiceName"
+              id="name"
+              name="name"
               value={editService.name}
               onChange={handleInputChange}
             />
@@ -265,7 +276,8 @@ const Service = () => {
               label="Description"
               type="text"
               fullWidth
-              name="Description"
+              id="description"
+              name="description"
               value={editService.description}
               onChange={handleInputChange}
             />
@@ -298,21 +310,14 @@ const Service = () => {
             <DialogContentText>
               Enter the details of the new Service.
             </DialogContentText>
-            {/* <TextField
-              margin="dense"
-              label="Service ID"
-              type="text"
-              fullWidth
-              name="ServiceID"
-              value={newService.serviceID}
-              onChange={handleInputChange}
-            /> */}
+
             <TextField
               margin="dense"
               label="Service Name"
               type="text"
               fullWidth
-              name="ServiceName"
+              id="name"
+              name="name"
               value={newService.name}
               onChange={handleInputChange}
             />
@@ -321,19 +326,11 @@ const Service = () => {
               label="Description"
               type="text"
               fullWidth
-              name="Description"
+              id="description"
+              name="description"
               value={newService.description}
               onChange={handleInputChange}
             />
-            {/* <TextField
-              margin="dense"
-              label="Status"
-              type="text"
-              fullWidth
-              name="Status"
-              value={newService.status}
-              onChange={handleInputChange}
-            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="secondary">

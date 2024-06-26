@@ -20,13 +20,13 @@ const ManagerNavbarPage = () => {
             sx={{
               paddingBottom: "20px",
               display: "flex",
-
-              paddingTop: "30px",
+              paddingTop: "40px",
               height: "40%",
+              marginLeft: "25px",
             }}
           >
             <Box>
-              <img src={Manager} height="380" width="380" />
+              <img src={Manager} height="330" width="330" alt="ManagerImage" />
             </Box>
             <Box sx={{ paddingLeft: "60px" }}>
               <Typography sx={{ fontSize: "40px", width: "380px" }}>
