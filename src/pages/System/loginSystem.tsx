@@ -18,6 +18,8 @@ import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IconButton } from "@mui/material";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const validationSchema = yup.object({
 //   username: yup.string().required("Can't empty in the Account blank"),
@@ -48,6 +50,7 @@ export default function LoginSystem() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+
   const navigate = useNavigate();
 
   const onChangeUsername = (
@@ -79,34 +82,59 @@ export default function LoginSystem() {
           localStorage.setItem("loggedIn", "true");
           localStorage.setItem(`token`, response.result.accessToken);
           localStorage.setItem("role", response.result.roleName);
+          toast.success(LOGIN_SUCCESS, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
           switch (response.result.roleName) {
             case "Customer":
-              alert(LOGIN_SUCCESS);
-              navigate("/");
+              setTimeout(() => {
+                navigate("/");
+              }, 4000);
+
               break;
             case "ConsultingStaff":
-              alert(LOGIN_SUCCESS);
-              navigate("/consulting-page");
+              setTimeout(() => {
+                navigate("/consulting-page");
+              }, 4000);
               break;
             case "ValuationStaff":
-              alert(LOGIN_SUCCESS);
-              navigate("/valuationStaff/assigned");
+              setTimeout(() => {
+                navigate("/valuationStaff/assigned");
+              }, 4000);
               break;
             case "Manager":
-              alert(LOGIN_SUCCESS);
-              navigate("/manager/managing");
+              setTimeout(() => {
+                navigate("/manager/managing");
+              }, 4000);
               break;
             case "Admin":
-              alert(LOGIN_SUCCESS);
-              navigate("/admin/service");
+              setTimeout(() => {
+                navigate("/admin/service");
+              }, 4000);
               break;
             default:
-              alert("You do not have permission to access this page");
-              navigate("/home");
+              toast.warn("You do not have permission to access this page", {
+                position: "top-right",
+              });
+              setTimeout(() => {
+                navigate("/home");
+              }, 4000);
+
               break;
           }
         } else {
-          alert(response.result.message);
+          toast.error(response.result.message, {
+            position: "top-right",
+            autoClose: 2000,
+          });
         }
       },
       (error) => {
@@ -119,7 +147,20 @@ export default function LoginSystem() {
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+        <ToastContainer />
         <Box
           sx={{
             paddingTop: 8,
