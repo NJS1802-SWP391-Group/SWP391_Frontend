@@ -24,6 +24,7 @@ import AssignedValuationStaffPage from "../pages/valuationStaff/assignedValuatio
 import ConsultingRoutes from "./ConsultingRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import AdminPage from "../pages/admin/AdminPage";
+import DiamondCheckDetail from "../pages/diamondCheckDetail/DiamondCheckDetail";
 
 const AppRoutes = () => {
   return (
@@ -40,6 +41,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginSystem />} />
       <Route path="/diamond-check" element={<DiamondCheckPage />} />
       <Route path="/calculate" element={<CalculatePage />} />
+      <Route path="/diamond-details/:id" element={<DiamondCheckDetail />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/form-result" element={<FormResult />} />
       <Route path="/valuation-order" element={<ValuationOrderPage />} />
