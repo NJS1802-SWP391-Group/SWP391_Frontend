@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 
 const serviceApi = {
   getAll() {
-    const url = "/Service/Get-All";
+    const url = "/Service/Get-All-Active-Service";
     return axiosClient.get(url);
   },
 

@@ -1,8 +1,8 @@
-import { Calculate } from "../interfaces/calculate/calculateInterface";
+import { CalculateInterface } from "../interfaces/calculate/calculateInterface";
 import axiosClient from "./axiosClient";
 
 const calculateApi = {
-  getCalculateValue: (data: Calculate) => {
+  getCalculateValue: (data: CalculateInterface) => {
     const url = "/Diamond/calculte-diamond-value";
     return axiosClient.post(url, data);
   },
