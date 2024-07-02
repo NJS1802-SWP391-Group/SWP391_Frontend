@@ -106,6 +106,28 @@ const ServiceDetail = () => {
       );
       setEditServiceDetail(null);
     } else if (newServiceDetail) {
+      const nextServiceDetailID =
+        serviceDetailList.length > 0
+          ? serviceDetailList[serviceDetailList.length - 1].serviceDetailID + 1
+          : 1;
+      const data: ServiceDetailResponse = {
+        serviceDetailID: nextServiceDetailID,
+        code: newServiceDetail.code,
+        minRange: newServiceDetail.minRange,
+        maxRange: newServiceDetail.maxRange,
+        price: newServiceDetail.price,
+        extraPricePerMM: newServiceDetail.extraPricePerMM,
+        status: "Active",
+        serviceID: newServiceDetail.serviceID,
+      };
+      const response = serviceDetailApi.createServiceDetail(data).then(
+        (response: any) => {
+          console.log("res:", response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
       setServiceDetailList((prevServiceDetail) => [
         ...prevServiceDetail,
         {

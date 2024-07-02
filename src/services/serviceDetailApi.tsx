@@ -1,9 +1,15 @@
+import { ServiceDetailResponse } from "../interfaces/serviceDetail/ServiceDetail";
 import axiosClient from "./axiosClient";
 
 const serviceDetailApi = {
   getAll() {
     const url = "/ServiceDetail/Get-All-Active-Service-Detail";
     return axiosClient.get(url);
+  },
+
+  createServiceDetail(data: ServiceDetailResponse) {
+    const url = "/ServiceDetail/Create-Service-Detail";
+    return axiosClient.post(url, data);
   },
 };
 

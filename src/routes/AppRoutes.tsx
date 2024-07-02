@@ -6,11 +6,13 @@ import DiamondDetail from "../components/valuationStaff/diamondDetail";
 import LoginSystem from "../pages/System/loginSystem";
 import ValuationRequestForm from "../pages/ValuationRequestForm";
 import AboutPage from "../pages/aboutPage/AboutPage";
+import AdminPage from "../pages/admin/AdminPage";
 import CalculatePage from "../pages/calculate/CalculatePage";
 import ConsultingStaffPage from "../pages/consulting/ConsultingStaffPage";
 import Profile from "../pages/customer/Profile";
 import ValuationOrderPage from "../pages/customer/ValuationOrderPage";
 import DiamondCheckPage from "../pages/diamondCheck/DiamondCheckPage";
+import DiamondCheckDetail from "../pages/diamondCheckDetail/DiamondCheckDetail";
 import HomePage from "../pages/homePage/HomePage";
 import CertificatePage from "../pages/manager/certicatePage";
 import ManageDiamondPage from "../pages/manager/manageDiamondPage";
@@ -23,8 +25,6 @@ import RegisterPage from "../pages/register/RegisterPage";
 import AssignedValuationStaffPage from "../pages/valuationStaff/assignedValuationStaffPage";
 import ConsultingRoutes from "./ConsultingRoutes";
 import PrivateRoutes from "./PrivateRoutes";
-import AdminPage from "../pages/admin/AdminPage";
-import DiamondCheckDetail from "../pages/diamondCheckDetail/DiamondCheckDetail";
 
 const AppRoutes = () => {
   return (
@@ -36,7 +36,6 @@ const AppRoutes = () => {
         <Route path="/consulting-page" element={<ConsultingStaffPage />} />
       </Route>
       <Route path="/" element={<HomePage />} />
-      <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginSystem />} />
       <Route path="/diamond-check" element={<DiamondCheckPage />} />
@@ -56,10 +55,13 @@ const AppRoutes = () => {
       <Route path="/manager/approval" element={<ManagerApprovalPage />} />
       <Route path="/manager/approval/:resultId" element={<CertificatePage />} />
       <Route path="/manager/assign" element={<ManagerAssignPage />} />
+
+      {/* ValuationStaffPath */}
       <Route
         path="/valuationStaff/assigned"
         element={<AssignedValuationStaffPage />}
       />
+      <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
 
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/service" element={<ServicePage />} />

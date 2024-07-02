@@ -107,8 +107,8 @@ const Service = () => {
           : 1;
       const data: ServiceResponse = {
         serviceID: nextServiceID,
-        name: "",
-        description: "",
+        name: newService.name,
+        description: newService.description,
         status: "Active",
       };
       const response = serviceApi.createService(data).then(
