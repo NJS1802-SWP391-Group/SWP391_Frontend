@@ -6,11 +6,13 @@ import DiamondDetail from "../components/valuationStaff/diamondDetail";
 import LoginSystem from "../pages/System/loginSystem";
 import ValuationRequestForm from "../pages/ValuationRequestForm";
 import AboutPage from "../pages/aboutPage/AboutPage";
+import AdminPage from "../pages/admin/AdminPage";
 import CalculatePage from "../pages/calculate/CalculatePage";
 import ConsultingStaffPage from "../pages/consulting/ConsultingStaffPage";
 import Profile from "../pages/customer/Profile";
 import ValuationOrderPage from "../pages/customer/ValuationOrderPage";
 import DiamondCheckPage from "../pages/diamondCheck/DiamondCheckPage";
+import DiamondCheckDetail from "../pages/diamondCheckDetail/DiamondCheckDetail";
 import HomePage from "../pages/homePage/HomePage";
 import CertificatePage from "../pages/manager/certicatePage";
 import ManageDiamondPage from "../pages/manager/manageDiamondPage";
@@ -38,6 +40,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginSystem />} />
       <Route path="/diamond-check" element={<DiamondCheckPage />} />
       <Route path="/calculate" element={<CalculatePage />} />
+      <Route path="/diamond-details/:id" element={<DiamondCheckDetail />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/form-result" element={<FormResult />} />
       <Route path="/valuation-order" element={<ValuationOrderPage />} />
@@ -60,7 +63,7 @@ const AppRoutes = () => {
       />
       <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
 
-      {/* AdminPath */}
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/service" element={<ServicePage />} />
       <Route path="/admin/serviceDetail" element={<ServiceDetailPage />} />
 

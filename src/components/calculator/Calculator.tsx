@@ -25,7 +25,7 @@ const svgIcon = (
   </svg>
 );
 const Calculator: React.FC = () => {
-  const [result, setResult] = useState<CalculateOutputInterface>(null);
+  const [result, setResult] = useState<CalculateOutputInterface>();
   const [origin, setOrigin] = useState<string>("Natural");
   const [shape, setShape] = useState<string>("Round");
   const [carat, setCarat] = useState<number>(1.0);
@@ -36,7 +36,7 @@ const Calculator: React.FC = () => {
   const [symmetryGrade, setSymmetryGrade] = useState<string>("Excellent");
   const [polishGrade, setPolishGrade] = useState<string>("Excellent");
   const [fluorescenceValue, setFluorescenceValue] = useState<string>("None");
-  const extract = (value) => {
+  const extract = (value: any) => {
     let val = "";
     if (value === "Fair") val = "Fair";
     if (value === "Good") val = "Good";
@@ -106,7 +106,8 @@ const Calculator: React.FC = () => {
   const postData = async (data: CalculateInterface) => {
     calculateApi.getCalculateValue(data).then(
       (response: any) => {
-        if (response !== "Sequence contains no elements") setResult(response);
+        console.log(response);
+        if (response !== "Sequence contains no elements") {setResult(response)}       
       },
       (error) => {
         console.log(error);
@@ -196,13 +197,13 @@ const Calculator: React.FC = () => {
         </Typography>
         <Box className="carat-input">
           <Typography className="carat-slider-opacity">
-            {(carat - 0.05).toFixed(2)}
+            {(carat - 0.01).toFixed(2)}
           </Typography>
           <Typography className="carat-slider-output">
             {carat.toFixed(2)}
           </Typography>
           <Typography className="carat-slider-opacity">
-            {(carat + 0.05).toFixed(2)}
+            {(carat + 0.01).toFixed(2)}
           </Typography>
         </Box>
         <Slider

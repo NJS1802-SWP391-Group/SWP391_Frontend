@@ -12,9 +12,11 @@ import { Link, useNavigate } from "react-router-dom";
 import DiavanImage from "../../assets/Diavan.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
 import "./Navbar.css";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 function Navbar() {
   const navigate = useNavigate();
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -32,10 +34,26 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    alert("Logout successfully");
-    navigate("/");
+    setAnchorElUser(null);
+    toast.success("Logout successfully", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+    setTimeout(() => {
+      localStorage.removeItem("role");
+      localStorage.removeItem("customerId");
+      localStorage.removeItem("token");
+      localStorage.setItem("loggedIn", "false");
+      sessionStorage.clear();
+      navigate("/");
+    }, 4000);
   };
 
   const handleCloseUserMenu = () => {
@@ -43,6 +61,20 @@ function Navbar() {
   };
   return (
     <div className="navbar">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+      <ToastContainer />
       <Link to="/">
         <img src={DiavanImage} alt="Diavan" className="logo" />
       </Link>
@@ -57,7 +89,7 @@ function Navbar() {
           <li>Calculate</li>
         </Link>
         <Link to="/about">
-          <li>About</li>
+          <li>Our Services</li>
         </Link>
         <Link to="/contact">
           <li>Valuate Diamond</li>
@@ -65,7 +97,7 @@ function Navbar() {
       </ul>
 
       <div>
-        {localStorage.getItem("loggedIn") == "true" ? (
+        {localStorage.getItem("loggedIn") === "true" ? (
           <Box sx={{ flexGrow: 0, marginLeft: "80%" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

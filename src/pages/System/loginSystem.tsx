@@ -11,13 +11,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DiavanLogo from "../../assets/Diavan.png";
 import { LOGIN_SUCCESS } from "../../constants";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
 import loginAPI from "../../services/loginApi";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IconButton } from "@mui/material";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const validationSchema = yup.object({
 //   username: yup.string().required("Can't empty in the Account blank"),
@@ -48,6 +50,7 @@ export default function LoginSystem() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const onChangeUsername = (
@@ -71,55 +74,163 @@ export default function LoginSystem() {
       password: data.get("password") as string,
     };
 
-    loginAPI.login(loginData).then(
-      (response: any) => {
-        console.log(response);
-        if (response.success == true) {
-          localStorage.setItem("customerId", response.result.customerId);
-          localStorage.setItem("loggedIn", "true");
-          localStorage.setItem(`token`, response.result.accessToken);
-          localStorage.setItem("role", response.result.roleName);
-          switch (response.result.roleName) {
-            case "Customer":
-              alert(LOGIN_SUCCESS);
-              navigate("/");
-              break;
-            case "ConsultingStaff":
-              alert(LOGIN_SUCCESS);
-              navigate("/consulting-page");
-              break;
-            case "ValuationStaff":
-              alert(LOGIN_SUCCESS);
-              navigate("/valuationStaff/assigned");
-              break;
-            case "Manager":
-              alert(LOGIN_SUCCESS);
-              navigate("/manager/managing");
-              break;
-            case "Admin":
-              alert(LOGIN_SUCCESS);
-              navigate("/admin/service");
-              break;
-            default:
-              alert("You do not have permission to access this page");
-              navigate("/home");
-              break;
+    if (location.pathname === "/login") {
+      loginAPI.loginAsCustomer(loginData).then(
+        (response: any) => {
+          console.log(response);
+          if (response.success == true) {
+            localStorage.setItem("customerId", response.result.customerId);
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem(`token`, response.result.accessToken);
+            localStorage.setItem("role", response.result.roleName);
+            toast.success(LOGIN_SUCCESS, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            switch (response.result.roleName) {
+              case "Customer":
+                setTimeout(() => {
+                  navigate("/");
+                }, 4000);
+
+                break;
+              case "ConsultingStaff":
+                setTimeout(() => {
+                  navigate("/consulting-page");
+                }, 4000);
+                break;
+              case "ValuationStaff":
+                setTimeout(() => {
+                  navigate("/valuationStaff/assigned");
+                }, 4000);
+                break;
+              case "Manager":
+                setTimeout(() => {
+                  navigate("/manager/managing");
+                }, 4000);
+                break;
+              case "Admin":
+                setTimeout(() => {
+                  navigate("/admin/service");
+                }, 4000);
+                break;
+              default:
+                toast.warn("You do not have permission to access this page", {
+                  position: "top-right",
+                });
+                setTimeout(() => {
+                  navigate("/home");
+                }, 4000);
+
+                break;
+            }
+          } else {
+            toast.error(response.result.message, {
+              position: "top-right",
+              autoClose: 2000,
+            });
           }
-        } else {
-          alert(response.result.message);
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
+    } else if (location.pathname === "/system") {
+      loginAPI.loginAsSystem(loginData).then(
+        (response: any) => {
+          console.log(response);
+          if (response.success == true) {
+            localStorage.setItem("customerId", response.result.customerId);
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem(`token`, response.result.accessToken);
+            localStorage.setItem("role", response.result.roleName);
+            toast.success(LOGIN_SUCCESS, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            switch (response.result.roleName) {
+              case "Customer":
+                setTimeout(() => {
+                  navigate("/");
+                }, 4000);
+
+                break;
+              case "ConsultingStaff":
+                setTimeout(() => {
+                  navigate("/consulting-page");
+                }, 4000);
+                break;
+              case "ValuationStaff":
+                setTimeout(() => {
+                  navigate("/valuationStaff/assigned");
+                }, 4000);
+                break;
+              case "Manager":
+                setTimeout(() => {
+                  navigate("/manager/managing");
+                }, 4000);
+                break;
+              case "Admin":
+                setTimeout(() => {
+                  navigate("/admin/service");
+                }, 4000);
+                break;
+              default:
+                toast.warn("You do not have permission to access this page", {
+                  position: "top-right",
+                });
+                setTimeout(() => {
+                  navigate("/home");
+                }, 4000);
+
+                break;
+            }
+          } else {
+            toast.error(response.result.message, {
+              position: "top-right",
+              autoClose: 2000,
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+        <ToastContainer />
         <Box
           sx={{
             paddingTop: 8,
