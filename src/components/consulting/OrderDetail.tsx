@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   DetailValuation,
   OrderInterface,
@@ -32,6 +32,7 @@ import { formatDate } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import accountApi from "../../services/accountApi";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
+import serviceApi from "../../services/service";
 
 type Props = {
   order: OrderInterface | null;
@@ -78,44 +79,56 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 //   undefined
 // );
 
+interface ServiceInterface {
+  serviceID: number;
+  name: string;
+  description: string;
+  status: string;
+}
+
 function OrderDetail({ order, closeModal }: Props) {
   const [detailValuations, setDetailValuations] = useState<DetailValuation[]>(
     []
   );
-  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>();
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
   // const [responseOrder, setResponseOrder] = useState<OrderResponse>();
   const navigate = useNavigate();
-  const [service, setService] = React.useState("");
   const [accountInfo, setAccountInfo] = useState<AccountInfo>();
+  const [services, setServices] = useState<ServiceInterface[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const accountInfo: any = await accountApi.getAccountInfo();
       setAccountInfo(accountInfo);
+      const services: any = await serviceApi.getAllService();
+      setServices(services);
     };
     fetchData();
   }, []);
 
-  const handleServiceChange = (event: SelectChangeEvent) => {
-    setService(event.target.value as string);
-    switch (event.target.value as string) {
-      case "Standard Valuation":
-        setSelectedServiceId(1);
-        break;
-      case "Quick Valuation 48h":
-        setSelectedServiceId(2);
-        break;
-      case "Quick Valuation 24h":
-        setSelectedServiceId(3);
-        break;
-      case "Quick Valuation 6h":
-        setSelectedServiceId(4);
-        break;
-    }
-  };
+  // const handleServiceChange = (event: SelectChangeEvent) => {
+  //   setService(event.target.value as string);
+  //   switch (event.target.value as string) {
+  //     case "Standard Valuation":
+  //       setSelectedServiceId(1);
+  //       break;
+  //     case "Quick Valuation 48h":
+  //       setSelectedServiceId(2);
+  //       break;
+  //     case "Quick Valuation 24h":
+  //       setSelectedServiceId(3);
+  //       break;
+  //     case "Quick Valuation 6h":
+  //       setSelectedServiceId(4);
+  //       break;
+  //   }
+  // };
 
-  console.log("Service:", service);
+  const handleServiceChange = (event: SelectChangeEvent) => {
+    const selectedServiceId = event.target.value as string;
+    setSelectedServiceId(selectedServiceId);
+  };
 
   const handleEstimateLengthChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -125,14 +138,16 @@ function OrderDetail({ order, closeModal }: Props) {
   };
 
   const handleAddButtonClick = () => {
-    const updatedDetailValuations = [...detailValuations];
-    updatedDetailValuations.push({
-      serviceId: selectedServiceId,
-      estimateLength: inputEstimateLength,
-    });
-    setDetailValuations(updatedDetailValuations);
-    setService("");
-    setInputEstimateLength(0);
+    if (selectedServiceId != undefined) {
+      const updatedDetailValuations = [...detailValuations];
+      updatedDetailValuations.push({
+        serviceId: parseInt(selectedServiceId),
+        estimateLength: inputEstimateLength,
+      });
+      setDetailValuations(updatedDetailValuations);
+      setSelectedServiceId("");
+      setInputEstimateLength(0);
+    }
   };
   console.log("DetailValuaitons: ", detailValuations);
 
@@ -206,22 +221,18 @@ function OrderDetail({ order, closeModal }: Props) {
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={service}
+                            value={selectedServiceId}
                             label="Service"
                             onChange={handleServiceChange}
                           >
-                            <MenuItem value={"Standard Valuation"}>
-                              Standard Valuation
-                            </MenuItem>
-                            <MenuItem value={"Quick Valuation 48h"}>
-                              Quick Valuation 48h
-                            </MenuItem>
-                            <MenuItem value={"Quick Valuation 24h"}>
-                              Quick Valuation 24h
-                            </MenuItem>
-                            <MenuItem value={"Quick Valuation 6h"}>
-                              Quick Valuation 6h
-                            </MenuItem>
+                            {services.map((item) => (
+                              <MenuItem
+                                key={item.serviceID}
+                                value={item.serviceID}
+                              >
+                                {item.name}
+                              </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </StyledTableCell>
