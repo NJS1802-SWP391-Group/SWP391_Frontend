@@ -63,6 +63,7 @@ const AppRoutes = () => {
       />
       <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
 
+      {/* AdminPath */}
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/service" element={<ServicePage />} />
       <Route path="/admin/serviceDetail" element={<ServiceDetailPage />} />

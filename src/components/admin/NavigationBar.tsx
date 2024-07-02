@@ -1,9 +1,10 @@
-import { Box, Card, Divider } from "@mui/material";
-import DiavanLogo from "../../assets/Diavan.png";
-import "./NavigationBar.css";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { Box, Card, Divider } from "@mui/material";
+import { Link } from "react-router-dom";
+import DiavanLogo from "../../assets/Diavan.png";
+import "./NavigationBar.css";
 const NavigationBar = () => {
   return (
     <div>
@@ -27,10 +28,13 @@ const NavigationBar = () => {
         </Box>
         <Divider variant="middle" />
         <ul className="list-service">
-          <li>
-            <SettingsIcon sx={{ margin: "0 15px" }} />
-            Service
-          </li>
+          <Link to="service">
+            <li>
+              <SettingsIcon sx={{ margin: "0 15px" }} />
+              Service
+            </li>
+          </Link>
+          <Link to="serviceDetail"></Link>
           <li>
             <SettingsSuggestIcon sx={{ margin: "0 15px" }} />
             Service Detail
