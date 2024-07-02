@@ -146,7 +146,7 @@ const DiamondDetail = () => {
   };
 
   const handleButtonClick = () => {
-    setIsButtonClicked(true); // Set the button click state
+    setIsButtonClicked(true);
     alert("Create successfully");
     const timer = setTimeout(() => {
       setSuccess(false);

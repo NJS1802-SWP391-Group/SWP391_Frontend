@@ -34,7 +34,6 @@ const AppRoutes = () => {
         <Route path="/consulting-page" element={<ConsultingStaffPage />} />
       </Route>
       <Route path="/" element={<HomePage />} />
-      <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginSystem />} />
       <Route path="/diamond-check" element={<DiamondCheckPage />} />
@@ -53,11 +52,15 @@ const AppRoutes = () => {
       <Route path="/manager/approval" element={<ManagerApprovalPage />} />
       <Route path="/manager/approval/:resultId" element={<CertificatePage />} />
       <Route path="/manager/assign" element={<ManagerAssignPage />} />
+
+      {/* ValuationStaffPath */}
       <Route
         path="/valuationStaff/assigned"
         element={<AssignedValuationStaffPage />}
       />
+      <Route path="/diamond/:orderCode" element={<DiamondDetail />} />
 
+      {/* AdminPath */}
       <Route path="/admin/service" element={<ServicePage />} />
       <Route path="/admin/serviceDetail" element={<ServiceDetailPage />} />
 
