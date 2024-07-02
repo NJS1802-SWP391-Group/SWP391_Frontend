@@ -10,6 +10,10 @@ const serviceApi = {
     const url = "/Service/Create-Service";
     return axiosClient.post(url, data);
   },
+  editService(serviceId: number, data: ServiceCreate) {
+    const url = `/Service/Update-Service/${serviceId}`;
+    return axiosClient.put(url, data);
+  },
 };
 
 export default serviceApi;

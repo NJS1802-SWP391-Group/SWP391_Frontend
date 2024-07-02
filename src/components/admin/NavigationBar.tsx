@@ -34,11 +34,13 @@ const NavigationBar = () => {
               Service
             </li>
           </Link>
-          <Link to="serviceDetail"></Link>
-          <li>
-            <SettingsSuggestIcon sx={{ margin: "0 15px" }} />
-            Service Detail
-          </li>
+          <Link to="serviceDetail">
+            <li>
+              <SettingsSuggestIcon sx={{ margin: "0 15px" }} />
+              Service Detail
+            </li>
+          </Link>
+          <Link to="service"></Link>
           <li>
             <AccountBoxIcon sx={{ margin: "0 15px" }} />
             Manage Account
