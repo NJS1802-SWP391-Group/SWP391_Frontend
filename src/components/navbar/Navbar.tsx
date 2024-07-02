@@ -89,7 +89,7 @@ function Navbar() {
           <li>Calculate</li>
         </Link>
         <Link to="/about">
-          <li>About</li>
+          <li>Our Services</li>
         </Link>
         <Link to="/contact">
           <li>Valuate Diamond</li>

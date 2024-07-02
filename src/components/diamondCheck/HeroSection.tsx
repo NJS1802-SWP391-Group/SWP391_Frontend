@@ -7,6 +7,9 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { useState } from "react";
+import diamondApi from "../../services/diamondApi";
+import { useNavigate } from "react-router-dom";
 
 const Section = styled(Box)(({ theme }) => ({
   position: "relative",
@@ -39,11 +42,26 @@ const CheckInputs = styled(Box)(({ theme }) => ({
 
 const HeroImage = styled("img")({
   width: "100%",
-  maxWidth: "260px",
+  maxWidth: "500px",
   borderRadius: "8px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
 });
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+  const checkDiamond = async () => {
+    if (value !== "")
+      diamondApi.checkDiamond(value).then(
+        () => {
+          navigate(`/diamond-details/${value}`);
+        },
+        (error) => {
+          setError(true);
+          console.log(error);
+        }
+      );
+  };
   return (
     <Box>
       <Section>
@@ -95,19 +113,29 @@ const HeroSection = () => {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                  onKeyDown={(e) => e.key === "." && e.preventDefault()}
+                  onChange={(e) => setValue(e.target.value)}
                   sx={{ flex: 0.65, mr: 2 }}
                 />
                 <Button
                   variant="contained"
-                  color="primary"
                   fullWidth
-                  sx={{ py: 1, flex: 0.25, fontWeight: "bold", fontSize: 12 }}
+                  onClick={checkDiamond}
+                  sx={{
+                    py: 1,
+                    flex: 0.25,
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    bgcolor: "#4F46E5",
+                  }}
                 >
                   Run free check
                 </Button>
               </CheckInputs>
+              {error && (
+                <Box sx={{ color: "red", ml: 2, fontSize: 12, mt: 1 }}>
+                  Diamond not found
+                </Box>
+              )}
             </Grid>
             <Grid
               item
@@ -120,7 +148,7 @@ const HeroSection = () => {
               }}
             >
               <HeroImage
-                src="https://stonealgo-3.b-cdn.net/static/dist/img/dd_2.webp"
+                src="https://shira-diamonds.com/wp-content/uploads/2021/03/verify-gia-diamond-certification-Shira-Diamonds.jpg"
                 alt="StoneAlgo diamond produce page example"
               />
             </Grid>
