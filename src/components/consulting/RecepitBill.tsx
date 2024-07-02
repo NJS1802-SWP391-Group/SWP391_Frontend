@@ -38,6 +38,7 @@ import { DetailValuation } from "../../interfaces/order/orderInterface";
 import { UpdateOrderDetail } from "../../interfaces/orderDetail/OrderDetailInterface";
 import accountApi from "../../services/accountApi";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
+import serviceApi from "../../services/service";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -59,9 +60,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+interface ServiceInterface {
+  serviceID: number;
+  name: string;
+  description: string;
+  status: string;
+}
+
 const RecepitBill: React.FC = () => {
-  const [service, setService] = React.useState("");
-  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
+  const [services, setServices] = useState<ServiceInterface[]>([]);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>();
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
   const [payment, setPayment] = useState("cash");
   const navigate = useNavigate();
@@ -87,26 +95,15 @@ const RecepitBill: React.FC = () => {
       const accountInfo: any = await accountApi.getAccountInfo();
       setAccountInfo(accountInfo);
       setFetchData(data);
+      const services: any = await serviceApi.getAllService();
+      setServices(services);
     };
     fetchData();
   }, [accountInfo?.result.user.userName, data]);
 
   const handleServiceChange = (event: SelectChangeEvent) => {
-    setService(event.target.value as string);
-    switch (event.target.value as string) {
-      case "Standard Valuation":
-        setSelectedServiceId(1);
-        break;
-      case "Quick Valuation 48h":
-        setSelectedServiceId(2);
-        break;
-      case "Quick Valuation 24h":
-        setSelectedServiceId(3);
-        break;
-      case "Quick Valuation 6h":
-        setSelectedServiceId(4);
-        break;
-    }
+    const selectedServiceId = event.target.value as string;
+    setSelectedServiceId(selectedServiceId);
   };
 
   const handleEstimateLengthChange = (
@@ -117,22 +114,24 @@ const RecepitBill: React.FC = () => {
   };
 
   const handleAddButtonClick = () => {
-    const data: DetailValuation = {
-      serviceId: selectedServiceId,
-      estimateLength: inputEstimateLength,
-    };
-    orderDetailApi.createOrderDetail(data, fetchData.orderID).then(
-      (response: any) => {
-        console.log("Create Order Detail: ", response);
-        setFetchData(response);
-      },
-      (error) => {
-        console.log("Error Create Order Detail", error);
-      }
-    );
+    if (selectedServiceId != undefined) {
+      const data: DetailValuation = {
+        serviceId: parseInt(selectedServiceId),
+        estimateLength: inputEstimateLength,
+      };
+      orderDetailApi.createOrderDetail(data, fetchData.orderID).then(
+        (response: any) => {
+          console.log("Create Order Detail: ", response);
+          setFetchData(response);
+        },
+        (error) => {
+          console.log("Error Create Order Detail", error);
+        }
+      );
 
-    setService("");
-    setInputEstimateLength(0);
+      setSelectedServiceId("");
+      setInputEstimateLength(0);
+    }
   };
 
   const onClickDelete = (orderDetailId: number) => {
@@ -295,22 +294,18 @@ const RecepitBill: React.FC = () => {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={service}
+                          value={selectedServiceId}
                           label="Service"
                           onChange={handleServiceChange}
                         >
-                          <MenuItem value={"Standard Valuation"}>
-                            Standard Valuation
-                          </MenuItem>
-                          <MenuItem value={"Quick Valuation 48h"}>
-                            Quick Valuation 48h
-                          </MenuItem>
-                          <MenuItem value={"Quick Valuation 24h"}>
-                            Quick Valuation 24h
-                          </MenuItem>
-                          <MenuItem value={"Quick Valuation 6h"}>
-                            Quick Valuation 6h
-                          </MenuItem>
+                          {services.map((item) => (
+                            <MenuItem
+                              key={item.serviceID}
+                              value={item.serviceID}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </StyledTableCell>

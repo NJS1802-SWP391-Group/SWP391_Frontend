@@ -6,7 +6,7 @@ const AboutPage = () => {
   return (
     <React.Fragment>
       <Navbar />
-      <div>AboutPage</div>;
+      <div>About Page</div>
       <Footer />
     </React.Fragment>
   );

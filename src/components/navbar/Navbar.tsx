@@ -34,6 +34,7 @@ function Navbar() {
   };
 
   const handleLogout = () => {
+    setAnchorElUser(null);
     toast.success("Logout successfully", {
       position: "top-center",
       autoClose: 2000,

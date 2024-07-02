@@ -23,7 +23,7 @@ const SendEmail = () => {
       .then((response: any) => {
         console.log("Send email:", response);
         if (response === "Sent successfully") {
-          alert(response);
+          alert("Send email successfully");
           navigate(-1);
         }
       })
@@ -57,7 +57,6 @@ const SendEmail = () => {
   };
 
   const onClickReturn = (orderId: number) => {
-    alert(orderId);
     orderApi
       .returnOrder(orderId)
       .then((response: any) => {

@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, Divider } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
@@ -15,9 +15,9 @@ const AdminSection = () => {
       >
         <Card
           sx={{
-            padding: "10px 80px 80px 80px",
+            padding: "10px 250px 30px 100px",
             display: "flex",
-            flexDirection: "column",
+
             alignItems: "center",
             justifyContent: "center",
             gap: 4,
@@ -25,26 +25,40 @@ const AdminSection = () => {
             width: "20%",
           }}
         >
-          <p
+          <div
             style={{
+              padding: 5,
+              backgroundColor: "black",
+              borderRadius: "100px",
+              color: "white",
               display: "flex",
               alignItems: "center",
-              backgroundColor: "violet",
-              padding: 5,
-              borderRadius: "10px",
-              gap: 3,
             }}
           >
             <ManageAccountsIcon />
-            Account
-          </p>
-          <p style={{ fontSize: "30px", color: "violet" }}>250</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "black",
+                color: "white",
+                padding: 5,
+                borderRadius: "10px",
+                gap: 3,
+              }}
+            >
+              Account
+            </p>
+            <p style={{ fontSize: "30px", color: "black" }}>250</p>
+          </div>
         </Card>
         <Card
           sx={{
-            padding: "10px 80px 80px 80px",
+            padding: "10px 250px 30px 100px",
             display: "flex",
-            flexDirection: "column",
+
             alignItems: "center",
             justifyContent: "center",
             gap: 4,
@@ -52,26 +66,40 @@ const AdminSection = () => {
             width: "20%",
           }}
         >
-          <p
+          <div
             style={{
+              padding: 5,
+              backgroundColor: "black",
+              borderRadius: "100px",
+              color: "white",
               display: "flex",
               alignItems: "center",
-              backgroundColor: "violet",
-              padding: 5,
-              borderRadius: "10px",
-              gap: 3,
             }}
           >
             <ListAltIcon />
-            Order
-          </p>
-          <p style={{ fontSize: "30px", color: "violet" }}>250</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "black",
+                color: "white",
+                padding: 5,
+                borderRadius: "10px",
+                gap: 3,
+              }}
+            >
+              Order
+            </p>
+            <p style={{ fontSize: "30px", color: "black" }}>250</p>
+          </div>
         </Card>
         <Card
           sx={{
-            padding: "10px 80px 80px 80px",
+            padding: "10px 250px 30px 100px",
             display: "flex",
-            flexDirection: "column",
+
             alignItems: "center",
             justifyContent: "center",
             gap: 4,
@@ -79,20 +107,34 @@ const AdminSection = () => {
             width: "20%",
           }}
         >
-          <p
+          <div
             style={{
+              padding: 5,
+              backgroundColor: "black",
+              borderRadius: "100px",
+              color: "white",
               display: "flex",
               alignItems: "center",
-              backgroundColor: "violet",
-              padding: 5,
-              borderRadius: "10px",
-              gap: 3,
             }}
           >
             <FaceRetouchingNaturalIcon />
-            Customer
-          </p>
-          <p style={{ fontSize: "30px", color: "violet" }}>250</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "black",
+                color: "white",
+                padding: 5,
+                borderRadius: "10px",
+                gap: 3,
+              }}
+            >
+              Customer
+            </p>
+            <p style={{ fontSize: "30px", color: "black" }}>250</p>
+          </div>
         </Card>
       </div>
     </Card>
