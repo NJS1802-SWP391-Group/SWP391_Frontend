@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import DiamondPriceChart from "./DiamondPriceChart";
 import DetailItemV2 from "./DetailItemV2";
+import { useNavigate } from "react-router-dom";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -29,6 +30,7 @@ interface DiamondDetailProps {
 }
 
 const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
+    const navigate = useNavigate();
   if (!diamond) {
     return <Box>Loading...</Box>;
   }
@@ -63,7 +65,7 @@ const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
             </Box>
           </Box>
           <Box sx={{ fontSize: 28, fontWeight: 600 }}>
-            ${diamond.fairPrice}{" "}
+          Fair Price Estimate: ${diamond.fairPrice}{" "}
             <span style={{ fontSize: 20, fontWeight: 700, color: "gray" }}>
               USD
             </span>
@@ -180,6 +182,7 @@ const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
                 fontWeight: 500,
                 fontSize: "1.25rem",
                 transition: "background-color 0.3s ease",
+                cursor: "pointer"
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = "#3c349f";
@@ -187,8 +190,11 @@ const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
               onMouseOut={(e) => {
                 e.currentTarget.style.backgroundColor = "#4f46e5";
               }}
+              onClick={() => {
+                navigate("/diamond-check")
+              }}
             >
-              See at With Clarity • {diamond.fairPrice}
+              Run another check
             </button>
           </Box>
         </Box>
@@ -284,7 +290,7 @@ const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
             />
             <DetailItemV2 title="Comments" value={diamond.comment} />
           </Box>
-          <Box>
+          {/* <Box>
             <Box
               sx={{
                 bgcolor: "#2d5477",
@@ -312,7 +318,7 @@ const DiamondDetail: React.FC<DiamondDetailProps> = ({ diamond }) => {
               Order Matters: the inclusion listed first is considered by the GIA
               to be the most impactful to the overall clarity grade.
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>

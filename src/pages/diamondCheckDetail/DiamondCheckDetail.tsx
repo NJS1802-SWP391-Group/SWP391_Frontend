@@ -17,7 +17,7 @@ const DiamondCheckDetail = () => {
   useEffect(() => {
     if (id) {
       diamondApi.checkDiamond(id).then(
-        (response: AxiosResponse<Diamond>) => {
+        (response: any) => {
           setDetail(response);
         },
         (error) => {

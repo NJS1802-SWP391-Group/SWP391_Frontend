@@ -15,7 +15,7 @@ const DetailSection = () => {
           color="indigo.600"
           sx={{ fontWeight: "bold", textTransform: "uppercase" }}
         >
-          StoneAlgo
+          Diavan
         </Typography>
         <Typography
           variant="h3"
@@ -51,7 +51,7 @@ const DetailSection = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              StoneAlgo GIA Check Page
+              Diavan GIA Check Page
             </Typography>
           </Grid>
           <Grid item xs={12} lg={6}>
@@ -68,7 +68,7 @@ const DetailSection = () => {
               Diamond Price Estimates
             </Typography>
             <Typography variant="body1" color="textPrimary">
-              StoneAlgo’s Fair Price estimates are the most advanced in the
+              Diavan’s Fair Price estimates are the most advanced in the
               diamond industry, providing shoppers with more confidence and a
               better understanding of any GIA certified diamond’s fair value.
             </Typography>
@@ -77,7 +77,7 @@ const DetailSection = () => {
             </Typography>
             <Typography variant="body1" color="textPrimary">
               We rate every diamond based on its Fair Price estimate to help you
-              better understand if it’s truly a great deal. StoneAlgo indexes
+              better understand if it’s truly a great deal. Diavan indexes
               over 2,000,000 diamond prices daily to ensure these deal ratings
               are fair and accurate.
             </Typography>
@@ -88,7 +88,7 @@ const DetailSection = () => {
               Available only for round diamonds, our cut score takes diamond cut
               grades to the next level. While the GIA, AGS, IGI, EGL, and other
               grading agencies each have their own unique grading systems,
-              StoneAlgo’s cut score is an unbiased and far more precise
+              Diavan’s cut score is an unbiased and far more precise
               indicator of a diamond’s light performance. Go beyond “Excellent
               vs. Ideal Cut diamonds” and find a nearly perfect 9.0+ Cut Score
               to ensure your diamond sparkles like crazy. Read more about our{" "}
@@ -101,7 +101,7 @@ const DetailSection = () => {
               Diamond Price Charts
             </Typography>
             <Typography variant="body1" color="textPrimary">
-              StoneAlgo shows live diamond price charts for every diamond we
+              Diavan shows live diamond price charts for every diamond we
               have ever had in our database, showing the price that diamond was
               listed for at the jewelers we work with. If we haven’t seen the
               diamond, we’ll show you the average price of similar diamonds

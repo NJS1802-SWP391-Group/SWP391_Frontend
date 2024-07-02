@@ -42,7 +42,7 @@ const CheckInputs = styled(Box)(({ theme }) => ({
 
 const HeroImage = styled("img")({
   width: "100%",
-  maxWidth: "260px",
+  maxWidth: "500px",
   borderRadius: "8px",
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
 });
@@ -148,7 +148,7 @@ const HeroSection = () => {
               }}
             >
               <HeroImage
-                src="https://stonealgo-3.b-cdn.net/static/dist/img/dd_2.webp"
+                src="https://shira-diamonds.com/wp-content/uploads/2021/03/verify-gia-diamond-certification-Shira-Diamonds.jpg"
                 alt="StoneAlgo diamond produce page example"
               />
             </Grid>
