@@ -146,6 +146,7 @@ const AssignValuationStaff = () => {
               <StyledTableCell sx={styleTableHead}>
                 Input Figure
               </StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Final Price</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Send Result</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -162,30 +163,40 @@ const AssignValuationStaff = () => {
                   <StyledTableCell>
                     {valuationStaffResponse.status}
                   </StyledTableCell>
+
                   <StyledTableCell>
                     <Box>
-                      <IconButton
-                        onClick={() =>
-                          handlePlusButtonClick(
-                            valuationStaffResponse.orderDetailId,
-                            valuationStaffResponse
-                          )
-                        }
-                      >
+                      {valuationStaffResponse.finalPrice === 0 &&
+                      valuationStaffResponse.resultId === 0 ? (
                         <img
-                          src={
-                            clickedOrderDetailId ===
-                            valuationStaffResponse.orderDetailId
-                              ? DoneButton
-                              : PlusButton
-                          }
+                          src={DoneButton}
                           width="30"
                           height="30"
-                          alt="PlusButton"
-                          className="Plusbutton"
+                          alt="DoneButton"
+                          className="DoneButton"
                         />
-                      </IconButton>
+                      ) : (
+                        <IconButton
+                          onClick={() =>
+                            handlePlusButtonClick(
+                              valuationStaffResponse.orderDetailId,
+                              valuationStaffResponse
+                            )
+                          }
+                        >
+                          <img
+                            src={PlusButton}
+                            width="30"
+                            height="30"
+                            alt="PlusButton"
+                            className="Plusbutton"
+                          />
+                        </IconButton>
+                      )}
                     </Box>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {valuationStaffResponse.finalPrice}
                   </StyledTableCell>
                   <StyledTableCell>
                     <Box>

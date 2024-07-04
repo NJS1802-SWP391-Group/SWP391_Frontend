@@ -14,6 +14,10 @@ const serviceApi = {
     const url = `/Service/Update-Service/${serviceId}`;
     return axiosClient.put(url, data);
   },
+  deleteService(serviceId: number) {
+    console.log("first", serviceId);
+    return axiosClient.put(`/Service/Change-Status/${serviceId}`);
+  },
 };
 
 export default serviceApi;

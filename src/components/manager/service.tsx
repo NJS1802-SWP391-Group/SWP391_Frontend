@@ -68,11 +68,18 @@ const Service = () => {
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
-
   const handleDeleteService = (serviceID: number) => {
-    setServiceList((prevService) =>
-      prevService.filter((m) => m.serviceID !== serviceID)
-    );
+    console.log("id", serviceID);
+    try {
+      const response = serviceApi.deleteService(serviceID);
+      console.log("resDe:", response);
+      console.log("ids", serviceID);
+      setServiceList((prevService) =>
+        prevService.filter((m) => m.serviceID !== serviceID)
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleAddService = () => {
