@@ -64,13 +64,28 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
+  const getAccount = async () => {
+    const account: any = await accountApi.getAccountInfo();
+    console.log("account api: ", account);
+
+    const list: any = await valuationStaffApi.getOrderDetailByValuationStaffId(
+      account.result.user.accountId
+    );
+    console.log("list", list);
+    setAssignValuationStaffResponseList(list);
+  };
+  useEffect(() => {
+    getAccount();
+  }, []);
+  console.log("Log Asign:", assignValuationStaffResponseList);
+
   const handleSend = (orderDetailID: number) => {
     valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
       (response) => {
         console.log("response:", response);
         alert(`Send successfully`);
-        // Reload the page after successful save
-        window.location.reload();
+
+        getAccount();
       },
       (error) => {
         console.log(error);
@@ -111,22 +126,6 @@ const AssignValuationStaff = () => {
     padding: theme.spacing(1),
     textAlign: "center",
   }));
-
-  useEffect(() => {
-    const getAccount = async () => {
-      const account: any = await accountApi.getAccountInfo();
-      console.log("account api: ", account);
-
-      const list: any =
-        await valuationStaffApi.getOrderDetailByValuationStaffId(
-          account.result.user.accountId
-        );
-      console.log("list", list);
-      setAssignValuationStaffResponseList(list);
-    };
-    getAccount();
-  }, []);
-  console.log("Log Asign:", assignValuationStaffResponseList);
 
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(

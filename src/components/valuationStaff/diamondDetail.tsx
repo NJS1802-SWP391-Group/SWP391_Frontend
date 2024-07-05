@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Paper,
@@ -158,9 +159,9 @@ const DiamondDetail = () => {
   return (
     <Paper
       sx={{
-        width: "50%",
+        width: "60%",
         height: "100%",
-        marginLeft: "370px",
+        marginLeft: "300px",
         marginTop: "35px",
       }}
     >
@@ -192,39 +193,6 @@ const DiamondDetail = () => {
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Checkbox
-              {...label}
-              defaultChecked={isFormEnabled}
-              id="isDiamond"
-              name="isDiamond"
-              value={isFormEnabled}
-              onChange={handleCheckboxChange}
-              sx={{
-                "& .MuiSvgIcon-root": {
-                  fontSize: 28,
-                  width: "30px",
-                  height: "30px",
-                },
-              }}
-            />
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                width: "150px",
-                paddingLeft: "10px",
-                marginBottom: "0px",
-              }}
-            >
-              Is it diamond?
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
               justifyContent: "left",
               marginTop: "5px",
               marginBottom: "5px",
@@ -234,271 +202,338 @@ const DiamondDetail = () => {
               REPORT DETAILS
             </Typography>
           </Box>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="origin-label">Origin</InputLabel>
-              <Select
-                labelId="origin-label"
-                id="origin"
-                name="origin"
-                value={diamondDetail.origin}
-                label="Origin"
-                onChange={handleChange}
-              >
-                <MenuItem value={"Natural"}>Natural</MenuItem>
-                <MenuItem value={"Lab Grown"}>Lab Grown</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="shape-label">Shape</InputLabel>
-              <Select
-                labelId="shape-label"
-                id="shape"
-                name="shape"
-                value={diamondDetail.shape}
-                label="Shape"
-                onChange={handleChange}
-              >
-                <MenuItem value="ROUND">ROUND</MenuItem>
-                <MenuItem value="HEART">HEART</MenuItem>
-                <MenuItem value="OVAL">OVAL</MenuItem>
-                <MenuItem value="MARQUISE">MARQUISE</MenuItem>
-                <MenuItem value="PEAR">PEAR</MenuItem>
-                <MenuItem value="CUSHION">CUSHION</MenuItem>
-                <MenuItem value="PRINCESS">PRINCESS</MenuItem>
-                <MenuItem value="ASSCHER">ASSCHER</MenuItem>
-                <MenuItem value="RADIANT">RADIANT</MenuItem>
-                <MenuItem value="EMERALD">EMERALD</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-
-          <FieldContainer>
-            <TextField
-              fullWidth
-              id="carat"
-              name="carat"
-              label="Carat"
-              value={diamondDetail.carat}
-              onChange={handleChange}
-              type="number"
-              inputProps={{ min: "0", step: "0.00001" }}
-              disabled={!isFormEnabled}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="color-label">Color</InputLabel>
-              <Select
-                labelId="color-label"
-                id="color"
-                name="color"
-                value={diamondDetail.color}
-                label="Color"
-                onChange={handleChange}
-              >
-                <MenuItem value="D">D</MenuItem>
-                <MenuItem value="E">E</MenuItem>
-                <MenuItem value="F">F</MenuItem>
-                <MenuItem value="G">G</MenuItem>
-                <MenuItem value="H">H</MenuItem>
-                <MenuItem value="I">I</MenuItem>
-                <MenuItem value="J">J</MenuItem>
-                <MenuItem value="K">K</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="clarity-label">Clarity</InputLabel>
-              <Select
-                labelId="clarity-label"
-                id="clarity"
-                name="clarity"
-                value={diamondDetail.clarity}
-                label="Clarity"
-                onChange={handleChange}
-              >
-                <MenuItem value="FL">FL</MenuItem>
-                <MenuItem value="IF">IF</MenuItem>
-                <MenuItem value="VVS1">VVS1</MenuItem>
-                <MenuItem value="VVS2">VVS2</MenuItem>
-                <MenuItem value="VS1">VS1</MenuItem>
-                <MenuItem value="VS2">VS2</MenuItem>
-                <MenuItem value="SI1">SI1</MenuItem>
-                <MenuItem value="SI2">SI2</MenuItem>
-                <MenuItem value="I1">I1</MenuItem>
-                <MenuItem value="I2">I2</MenuItem>
-                <MenuItem value="I3">I3</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="fluorescence-label">Fluorescence</InputLabel>
-              <Select
-                labelId="fluorescence-label"
-                id="fluorescence"
-                name="fluorescence"
-                value={diamondDetail.fluorescence}
-                label="Fluorescence"
-                onChange={handleChange}
-              >
-                <MenuItem value="NONE">NONE</MenuItem>
-                <MenuItem value="FAINT">FAINT</MenuItem>
-                <MenuItem value="MEDIUM">MEDIUM</MenuItem>
-                <MenuItem value="STRONG">STRONG</MenuItem>
-                <MenuItem value="VERY STRONG">VERY STRONG</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="symmetry-label">Symmetry</InputLabel>
-              <Select
-                labelId="symmetry-label"
-                id="symmetry"
-                name="symmetry"
-                value={diamondDetail.symmetry}
-                label="Symmetry"
-                onChange={handleChange}
-              >
-                <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
-                <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="POOR">POOR</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="polish-label">Polish</InputLabel>
-              <Select
-                labelId="polish-label"
-                id="polish"
-                name="polish"
-                value={diamondDetail.polish}
-                label="Polish"
-                onChange={handleChange}
-              >
-                <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
-                <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="POOR">POOR</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <FormControl fullWidth disabled={!isFormEnabled}>
-              <InputLabel id="cutGrade-label">Cut Grade</InputLabel>
-              <Select
-                labelId="cutGrade-label"
-                id="cutGrade"
-                name="cutGrade"
-                value={diamondDetail.cutGrade}
-                label="Cut Grade"
-                onChange={handleChange}
-              >
-                <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
-                <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
-                <MenuItem value="GOOD">GOOD</MenuItem>
-                <MenuItem value="FAIR">FAIR</MenuItem>
-                <MenuItem value="POOR">POOR</MenuItem>
-              </Select>
-            </FormControl>
-          </FieldContainer>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              id="description"
-              name="description"
-              label="Description"
-              value={diamondDetail.description}
-              onChange={handleChange}
-              multiline
-              rows={4}
-              disabled={!isFormEnabled}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <TextField
-              fullWidth
-              id="diamondValue"
-              name="diamondValue"
-              label="Diamond Value"
-              value={diamondDetail.diamondValue}
-              onChange={handleChange}
-              inputProps={{ min: "0" }}
-              type="number"
-              disabled={!isFormEnabled}
-            />
-          </FieldContainer>
-          <Section sx={{}}>
-            <FieldContainer>
-              <Typography sx={{ fontWeight: "bold" }}>Proportion</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
               <Box
-                {...getRootPropsSingle()}
                 sx={{
-                  border: "2px dashed grey",
-                  padding: "20px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: isDragActiveSingle
-                    ? "#e0e0e0"
-                    : "transparent",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <input
-                  {...getInputPropsSingle()}
-                  id="propotionImage"
-                  name="propotionImage"
+                <Checkbox
+                  {...label}
+                  defaultChecked={isFormEnabled}
+                  id="isDiamond"
+                  name="isDiamond"
+                  value={isFormEnabled}
+                  onChange={handleCheckboxChange}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      fontSize: 28,
+                      width: "30px",
+                      height: "30px",
+                    },
+                  }}
                 />
-                {uploadedImage ? (
-                  <Typography>{uploadedImage.name}</Typography>
-                ) : (
-                  <Typography>
-                    Drag 'n' drop a propotion image here, or click to select one
-                  </Typography>
-                )}
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    width: "150px",
+                    paddingLeft: "10px",
+                    marginBottom: "0px",
+                  }}
+                >
+                  Is it diamond?
+                </Typography>
               </Box>
-            </FieldContainer>
-          </Section>
-          <Section sx={{}}>
-            <FieldContainer>
-              <Typography sx={{ fontWeight: "bold" }}>
-                Clarity Characteristic
-              </Typography>
-              <Box
-                {...getRootPropsMultiple()}
-                sx={{
-                  border: "2px dashed grey",
-                  padding: "20px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: isDragActiveMultiple
-                    ? "#e0e0e0"
-                    : "transparent",
-                }}
-              >
-                <input
-                  {...getInputPropsMultiple()}
-                  id="clarityImages"
-                  name="clarityImages"
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="origin-label">Origin</InputLabel>
+                  <Select
+                    labelId="origin-label"
+                    id="origin"
+                    name="origin"
+                    value={diamondDetail.origin}
+                    label="Origin"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"Natural"}>Natural</MenuItem>
+                    <MenuItem value={"Lab Grown"}>Lab Grown</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="shape-label">Shape</InputLabel>
+                  <Select
+                    labelId="shape-label"
+                    id="shape"
+                    name="shape"
+                    value={diamondDetail.shape}
+                    label="Shape"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="ROUND">ROUND</MenuItem>
+                    <MenuItem value="HEART">HEART</MenuItem>
+                    <MenuItem value="OVAL">OVAL</MenuItem>
+                    <MenuItem value="MARQUISE">MARQUISE</MenuItem>
+                    <MenuItem value="PEAR">PEAR</MenuItem>
+                    <MenuItem value="CUSHION">CUSHION</MenuItem>
+                    <MenuItem value="PRINCESS">PRINCESS</MenuItem>
+                    <MenuItem value="ASSCHER">ASSCHER</MenuItem>
+                    <MenuItem value="RADIANT">RADIANT</MenuItem>
+                    <MenuItem value="EMERALD">EMERALD</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <TextField
+                  fullWidth
+                  id="carat"
+                  name="carat"
+                  label="Carat"
+                  value={diamondDetail.carat}
+                  onChange={handleChange}
+                  type="number"
+                  inputProps={{ min: "0", step: "0.00001" }}
+                  disabled={!isFormEnabled}
                 />
-                {uploadedImages ? (
-                  <Typography>{uploadedImages.name}</Typography>
-                ) : (
-                  <Typography>
-                    Drag 'n' drop a clarity image here, or click to select one
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="color-label">Color</InputLabel>
+                  <Select
+                    labelId="color-label"
+                    id="color"
+                    name="color"
+                    value={diamondDetail.color}
+                    label="Color"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="D">D</MenuItem>
+                    <MenuItem value="E">E</MenuItem>
+                    <MenuItem value="F">F</MenuItem>
+                    <MenuItem value="G">G</MenuItem>
+                    <MenuItem value="H">H</MenuItem>
+                    <MenuItem value="I">I</MenuItem>
+                    <MenuItem value="J">J</MenuItem>
+                    <MenuItem value="K">K</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="clarity-label">Clarity</InputLabel>
+                  <Select
+                    labelId="clarity-label"
+                    id="clarity"
+                    name="clarity"
+                    value={diamondDetail.clarity}
+                    label="Clarity"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="FL">FL</MenuItem>
+                    <MenuItem value="IF">IF</MenuItem>
+                    <MenuItem value="VVS1">VVS1</MenuItem>
+                    <MenuItem value="VVS2">VVS2</MenuItem>
+                    <MenuItem value="VS1">VS1</MenuItem>
+                    <MenuItem value="VS2">VS2</MenuItem>
+                    <MenuItem value="SI1">SI1</MenuItem>
+                    <MenuItem value="SI2">SI2</MenuItem>
+                    <MenuItem value="I1">I1</MenuItem>
+                    <MenuItem value="I2">I2</MenuItem>
+                    <MenuItem value="I3">I3</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="fluorescence-label">Fluorescence</InputLabel>
+                  <Select
+                    labelId="fluorescence-label"
+                    id="fluorescence"
+                    name="fluorescence"
+                    value={diamondDetail.fluorescence}
+                    label="Fluorescence"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="NONE">NONE</MenuItem>
+                    <MenuItem value="FAINT">FAINT</MenuItem>
+                    <MenuItem value="MEDIUM">MEDIUM</MenuItem>
+                    <MenuItem value="STRONG">STRONG</MenuItem>
+                    <MenuItem value="VERY STRONG">VERY STRONG</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="symmetry-label">Symmetry</InputLabel>
+                  <Select
+                    labelId="symmetry-label"
+                    id="symmetry"
+                    name="symmetry"
+                    value={diamondDetail.symmetry}
+                    label="Symmetry"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
+                    <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
+                    <MenuItem value="GOOD">GOOD</MenuItem>
+                    <MenuItem value="FAIR">FAIR</MenuItem>
+                    <MenuItem value="POOR">POOR</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="polish-label">Polish</InputLabel>
+                  <Select
+                    labelId="polish-label"
+                    id="polish"
+                    name="polish"
+                    value={diamondDetail.polish}
+                    label="Polish"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
+                    <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
+                    <MenuItem value="GOOD">GOOD</MenuItem>
+                    <MenuItem value="FAIR">FAIR</MenuItem>
+                    <MenuItem value="POOR">POOR</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={6}>
+              <FieldContainer>
+                <FormControl fullWidth disabled={!isFormEnabled}>
+                  <InputLabel id="cutGrade-label">Cut Grade</InputLabel>
+                  <Select
+                    labelId="cutGrade-label"
+                    id="cutGrade"
+                    name="cutGrade"
+                    value={diamondDetail.cutGrade}
+                    label="Cut Grade"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="EXCELLENT">EXCELLENT</MenuItem>
+                    <MenuItem value="VERY GOOD">VERY GOOD</MenuItem>
+                    <MenuItem value="GOOD">GOOD</MenuItem>
+                    <MenuItem value="FAIR">FAIR</MenuItem>
+                    <MenuItem value="POOR">POOR</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldContainer>
+                <TextField
+                  fullWidth
+                  id="description"
+                  name="description"
+                  label="Description"
+                  value={diamondDetail.description}
+                  onChange={handleChange}
+                  multiline
+                  rows={4}
+                  disabled={!isFormEnabled}
+                />
+              </FieldContainer>
+            </Grid>
+            <Grid item xs={12}>
+              <Section>
+                <FieldContainer>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Valuating Price
                   </Typography>
-                )}
-              </Box>
-            </FieldContainer>
-          </Section>
+                  <TextField
+                    fullWidth
+                    id="diamondValue"
+                    name="diamondValue"
+                    value={diamondDetail.diamondValue}
+                    onChange={handleChange}
+                    inputProps={{ min: "0" }}
+                    type="number"
+                    disabled={!isFormEnabled}
+                  />
+                </FieldContainer>
+              </Section>
+            </Grid>
+            <Grid item xs={12}>
+              <Section sx={{}}>
+                <FieldContainer>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Proportion
+                  </Typography>
+                  <Box
+                    {...getRootPropsSingle()}
+                    sx={{
+                      border: "2px dashed grey",
+                      padding: "20px",
+                      textAlign: "center",
+                      cursor: "pointer",
+                      backgroundColor: isDragActiveSingle
+                        ? "#e0e0e0"
+                        : "transparent",
+                    }}
+                  >
+                    <input
+                      {...getInputPropsSingle()}
+                      id="propotionImage"
+                      name="propotionImage"
+                    />
+                    {uploadedImage ? (
+                      <Typography>{uploadedImage.name}</Typography>
+                    ) : (
+                      <Typography>
+                        Drag 'n' drop a propotion image here, or click to select
+                        one
+                      </Typography>
+                    )}
+                  </Box>
+                </FieldContainer>
+              </Section>
+              <Section sx={{}}>
+                <FieldContainer>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Clarity Characteristic
+                  </Typography>
+                  <Box
+                    {...getRootPropsMultiple()}
+                    sx={{
+                      border: "2px dashed grey",
+                      padding: "20px",
+                      textAlign: "center",
+                      cursor: "pointer",
+                      backgroundColor: isDragActiveMultiple
+                        ? "#e0e0e0"
+                        : "transparent",
+                    }}
+                  >
+                    <input
+                      {...getInputPropsMultiple()}
+                      id="clarityImages"
+                      name="clarityImages"
+                    />
+                    {uploadedImages ? (
+                      <Typography>{uploadedImages.name}</Typography>
+                    ) : (
+                      <Typography>
+                        Drag 'n' drop a clarity image here, or click to select
+                        one
+                      </Typography>
+                    )}
+                  </Box>
+                </FieldContainer>
+              </Section>
+            </Grid>
+          </Grid>
         </Section>
         <Box
           sx={{

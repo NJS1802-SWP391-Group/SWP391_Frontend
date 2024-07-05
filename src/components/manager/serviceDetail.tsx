@@ -32,6 +32,8 @@ const ServiceDetail = () => {
     useState<ServiceDetailResponse | null>(null);
   const [editServiceDetail, setEditServiceDetail] =
     useState<ServiceDetailResponse | null>(null);
+  const [changeService, setChangeService] =
+    useState<ServiceDetailResponse | null>(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -87,15 +89,17 @@ const ServiceDetail = () => {
     setEditServiceDetail(serviceDetail);
   };
 
-  const handleDeleteService = (serviceDetailID: number) => {
+  const handleDeleteService = async (serviceDetailID: number) => {
     console.log("id", serviceDetailID);
     const data: ServiceChange = {
-      status: "Active",
+      status: changeService?.status || "",
     };
-    const response = serviceDetailApi.deleteServiceDetail(
+    const response = await serviceDetailApi.deleteServiceDetail(
       serviceDetailID,
       data
     );
+    console.log("first", response);
+    fetchServiceDetailList();
     setServiceDetailList((prevServiceDetail) =>
       prevServiceDetail.filter((m) => m.serviceDetailID !== serviceDetailID)
     );
@@ -313,16 +317,7 @@ const ServiceDetail = () => {
             <DialogContentText>
               Update the details of the ServiceDetail.
             </DialogContentText>
-            {/* <TextField
-              margin="dense"
-              label="Code ServiceDetail"
-              type="text"
-              fullWidth
-              id="code"
-              name="code"
-              value={editServiceDetail.code}
-              onChange={handleInputChange}
-            /> */}
+
             <TextField
               margin="dense"
               label="Min Range"
