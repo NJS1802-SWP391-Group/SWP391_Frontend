@@ -20,7 +20,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import PlusAdd from "../../assets/PlusAdd.png";
-import { ServiceResponse } from "../../interfaces/services/Service";
+import {
+  ServiceChange,
+  ServiceResponse,
+} from "../../interfaces/services/Service";
 import serviceApi from "../../services/service";
 
 const Service = () => {
@@ -28,6 +31,9 @@ const Service = () => {
   console.log("service:", serviceList);
   const [newService, setNewService] = useState<ServiceResponse | null>(null);
   const [editService, setEditService] = useState<ServiceResponse | null>(null);
+  const [changeService, setChangeService] = useState<ServiceResponse | null>(
+    null
+  );
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -50,15 +56,15 @@ const Service = () => {
     textAlign: "center",
   }));
 
-  useEffect(() => {
-    const fetchServiceList = async () => {
-      const response: any = await serviceApi.getAllService();
-      console.log("FetchData", response);
-      if (response && response.length > 0) {
-        setServiceList(response);
-      }
-    };
+  const fetchServiceList = async () => {
+    const response: any = await serviceApi.getAllService();
+    console.log("FetchData", response);
+    if (response && response.length > 0) {
+      setServiceList(response);
+    }
+  };
 
+  useEffect(() => {
     const initUseEffect = async () => {
       await fetchServiceList();
     };
@@ -68,15 +74,19 @@ const Service = () => {
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
-  const handleDeleteService = (serviceID: number) => {
-    console.log("id", serviceID);
+  const handleDeleteService = async (serviceId: number) => {
+    console.log("id", serviceId);
+    const data: ServiceChange = {
+      status: changeService?.status || "",
+    };
     try {
-      const response = serviceApi.deleteService(serviceID);
+      const response = await serviceApi.changeService(serviceId, data);
       console.log("resDe:", response);
-      console.log("ids", serviceID);
+      console.log("ids", serviceId);
       setServiceList((prevService) =>
-        prevService.filter((m) => m.serviceID !== serviceID)
+        prevService.filter((m) => m.serviceID !== serviceId)
       );
+      fetchServiceList();
     } catch (error) {
       console.log(error);
     }

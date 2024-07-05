@@ -1,4 +1,5 @@
 import { ServiceCreate } from "../interfaces/services/Service";
+import { ServiceChange } from "./../interfaces/services/Service";
 import axiosClient from "./axiosClient";
 
 const serviceApi = {
@@ -14,9 +15,10 @@ const serviceApi = {
     const url = `/Service/Update-Service/${serviceId}`;
     return axiosClient.put(url, data);
   },
-  deleteService(serviceId: number) {
+  changeService(serviceId: number, data: ServiceChange) {
     console.log("first", serviceId);
-    return axiosClient.put(`/Service/Change-Status/${serviceId}`);
+    const url = `/Service/Change-Status/${serviceId}`;
+    return axiosClient.put(url, data);
   },
 };
 

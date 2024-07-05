@@ -6,11 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +21,7 @@ import {
 import { useEffect, useState } from "react";
 import PlusAdd from "../../assets/PlusAdd.png";
 import { ServiceDetailResponse } from "../../interfaces/serviceDetail/ServiceDetail";
+import { ServiceChange } from "../../interfaces/services/Service";
 import serviceDetailApi from "../../services/serviceDetailApi";
 const ServiceDetail = () => {
   const [serviceDetailList, setServiceDetailList] = useState<
@@ -57,15 +54,15 @@ const ServiceDetail = () => {
     textAlign: "center",
   }));
 
-  useEffect(() => {
-    const fetchServiceDetailList = async () => {
-      const response: any = await serviceDetailApi.getAll();
-      console.log("FetchData", response);
-      if (response && response.length > 0) {
-        setServiceDetailList(response);
-      }
-    };
+  const fetchServiceDetailList = async () => {
+    const response: any = await serviceDetailApi.getAll();
+    console.log("FetchData", response);
+    if (response && response.length > 0) {
+      setServiceDetailList(response);
+    }
+  };
 
+  useEffect(() => {
     const initUseEffect = async () => {
       await fetchServiceDetailList();
     };
@@ -80,7 +77,8 @@ const ServiceDetail = () => {
       maxRange: 0,
       price: 0,
       extraPricePerMM: 0,
-      status: "",
+      status: "Active",
+      serviceName: "",
       serviceID: 0,
     });
   };
@@ -90,21 +88,51 @@ const ServiceDetail = () => {
   };
 
   const handleDeleteService = (serviceDetailID: number) => {
+    console.log("id", serviceDetailID);
+    const data: ServiceChange = {
+      status: "Active",
+    };
+    const response = serviceDetailApi.deleteServiceDetail(
+      serviceDetailID,
+      data
+    );
     setServiceDetailList((prevServiceDetail) =>
       prevServiceDetail.filter((m) => m.serviceDetailID !== serviceDetailID)
     );
   };
 
-  const handleSaveServiceDetail = () => {
+  const handleSaveServiceDetail = async () => {
     if (editServiceDetail) {
-      setServiceDetailList((prevServiceDetail) =>
-        prevServiceDetail.map((m) =>
-          m.serviceDetailID === editServiceDetail.serviceDetailID
-            ? editServiceDetail
-            : m
-        )
-      );
-      setEditServiceDetail(null);
+      const data: ServiceDetailResponse = {
+        serviceDetailID: editServiceDetail.serviceDetailID,
+        code: editServiceDetail.code,
+        minRange: editServiceDetail.minRange,
+        maxRange: editServiceDetail.maxRange,
+        price: editServiceDetail.price,
+        extraPricePerMM: editServiceDetail.extraPricePerMM,
+        status: "Active",
+        serviceName: editServiceDetail.serviceName,
+        serviceID: editServiceDetail.serviceID,
+      };
+
+      try {
+        const response = await serviceDetailApi.editServiceDetail(
+          editServiceDetail.serviceDetailID,
+          data
+        );
+        console.log("resEdit:", response);
+        setServiceDetailList((prevServiceDetail) =>
+          prevServiceDetail.map((m) =>
+            m.serviceDetailID === editServiceDetail.serviceDetailID
+              ? editServiceDetail
+              : m
+          )
+        );
+        fetchServiceDetailList();
+        setEditServiceDetail(null);
+      } catch (error) {
+        console.log(error);
+      }
     } else if (newServiceDetail) {
       const nextServiceDetailID =
         serviceDetailList.length > 0
@@ -118,25 +146,25 @@ const ServiceDetail = () => {
         price: newServiceDetail.price,
         extraPricePerMM: newServiceDetail.extraPricePerMM,
         status: "Active",
+        serviceName: "",
         serviceID: newServiceDetail.serviceID,
       };
-      const response = serviceDetailApi.createServiceDetail(data).then(
-        (response: any) => {
-          console.log("res:", response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      setServiceDetailList((prevServiceDetail) => [
-        ...prevServiceDetail,
-        {
-          ...newServiceDetail,
-          FeID: `FE${prevServiceDetail.length + 1}`,
-          CreatedTime: new Date().toISOString(),
-        },
-      ]);
-      setNewServiceDetail(null);
+      console.log("dtaa", data);
+      try {
+        const response = await serviceDetailApi.createServiceDetail(data);
+        console.log("res:", response);
+        setServiceDetailList((prevServiceDetail) => [
+          ...prevServiceDetail,
+          {
+            ...newServiceDetail,
+            serviceID: nextServiceDetailID,
+          },
+        ]);
+        fetchServiceDetailList();
+        setNewServiceDetail(null);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -204,14 +232,16 @@ const ServiceDetail = () => {
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
+              <StyledTableCell sx={styleTableHead}>SD Code</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>
-                Service Detail Code
+                Service Name
               </StyledTableCell>
+
               <StyledTableCell sx={styleTableHead}>Min Range</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Max Range</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Price</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Extra Price</StyledTableCell>
-              <StyledTableCell sx={styleTableHead}>Status</StyledTableCell>
+
               <StyledTableCell sx={styleTableHead}>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -219,6 +249,9 @@ const ServiceDetail = () => {
             {paginatedServiceDetailResponseList.map((serviceDetailResponse) => (
               <StyledTableRow key={serviceDetailResponse.code}>
                 <StyledTableCell>{serviceDetailResponse.code}</StyledTableCell>
+                <StyledTableCell>
+                  {serviceDetailResponse.serviceName}
+                </StyledTableCell>
                 <StyledTableCell>
                   {serviceDetailResponse.minRange}
                 </StyledTableCell>
@@ -229,9 +262,7 @@ const ServiceDetail = () => {
                 <StyledTableCell>
                   {serviceDetailResponse.extraPricePerMM}
                 </StyledTableCell>
-                <StyledTableCell>
-                  {serviceDetailResponse.status}
-                </StyledTableCell>
+
                 <StyledTableCell>
                   <Button
                     variant="contained"
@@ -282,21 +313,23 @@ const ServiceDetail = () => {
             <DialogContentText>
               Update the details of the ServiceDetail.
             </DialogContentText>
-            <TextField
+            {/* <TextField
               margin="dense"
               label="Code ServiceDetail"
               type="text"
               fullWidth
-              name="ServiceDetailID"
+              id="code"
+              name="code"
               value={editServiceDetail.code}
               onChange={handleInputChange}
-            />
+            /> */}
             <TextField
               margin="dense"
               label="Min Range"
               type="text"
               fullWidth
-              name="MinRange"
+              id="minRange"
+              name="minRange"
               value={editServiceDetail.minRange}
               onChange={handleInputChange}
             />
@@ -305,7 +338,8 @@ const ServiceDetail = () => {
               label="Max Range"
               type="text"
               fullWidth
-              name="MaxRange"
+              id="maxRange"
+              name="maxRange"
               value={editServiceDetail.maxRange}
               onChange={handleInputChange}
             />
@@ -314,7 +348,8 @@ const ServiceDetail = () => {
               label="Price"
               type="text"
               fullWidth
-              name="Price"
+              id="price"
+              name="price"
               value={editServiceDetail.price}
               onChange={handleInputChange}
             />
@@ -323,17 +358,9 @@ const ServiceDetail = () => {
               label="ExtraPricePerMM"
               type="text"
               fullWidth
-              name="ExtraPricePerMM"
+              id="extraPricePerMM"
+              name="extraPricePerMM"
               value={editServiceDetail.extraPricePerMM}
-              onChange={handleInputChange}
-            />
-            <TextField
-              margin="dense"
-              label="Status"
-              type="text"
-              fullWidth
-              name="Status"
-              value={editServiceDetail.status}
               onChange={handleInputChange}
             />
           </DialogContent>
@@ -360,7 +387,8 @@ const ServiceDetail = () => {
               label="ServiceDetail Code"
               type="text"
               fullWidth
-              name="ServiceDetailCode"
+              id="code"
+              name="code"
               value={newServiceDetail.code}
               onChange={handleInputChange}
             />
@@ -369,7 +397,8 @@ const ServiceDetail = () => {
               label="Min Range"
               type="text"
               fullWidth
-              name="MinRange"
+              id="minRange"
+              name="minRange"
               value={newServiceDetail.minRange}
               onChange={handleInputChange}
             />
@@ -378,7 +407,8 @@ const ServiceDetail = () => {
               label="Max Range"
               type="text"
               fullWidth
-              name="MaxRange"
+              id="maxRange"
+              name="maxRange"
               value={newServiceDetail.maxRange}
               onChange={handleInputChange}
             />
@@ -387,7 +417,8 @@ const ServiceDetail = () => {
               label="Price"
               type="text"
               fullWidth
-              name="Price"
+              id="price"
+              name="price"
               value={newServiceDetail.price}
               onChange={handleInputChange}
             />
@@ -396,24 +427,21 @@ const ServiceDetail = () => {
               label="Extra PricePerMM"
               type="text"
               fullWidth
-              name="ExtraPricePerMM"
+              id="extraPricePerMM"
+              name="extraPricePerMM"
               value={newServiceDetail.extraPricePerMM}
               onChange={handleInputChange}
             />
-            <FormControl fullWidth>
-              <InputLabel id="status">Status</InputLabel>
-              <Select
-                labelId="status"
-                id="status"
-                name="status"
-                value={newServiceDetail.status}
-                label="Status"
-                // onChange={handleInputChange}
-              >
-                <MenuItem value={"Active"}>Active</MenuItem>
-                <MenuItem value={"Inactive"}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              margin="dense"
+              label="Service ID"
+              type="text"
+              fullWidth
+              id="serviceID"
+              name="serviceID"
+              value={newServiceDetail.serviceID}
+              onChange={handleInputChange}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog} color="secondary">

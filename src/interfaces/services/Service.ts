@@ -9,3 +9,7 @@ export interface ServiceCreate {
   name: string;
   description: string;
 }
+
+export interface ServiceChange {
+  status: string;
+}
