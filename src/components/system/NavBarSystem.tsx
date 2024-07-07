@@ -13,7 +13,6 @@ import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Diavan.png";
-
 import AvatarBoy from "../../assets/boy_12894580.png";
 
 const drawerWidth = 240;

@@ -1,5 +1,4 @@
 import { DiamondCheckValue } from "../../interfaces/diamond/diamondInterface";
-// import { ResponsiveLine } from "@nivo/line";
 
 interface DiamondPriceChartProps {
   diamondCheckValues: DiamondCheckValue[];
