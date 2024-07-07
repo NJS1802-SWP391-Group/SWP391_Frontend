@@ -1,18 +1,18 @@
-import { Card, Divider } from "@mui/material";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import ListAltIcon from "@mui/icons-material/ListAlt";
 import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { Card } from "@mui/material";
 import { useEffect, useState } from "react";
-import userApi from "../../services/userApi";
-import orderApi from "../../services/orderApi";
 import consultingStaffImg from "../../assets/consultant.png";
-import valuationStaffImg from "../../assets/staff.png";
 import managerImg from "../../assets/Manager.png";
+import valuationStaffImg from "../../assets/staff.png";
+import orderApi from "../../services/orderApi";
+import userApi from "../../services/userApi";
 import AccountList from "./AccountList";
 
 const AdminSection = () => {
   const [countCustomer, setCountCustomer] = useState();
-  const [countAccount, setcountAccount] = useState<number>();
+  const [countAccount, setCountAccount] = useState<number>();
   const [countOrder, setCountOrder] = useState();
   const [countConsulting, setCountConsulting] = useState();
   const [countValuation, setCountValuation] = useState();
@@ -20,7 +20,7 @@ const AdminSection = () => {
   useEffect(() => {
     const fechData = async () => {
       const countAccount: any = await userApi.countAccount();
-      setcountAccount(countAccount);
+      setCountAccount(countAccount);
       const countCustomer: any = await userApi.countCustomer();
       setCountCustomer(countCustomer);
       const countOrder: any = await orderApi.countOrder();
@@ -195,7 +195,12 @@ const AdminSection = () => {
               alignItems: "center",
             }}
           >
-            <img src={consultingStaffImg} width={50} height={50} />
+            <img
+              src={consultingStaffImg}
+              width={50}
+              height={50}
+              alt="consultingStaffImg"
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p
@@ -237,7 +242,12 @@ const AdminSection = () => {
               alignItems: "center",
             }}
           >
-            <img src={valuationStaffImg} width={50} height={50} />
+            <img
+              src={valuationStaffImg}
+              width={50}
+              height={50}
+              alt="valuationStaffImg"
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p
@@ -277,7 +287,7 @@ const AdminSection = () => {
               alignItems: "center",
             }}
           >
-            <img src={managerImg} width={50} height={50} />
+            <img src={managerImg} width={50} height={50} alt="managerImg" />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <p

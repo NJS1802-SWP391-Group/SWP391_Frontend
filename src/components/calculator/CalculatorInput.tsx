@@ -1,5 +1,5 @@
+import { Box, Button, Slider, SvgIcon, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Box, Button, Slider, Typography, SvgIcon } from "@mui/material";
 import "./Calculator.css";
 
 const CalculatorInput: React.FC = () => {
@@ -10,31 +10,19 @@ const CalculatorInput: React.FC = () => {
   const [clarity, setClarity] = useState<string>("VS2");
   const [expanded, setExpanded] = useState<boolean>(false);
 
-  const handleOriginChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleOriginChange = (value: string) => {
     setOrigin(value);
   };
   console.log(origin);
-  const handleShapeChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleShapeChange = (value: string) => {
     setShape(value);
   };
 
-  const handleColorChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleColorChange = (value: string) => {
     setColor(value);
   };
 
-  const handleClarityChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleClarityChange = (value: string) => {
     setClarity(value);
   };
 
@@ -60,7 +48,7 @@ const CalculatorInput: React.FC = () => {
           <Box
             key={s}
             className={`origin-button ${origin === s ? "active-button" : ""}`}
-            onClick={(event) => handleOriginChange(event, s)}
+            onClick={() => handleOriginChange(s)}
           >
             {s}
           </Box>
@@ -91,7 +79,7 @@ const CalculatorInput: React.FC = () => {
           <Box
             key={s}
             className={`shape-button ${shape === s ? "active-button" : ""}`}
-            onClick={(event) => handleShapeChange(event, s)}
+            onClick={() => handleShapeChange(s)}
           >
             {s}
           </Box>
@@ -124,7 +112,10 @@ const CalculatorInput: React.FC = () => {
         min={0.3}
         max={5}
         step={0.01}
-        onChange={(event, value) => setCarat(value as number)}
+        onChange={(event, value) => {
+          console.log(event);
+          setCarat(parseFloat(value.toString()));
+        }}
       />
 
       <Typography
@@ -140,7 +131,7 @@ const CalculatorInput: React.FC = () => {
           <Box
             key={c}
             className={`shape-button ${color === c ? "active-button" : ""}`}
-            onClick={(event) => handleColorChange(event, c)}
+            onClick={() => handleColorChange(c)}
           >
             {c}
           </Box>
@@ -160,7 +151,7 @@ const CalculatorInput: React.FC = () => {
           <Box
             key={cl}
             className={`shape-button ${clarity === cl ? "active-button" : ""}`}
-            onClick={(event) => handleClarityChange(event, cl)}
+            onClick={() => handleClarityChange(cl)}
           >
             {cl}
           </Box>
@@ -199,7 +190,7 @@ const CalculatorInput: React.FC = () => {
                 className={`shape-button ${
                   cut === "Ex." ? "active-button" : ""
                 }`}
-                onClick={(event) => handleClarityChange(event, cut)}
+                onClick={() => handleClarityChange(cut)}
               >
                 {cut}
               </Box>
@@ -221,7 +212,7 @@ const CalculatorInput: React.FC = () => {
                 className={`shape-button ${
                   symmetry === "Ex." ? "active-button" : ""
                 }`}
-                onClick={(event) => handleClarityChange(event, symmetry)}
+                onClick={() => handleClarityChange(symmetry)}
               >
                 {symmetry}
               </Box>
@@ -243,7 +234,7 @@ const CalculatorInput: React.FC = () => {
                 className={`shape-button ${
                   polish === "Ex." ? "active-button" : ""
                 }`}
-                onClick={(event) => handleClarityChange(event, polish)}
+                onClick={() => handleClarityChange(polish)}
               >
                 {polish}
               </Box>
@@ -265,7 +256,7 @@ const CalculatorInput: React.FC = () => {
                 className={`shape-button ${
                   fluorescence === "NON" ? "active-button" : ""
                 }`}
-                onClick={(event) => handleClarityChange(event, fluorescence)}
+                onClick={() => handleClarityChange(fluorescence)}
               >
                 {fluorescence}
               </Box>

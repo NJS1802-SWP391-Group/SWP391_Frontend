@@ -34,6 +34,7 @@ const Service = () => {
   const [changeService, setChangeService] = useState<ServiceResponse | null>(
     null
   );
+  console.log("first", setChangeService);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -77,7 +78,7 @@ const Service = () => {
   const handleDeleteService = async (serviceId: number) => {
     console.log("id", serviceId);
     const data: ServiceChange = {
-      status: changeService?.status || "",
+      status: changeService?.status ?? "",
     };
     try {
       const response = await serviceApi.changeService(serviceId, data);

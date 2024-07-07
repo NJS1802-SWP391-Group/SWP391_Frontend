@@ -1,7 +1,7 @@
 import { Button, Card, Container, Divider, Typography } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Diavan.png";
 import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_14572102.png";
-import { useLocation, useNavigate } from "react-router-dom";
 import { InforEmail } from "../../interfaces/email/EmailInterface";
 import emailApi from "../../services/emailApi";
 import orderApi from "../../services/orderApi";
@@ -36,18 +36,6 @@ const SendEmail = () => {
     const data: any = await orderApi.sealOrder(orderId);
     alert(data);
     navigate("/consulting-page");
-
-    // orderApi
-    //   .sealOrder(orderId)
-    //   .then((response) => {
-    //     console.log(response);
-    //     alert(response);
-    //     // Handle the response here or uncomment the navigation code
-    //     // navigate(`/sealed/${orderId}`, { state: response });
-    //   })
-    //   .catch((error) => {
-    //     alert(error);
-    //   });
   };
 
   const onClickUnSeal = async (orderId: number) => {
