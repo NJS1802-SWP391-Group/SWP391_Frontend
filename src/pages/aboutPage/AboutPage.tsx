@@ -130,7 +130,7 @@ const AboutPage = () => {
   useEffect(() => {
     const fectServices = async () => {
       try {
-        const serviceList: any = await serviceApi.getAll();
+        const serviceList: any = await serviceApi.getAllService();
         setServices(serviceList);
         const serviceDetailList: any = await serviceDetailApi.getAll();
         setServiceDetails(serviceDetailList);

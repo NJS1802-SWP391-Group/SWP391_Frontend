@@ -56,7 +56,7 @@ const Service = () => {
 
   useEffect(() => {
     const fetchServiceList = async () => {
-      const response: any = await serviceApi.getAll();
+      const response: any = await serviceApi.getAllService();
       console.log("FetchData", response);
       if (response && response.length > 0) {
         setServiceList(response);

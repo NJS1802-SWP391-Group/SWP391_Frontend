@@ -186,7 +186,7 @@ export default function LoginSystem() {
                 break;
               case "Admin":
                 setTimeout(() => {
-                  navigate("/admin/service");
+                  navigate("/admin");
                 }, 4000);
                 break;
               default:

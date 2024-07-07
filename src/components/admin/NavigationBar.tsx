@@ -14,6 +14,7 @@ const NavigationBar = () => {
           height: "700px",
           flexDirection: "column",
           alignItems: "center",
+          position: "fixed",
         }}
       >
         <Box
@@ -28,21 +29,24 @@ const NavigationBar = () => {
         </Box>
         <Divider variant="middle" />
         <ul className="list-service">
-          <Link to="service">
+          <Link to="/admin/service">
             <li>
               <SettingsIcon sx={{ margin: "0 15px" }} />
               Service
             </li>
           </Link>
-          <Link to="serviceDetail"></Link>
-          <li>
-            <SettingsSuggestIcon sx={{ margin: "0 15px" }} />
-            Service Detail
-          </li>
-          <li>
-            <AccountBoxIcon sx={{ margin: "0 15px" }} />
-            Manage Account
-          </li>
+          <Link to="/admin/serviceDetail">
+            <li>
+              <SettingsSuggestIcon sx={{ margin: "0 15px" }} />
+              Service Detail
+            </li>
+          </Link>
+          <Link to="/admin">
+            <li>
+              <AccountBoxIcon sx={{ margin: "0 15px" }} />
+              Manage Account
+            </li>
+          </Link>
         </ul>
       </Card>
     </div>

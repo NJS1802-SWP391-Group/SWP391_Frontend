@@ -39,6 +39,10 @@ const orderApi = {
     const url = `/Orders/Confirm-Return-Order/${orderId}`;
     return axiosClient.put(url);
   },
+  countOrder() {
+    const url = "/Orders/Count";
+    return axiosClient.get(url);
+  },
 };
 
 export default orderApi;
