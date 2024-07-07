@@ -47,7 +47,6 @@ const AppRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       {/* <Route path="/login" element={<LoginPage />} /> */}
 
-      <Route path="/contact" element={<ValuationRequestForm />} />
       <Route path="/consulting-page" element={<ConsultingStaffPage />} />
 
       {/* ManagerPath */}

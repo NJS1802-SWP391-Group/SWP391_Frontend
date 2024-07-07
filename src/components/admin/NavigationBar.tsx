@@ -16,6 +16,7 @@ const NavigationBar = () => {
           height: "700px",
           flexDirection: "column",
           alignItems: "center",
+          position: "fixed",
         }}
       >
         <Box
