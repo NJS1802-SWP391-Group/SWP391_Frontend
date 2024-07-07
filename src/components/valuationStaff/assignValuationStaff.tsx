@@ -64,13 +64,28 @@ const AssignValuationStaff = () => {
     setPage(0);
   };
 
+  const getAccount = async () => {
+    const account: any = await accountApi.getAccountInfo();
+    console.log("account api: ", account);
+
+    const list: any = await valuationStaffApi.getOrderDetailByValuationStaffId(
+      account.result.user.accountId
+    );
+    console.log("list", list);
+    setAssignValuationStaffResponseList(list);
+  };
+  useEffect(() => {
+    getAccount();
+  }, []);
+  console.log("Log Asign:", assignValuationStaffResponseList);
+
   const handleSend = (orderDetailID: number) => {
     valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
       (response) => {
         console.log("response:", response);
         alert(`Send successfully`);
-        // Reload the page after successful save
-        window.location.reload();
+
+        getAccount();
       },
       (error) => {
         console.log(error);
@@ -112,22 +127,6 @@ const AssignValuationStaff = () => {
     textAlign: "center",
   }));
 
-  useEffect(() => {
-    const getAccount = async () => {
-      const account: any = await accountApi.getAccountInfo();
-      console.log("account api: ", account);
-
-      const list: any =
-        await valuationStaffApi.getOrderDetailByValuationStaffId(
-          account.result.user.accountId
-        );
-      console.log("list", list);
-      setAssignValuationStaffResponseList(list);
-    };
-    getAccount();
-  }, []);
-  console.log("Log Asign:", assignValuationStaffResponseList);
-
   const paginatedAssignValuationStaffResponseList =
     assignValuationStaffResponseList.slice(
       page * rowsPerPage,
@@ -146,6 +145,7 @@ const AssignValuationStaff = () => {
               <StyledTableCell sx={styleTableHead}>
                 Input Figure
               </StyledTableCell>
+              <StyledTableCell sx={styleTableHead}>Final Price</StyledTableCell>
               <StyledTableCell sx={styleTableHead}>Send Result</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -162,30 +162,40 @@ const AssignValuationStaff = () => {
                   <StyledTableCell>
                     {valuationStaffResponse.status}
                   </StyledTableCell>
+
                   <StyledTableCell>
                     <Box>
-                      <IconButton
-                        onClick={() =>
-                          handlePlusButtonClick(
-                            valuationStaffResponse.orderDetailId,
-                            valuationStaffResponse
-                          )
-                        }
-                      >
+                      {valuationStaffResponse.finalPrice === 0 ||
+                      valuationStaffResponse.resultId === 0 ? (
                         <img
-                          src={
-                            clickedOrderDetailId ===
-                            valuationStaffResponse.orderDetailId
-                              ? DoneButton
-                              : PlusButton
-                          }
+                          src={DoneButton}
                           width="30"
                           height="30"
-                          alt="PlusButton"
-                          className="Plusbutton"
+                          alt="DoneButton"
+                          className="DoneButton"
                         />
-                      </IconButton>
+                      ) : (
+                        <IconButton
+                          onClick={() =>
+                            handlePlusButtonClick(
+                              valuationStaffResponse.orderDetailId,
+                              valuationStaffResponse
+                            )
+                          }
+                        >
+                          <img
+                            src={PlusButton}
+                            width="30"
+                            height="30"
+                            alt="PlusButton"
+                            className="Plusbutton"
+                          />
+                        </IconButton>
+                      )}
                     </Box>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {valuationStaffResponse.finalPrice}
                   </StyledTableCell>
                   <StyledTableCell>
                     <Box>

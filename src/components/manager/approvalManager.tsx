@@ -57,13 +57,31 @@ const ApprovalManager = () => {
     console.log("resultId:", resultId);
   };
 
+  const [managerResponseList, setManagerResponseList] = useState<
+    ManagerApprovalResponse[]
+  >([]);
+  console.log("ManagerResponse:", managerResponseList);
+  const fetchManagerApprovalList = async () => {
+    const response: any = await managerAssignsApi.getAllCompledted();
+    console.log("FetchData", response);
+    if (response && response.length > 0) {
+      setManagerResponseList(response);
+    }
+  };
+  useEffect(() => {
+    const initUseEffect = async () => {
+      await fetchManagerApprovalList();
+    };
+    initUseEffect();
+  }, []);
+
   const handleReject = (orderDetailId: number) => {
     managerAssignsApi.changeStatusToReAssigning(orderDetailId).then(
       (response) => {
         console.log("orderDetailId:", orderDetailId);
         console.log("response:", response);
 
-        window.location.reload();
+        fetchManagerApprovalList();
       },
       (error) => {
         console.log(error);
@@ -89,25 +107,6 @@ const ApprovalManager = () => {
     padding: theme.spacing(1),
     textAlign: "center",
   }));
-
-  const [managerResponseList, setManagerResponseList] = useState<
-    ManagerApprovalResponse[]
-  >([]);
-  console.log("ManagerResponse:", managerResponseList);
-  useEffect(() => {
-    const fetchManagerApprovalList = async () => {
-      const response: any = await managerAssignsApi.getAllCompledted();
-      console.log("FetchData", response);
-      if (response && response.length > 0) {
-        setManagerResponseList(response);
-      }
-    };
-
-    const initUseEffect = async () => {
-      await fetchManagerApprovalList();
-    };
-    initUseEffect();
-  }, []);
 
   const paginatedManagerResponseList = managerResponseList.slice(
     page * rowsPerPage,
