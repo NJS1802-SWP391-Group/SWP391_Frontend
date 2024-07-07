@@ -1,4 +1,5 @@
-import { ServiceDetailResponse } from "../interfaces/serviceDetail/ServiceDetail";
+import { ServiceDetailCreate } from "../interfaces/serviceDetail/ServiceDetail";
+import { ServiceChange } from "../interfaces/services/Service";
 import axiosClient from "./axiosClient";
 
 const serviceDetailApi = {
@@ -7,9 +8,19 @@ const serviceDetailApi = {
     return axiosClient.get(url);
   },
 
-  createServiceDetail(data: ServiceDetailResponse) {
+  createServiceDetail(data: ServiceDetailCreate) {
     const url = "/ServiceDetail/Create-Service-Detail";
     return axiosClient.post(url, data);
+  },
+
+  editServiceDetail(serviceId: number, data: ServiceDetailCreate) {
+    const url = `/ServiceDetail/Update-Service-Detail/${serviceId}`;
+    return axiosClient.put(url, data);
+  },
+  deleteServiceDetail(serviceId: number, data: ServiceChange) {
+    console.log("first", serviceId);
+    const url = `/ServiceDetail/Change-Status/${serviceId}`;
+    return axiosClient.put(url, data);
   },
 };
 

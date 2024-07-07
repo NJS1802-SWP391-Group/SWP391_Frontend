@@ -66,15 +66,15 @@ const AssignManager: React.FC = () => {
   };
 
   const [managers, setManagers] = useState<ValuationStaffResponse[]>([]);
-  useEffect(() => {
-    const fetchValuationStaffList = async () => {
-      const res: any = await valuationStaffApi.getValuationStaff();
-      console.log("ValuationList:", res);
-      if (res && res.length > 0) {
-        setManagers(res);
-      }
-    };
 
+  const fetchValuationStaffList = async () => {
+    const res: any = await valuationStaffApi.getValuationStaff();
+    console.log("ValuationList:", res);
+    if (res && res.length > 0) {
+      setManagers(res);
+    }
+  };
+  useEffect(() => {
     const initUseEffect = async () => {
       await fetchValuationStaffList();
     };
@@ -170,8 +170,7 @@ const AssignManager: React.FC = () => {
         if (selectedManager) {
           alert(`Assign ${selectedManager.userName} successfully`);
         }
-        // Reload the page after successful save
-        window.location.reload();
+        fetchValuationStaffList();
       },
       (error) => {
         console.log(error);

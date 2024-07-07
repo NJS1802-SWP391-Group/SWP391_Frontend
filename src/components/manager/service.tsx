@@ -6,11 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +20,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import PlusAdd from "../../assets/PlusAdd.png";
-import { ServiceResponse } from "../../interfaces/services/Service";
+import {
+  ServiceChange,
+  ServiceResponse,
+} from "../../interfaces/services/Service";
 import serviceApi from "../../services/service";
 
 const Service = () => {
@@ -32,6 +31,9 @@ const Service = () => {
   console.log("service:", serviceList);
   const [newService, setNewService] = useState<ServiceResponse | null>(null);
   const [editService, setEditService] = useState<ServiceResponse | null>(null);
+  const [changeService, setChangeService] = useState<ServiceResponse | null>(
+    null
+  );
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -54,15 +56,15 @@ const Service = () => {
     textAlign: "center",
   }));
 
-  useEffect(() => {
-    const fetchServiceList = async () => {
-      const response: any = await serviceApi.getAllService();
-      console.log("FetchData", response);
-      if (response && response.length > 0) {
-        setServiceList(response);
-      }
-    };
+  const fetchServiceList = async () => {
+    const response: any = await serviceApi.getAllService();
+    console.log("FetchData", response);
+    if (response && response.length > 0) {
+      setServiceList(response);
+    }
+  };
 
+  useEffect(() => {
     const initUseEffect = async () => {
       await fetchServiceList();
     };
@@ -72,11 +74,22 @@ const Service = () => {
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
-
-  const handleDeleteService = (serviceID: number) => {
-    setServiceList((prevService) =>
-      prevService.filter((m) => m.serviceID !== serviceID)
-    );
+  const handleDeleteService = async (serviceId: number) => {
+    console.log("id", serviceId);
+    const data: ServiceChange = {
+      status: changeService?.status || "",
+    };
+    try {
+      const response = await serviceApi.changeService(serviceId, data);
+      console.log("resDe:", response);
+      console.log("ids", serviceId);
+      setServiceList((prevService) =>
+        prevService.filter((m) => m.serviceID !== serviceId)
+      );
+      fetchServiceList();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleAddService = () => {
@@ -92,45 +105,57 @@ const Service = () => {
     });
   };
 
-  const handleSaveService = () => {
+  const handleSaveService = async () => {
     if (editService) {
-      setServiceList((prevService) =>
-        prevService.map((m) =>
-          m.serviceID === editService.serviceID ? editService : m
-        )
-      );
-      setEditService(null);
+      const data: ServiceResponse = {
+        serviceID: editService.serviceID,
+        name: editService.name,
+        description: editService.description,
+        status: "Active",
+      };
+
+      try {
+        const response = await serviceApi.editService(
+          editService.serviceID,
+          data
+        );
+        console.log("resEdit:", response);
+        setServiceList((prevService) =>
+          prevService.map((m) =>
+            m.serviceID === editService.serviceID ? { ...m, ...data } : m
+          )
+        );
+        setEditService(null);
+      } catch (error) {
+        console.log(error);
+      }
     } else if (newService) {
       const nextServiceID =
         serviceList.length > 0
           ? serviceList[serviceList.length - 1].serviceID + 1
           : 1;
+
       const data: ServiceResponse = {
         serviceID: nextServiceID,
         name: newService.name,
         description: newService.description,
         status: "Active",
       };
-      const response = serviceApi.createService(data).then(
-        (response: any) => {
-          console.log("res:", response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      console.log("res:", response);
-      setServiceList((prevService) => [
-        ...prevService,
-        {
-          ...newService,
-          serviceID:
-            serviceList.length > 0
-              ? serviceList[serviceList.length - 1].serviceID + 1
-              : 1,
-        },
-      ]);
-      setNewService(null);
+
+      try {
+        const response = await serviceApi.createService(data);
+        console.log("res:", response);
+        setServiceList((prevService) => [
+          ...prevService,
+          {
+            ...newService,
+            serviceID: nextServiceID,
+          },
+        ]);
+        setNewService(null);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -182,7 +207,7 @@ const Service = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 140 }}
+          sx={{ marginLeft: 120 }}
           onClick={handleAddService}
         >
           <img src={PlusAdd} height={20} width={20} alt="PLusAdd" />
@@ -281,20 +306,6 @@ const Service = () => {
               value={editService.description}
               onChange={handleInputChange}
             />
-            <FormControl fullWidth>
-              <InputLabel id="status">Status</InputLabel>
-              <Select
-                labelId="status"
-                id="status"
-                name="status"
-                value={editService.status}
-                label="Status"
-                // onChange={handleInputChange}
-              >
-                <MenuItem value={"Active"}>Active</MenuItem>
-                <MenuItem value={"Inactive"}>Inactive</MenuItem>
-              </Select>
-            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
