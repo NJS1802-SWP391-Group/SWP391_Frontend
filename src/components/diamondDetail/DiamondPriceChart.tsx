@@ -1,24 +1,25 @@
 import { DiamondCheckValue } from "../../interfaces/diamond/diamondInterface";
-import { ResponsiveLine } from "@nivo/line";
+// import { ResponsiveLine } from "@nivo/line";
 
 interface DiamondPriceChartProps {
   diamondCheckValues: DiamondCheckValue[];
 }
 
 const DiamondPriceChart = ({ diamondCheckValues }: DiamondPriceChartProps) => {
+  console.log(diamondCheckValues);
   // Format data for Nivo
-  const formattedData = [
-    {
-      id: "Price History",
-      data: diamondCheckValues.map((item) => ({
-        x: item.updateDay,
-        y: item.price,
-      })),
-    },
-  ];
+  // const formattedData = [
+  //   {
+  //     id: "Price History",
+  //     data: diamondCheckValues.map((item) => ({
+  //       x: item.updateDay,
+  //       y: item.price,
+  //     })),
+  //   },
+  // ];
   return (
     <div style={{ height: 400 }}>
-      <ResponsiveLine
+      {/* <ResponsiveLine
         data={formattedData}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
         xScale={{ type: "point" }}
@@ -81,7 +82,7 @@ const DiamondPriceChart = ({ diamondCheckValues }: DiamondPriceChartProps) => {
             ],
           },
         ]}
-      />
+      /> */}
     </div>
   );
 };

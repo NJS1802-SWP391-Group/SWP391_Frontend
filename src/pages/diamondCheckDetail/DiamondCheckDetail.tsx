@@ -7,7 +7,6 @@ import { Box } from "@mui/material";
 import DiamondDetail from "../../components/diamondDetail/DiamondDetail";
 import diamondApi from "../../services/diamondApi";
 import { Diamond } from "../../interfaces/diamond/diamondInterface";
-import { AxiosResponse } from "axios";
 
 const DiamondCheckDetail = () => {
   const [detail, setDetail] = useState<Diamond | null>(null);
