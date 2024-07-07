@@ -1,12 +1,3 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  DetailValuation,
-  OrderInterface,
-  OrderRequest,
-} from "../../interfaces/order/orderInterface";
-import Modal from "react-modal";
-import DiavanLogo from "../../assets/Diavan.png";
-import "./OrderDetail.css";
 import {
   Button,
   Divider,
@@ -25,13 +16,21 @@ import {
   styled,
   tableCellClasses,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import DiavanLogo from "../../assets/Diavan.png";
+import {
+  DetailValuation,
+  OrderInterface,
+  OrderRequest,
+} from "../../interfaces/order/orderInterface";
 import orderApi from "../../services/orderApi";
 import { formatDate } from "../../utils/utils";
-// import { OrderResponse } from "../../interfaces/order/orderResponse";
+import "./OrderDetail.css";
 
 import { useNavigate } from "react-router-dom";
-import accountApi from "../../services/accountApi";
 import { AccountInfo } from "../../interfaces/account/AccountInterface";
+import accountApi from "../../services/accountApi";
 import serviceApi from "../../services/service";
 
 type Props = {
@@ -70,15 +69,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-// interface OrderContextType {
-//   responseOrder?: OrderResponse;
-//   setResponseOrder: (order: OrderResponse) => void;
-// }
-
-// export const OrderContext = createContext<OrderContextType | undefined>(
-//   undefined
-// );
-
 interface ServiceInterface {
   serviceID: number;
   name: string;
@@ -92,7 +82,6 @@ function OrderDetail({ order, closeModal }: Props) {
   );
   const [selectedServiceId, setSelectedServiceId] = useState<string>();
   const [inputEstimateLength, setInputEstimateLength] = useState<number>(0);
-  // const [responseOrder, setResponseOrder] = useState<OrderResponse>();
   const navigate = useNavigate();
   const [accountInfo, setAccountInfo] = useState<AccountInfo>();
   const [services, setServices] = useState<ServiceInterface[]>([]);
@@ -106,24 +95,6 @@ function OrderDetail({ order, closeModal }: Props) {
     };
     fetchData();
   }, []);
-
-  // const handleServiceChange = (event: SelectChangeEvent) => {
-  //   setService(event.target.value as string);
-  //   switch (event.target.value as string) {
-  //     case "Standard Valuation":
-  //       setSelectedServiceId(1);
-  //       break;
-  //     case "Quick Valuation 48h":
-  //       setSelectedServiceId(2);
-  //       break;
-  //     case "Quick Valuation 24h":
-  //       setSelectedServiceId(3);
-  //       break;
-  //     case "Quick Valuation 6h":
-  //       setSelectedServiceId(4);
-  //       break;
-  //   }
-  // };
 
   const handleServiceChange = (event: SelectChangeEvent) => {
     const selectedServiceId = event.target.value as string;
@@ -162,8 +133,6 @@ function OrderDetail({ order, closeModal }: Props) {
     const data = orderRequest;
     orderApi.sendRequest(data).then(
       (response: any) => {
-        // setResponseOrder(response.data);
-        // console.log(response);
         navigate(`/receipt-bill/${data.orderID}`, {
           state: response,
         });

@@ -1,4 +1,5 @@
-import React from "react";
+import { Button } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,17 +7,11 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { OrderInterface } from "../../interfaces/order/orderInterface";
-import { Button } from "@mui/material";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import orderApi from "../../services/orderApi";
+import { OrderInterface } from "../../interfaces/order/orderInterface";
 import emailApi from "../../services/emailApi";
-
-// type Props = {
-//   orders: OrderInterface[];
-//   onOrderClick: (orderID: number) => void;
-// };
+import orderApi from "../../services/orderApi";
 
 interface OrderListProps {
   orders: OrderInterface[];

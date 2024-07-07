@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import WarningIcon from "@mui/icons-material/Warning";
 import {
   Box,
   Button,
-  Slider,
-  Typography,
-  SvgIcon,
   Chip,
   Grid,
+  Slider,
+  SvgIcon,
+  Typography,
 } from "@mui/material";
-import "./Calculator.css";
-import WarningIcon from "@mui/icons-material/Warning";
+import React, { useEffect, useState } from "react";
 import {
   CalculateInterface,
   CalculateOutputInterface,
 } from "../../interfaces/calculate/calculateInterface";
 import calculateApi from "../../services/calculateApi";
+import "./Calculator.css";
 import InformationCard from "./InformationCard";
 const svgIcon = (
   <svg width="14" height="14" viewBox="0 0 24 24">
@@ -50,54 +50,30 @@ const Calculator: React.FC = () => {
     return val;
   };
 
-  const handleOriginChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleOriginChange = (value: string) => {
     setOrigin(value);
   };
-  const handleShapeChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleShapeChange = (value: string) => {
     setShape(value);
   };
 
-  const handleColorChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleColorChange = (value: string) => {
     setColor(value);
   };
 
-  const handleClarityChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleClarityChange = (value: string) => {
     setClarity(value);
   };
-  const handleCutGradeChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleCutGradeChange = (value: string) => {
     setCutGrade(extract(value));
   };
-  const handleSymmetryGradeChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleSymmetryGradeChange = (value: string) => {
     setSymmetryGrade(extract(value));
   };
-  const handlePolishGradeChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handlePolishGradeChange = (value: string) => {
     setPolishGrade(extract(value));
   };
-  const handleFluorescenceChange = (
-    event: React.MouseEvent<HTMLDivElement>,
-    value: string
-  ) => {
+  const handleFluorescenceChange = (value: string) => {
     setFluorescenceValue(extract(value));
   };
   const toggleExpand = () => {
@@ -107,7 +83,9 @@ const Calculator: React.FC = () => {
     calculateApi.getCalculateValue(data).then(
       (response: any) => {
         console.log(response);
-        if (response !== "Sequence contains no elements") {setResult(response)}       
+        if (response !== "Sequence contains no elements") {
+          setResult(response);
+        }
       },
       (error) => {
         console.log(error);
@@ -147,7 +125,7 @@ const Calculator: React.FC = () => {
             <Box
               key={s}
               className={`origin-button ${origin === s ? "active-button" : ""}`}
-              onClick={(event) => handleOriginChange(event, s)}
+              onClick={() => handleOriginChange(s)}
             >
               {s}
             </Box>
@@ -180,7 +158,7 @@ const Calculator: React.FC = () => {
               className={`shape-button-sm ${
                 shape === s ? "active-button" : ""
               }`}
-              onClick={(event) => handleShapeChange(event, s)}
+              onClick={() => handleShapeChange(s)}
             >
               {s}
             </Box>
@@ -213,7 +191,10 @@ const Calculator: React.FC = () => {
           min={0.3}
           max={5}
           step={0.01}
-          onChange={(event, value) => setCarat(value as number)}
+          onChange={(event, value) => {
+            console.log(event);
+            setCarat(parseFloat(value.toString()));
+          }}
         />
 
         <Typography
@@ -229,7 +210,7 @@ const Calculator: React.FC = () => {
             <Box
               key={c}
               className={`shape-button ${color === c ? "active-button" : ""}`}
-              onClick={(event) => handleColorChange(event, c)}
+              onClick={() => handleColorChange(c)}
             >
               {c}
             </Box>
@@ -252,7 +233,7 @@ const Calculator: React.FC = () => {
                 className={`shape-button ${
                   clarity === cl ? "active-button" : ""
                 }`}
-                onClick={(event) => handleClarityChange(event, cl)}
+                onClick={() => handleClarityChange(cl)}
               >
                 {cl}
               </Box>
@@ -295,7 +276,7 @@ const Calculator: React.FC = () => {
                     className={`shape-button ${
                       cutGrade == extract(cut) ? "active-button" : ""
                     }`}
-                    onClick={(event) => handleCutGradeChange(event, cut)}
+                    onClick={() => handleCutGradeChange(cut)}
                   >
                     {cut}
                   </Box>
@@ -319,9 +300,7 @@ const Calculator: React.FC = () => {
                     className={`shape-button ${
                       symmetryGrade === extract(symmetry) ? "active-button" : ""
                     }`}
-                    onClick={(event) =>
-                      handleSymmetryGradeChange(event, symmetry)
-                    }
+                    onClick={() => handleSymmetryGradeChange(symmetry)}
                   >
                     {symmetry}
                   </Box>
@@ -345,7 +324,7 @@ const Calculator: React.FC = () => {
                     className={`shape-button ${
                       polishGrade === extract(polish) ? "active-button" : ""
                     }`}
-                    onClick={(event) => handlePolishGradeChange(event, polish)}
+                    onClick={() => handlePolishGradeChange(polish)}
                   >
                     {polish}
                   </Box>
@@ -371,9 +350,7 @@ const Calculator: React.FC = () => {
                         ? "active-button"
                         : ""
                     }`}
-                    onClick={(event) =>
-                      handleFluorescenceChange(event, fluorescence)
-                    }
+                    onClick={() => handleFluorescenceChange(fluorescence)}
                   >
                     {fluorescence}
                   </Box>
@@ -429,10 +406,7 @@ const Calculator: React.FC = () => {
               <Box>
                 <InformationCard
                   title="Estimate Range"
-                  value={`$${
-                    result.fairPrice &&
-                    result?.fairPrice.toLocaleString("en-US")
-                  }`}
+                  value={`$${result?.fairPrice?.toLocaleString("en-US")}`}
                   svgIcon={svgIcon}
                   size="large"
                 />
@@ -468,10 +442,8 @@ const Calculator: React.FC = () => {
                   <InformationCard
                     title="Estimate Range"
                     value={`$${
-                      result.minPrice && result.minPrice.toLocaleString("en-US")
-                    } - $${
-                      result.maxPrice &&
-                      result?.maxPrice.toLocaleString("en-US")
+                      result?.minPrice?.toLocaleString("en-US") &&
+                      result?.maxPrice?.toLocaleString("en-US")
                     }`}
                     svgIcon={svgIcon}
                     size="small"
@@ -488,10 +460,7 @@ const Calculator: React.FC = () => {
                 <Grid item xs={12} sm={6} lg={4}>
                   <InformationCard
                     title="Estimate Price per Carat"
-                    value={`$${
-                      result.pricePerCarat &&
-                      result?.pricePerCarat.toLocaleString("en-US")
-                    }`}
+                    value={`$${result?.pricePerCarat?.toLocaleString("en-US")}`}
                     svgIcon={svgIcon}
                     size="small"
                   />

@@ -16,7 +16,6 @@ import Diavan from "../../assets/Diavan.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
 
 const ManagerNavbar = () => {
-  const [open, setOpen] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
