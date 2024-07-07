@@ -1,20 +1,9 @@
 import AdbIcon from "@mui/icons-material/Adb";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,12 +13,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/Diavan.png";
-import ApproveIcon from "../../assets/approved.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
-import ConsultingIcon from "../../assets/consultant.png";
-import AssignIcon from "../../assets/delegation.png";
-import ValuationStaffIcon from "../../assets/staff.png";
-import DashboardIcon from "../../assets/statisctics.png";
 
 const drawerWidth = 240;
 
