@@ -167,6 +167,14 @@ const AssignValuationStaff = () => {
                     <Box>
                       {valuationStaffResponse.finalPrice == 0 ||
                       valuationStaffResponse.resultId == 0 ? (
+                        <img
+                          src={DoneButton}
+                          width="30"
+                          height="30"
+                          alt="DoneButton"
+                          className="DoneButton"
+                        />
+                      ) : (
                         <IconButton
                           onClick={() =>
                             handlePlusButtonClick(

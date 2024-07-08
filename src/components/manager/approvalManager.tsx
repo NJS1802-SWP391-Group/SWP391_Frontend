@@ -80,7 +80,7 @@ const ApprovalManager = () => {
       (response) => {
         console.log("orderDetailId:", orderDetailId);
         console.log("response:", response);
-
+        alert("The order is tranformed become reassigning");
         fetchManagerApprovalList();
       },
       (error) => {
