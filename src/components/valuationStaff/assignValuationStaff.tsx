@@ -191,14 +191,6 @@ const AssignValuationStaff = () => {
                             className="Plusbutton"
                           />
                         </IconButton>
-                      ) : (
-                        <img
-                          src={DoneButton}
-                          width="30"
-                          height="30"
-                          alt="DoneButton"
-                          className="DoneButton"
-                        />
                       )}
                     </Box>
                   </StyledTableCell>
