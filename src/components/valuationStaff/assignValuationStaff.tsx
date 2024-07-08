@@ -165,16 +165,8 @@ const AssignValuationStaff = () => {
 
                   <StyledTableCell>
                     <Box>
-                      {valuationStaffResponse.finalPrice === 0 ||
-                      valuationStaffResponse.resultId === 0 ? (
-                        <img
-                          src={DoneButton}
-                          width="30"
-                          height="30"
-                          alt="DoneButton"
-                          className="DoneButton"
-                        />
-                      ) : (
+                      {valuationStaffResponse.finalPrice == 0 ||
+                      valuationStaffResponse.resultId == 0 ? (
                         <IconButton
                           onClick={() =>
                             handlePlusButtonClick(
@@ -191,6 +183,14 @@ const AssignValuationStaff = () => {
                             className="Plusbutton"
                           />
                         </IconButton>
+                      ) : (
+                        <img
+                          src={DoneButton}
+                          width="30"
+                          height="30"
+                          alt="DoneButton"
+                          className="DoneButton"
+                        />
                       )}
                     </Box>
                   </StyledTableCell>
@@ -259,7 +259,7 @@ const AssignValuationStaff = () => {
           >
             <IconButton
               onClick={() =>
-                handleSend(selectedValuationStaffResponse?.orderDetailId!)
+                handleSend(selectedValuationStaffResponse!.orderDetailId!)
               }
             >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>

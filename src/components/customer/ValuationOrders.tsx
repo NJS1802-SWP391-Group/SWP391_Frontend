@@ -57,9 +57,9 @@ const ValuationOrders = () => {
         </div>
         <div
           className={`nav-item ${activePage === "Finished" ? "active" : ""}`}
-          onClick={() => handlePageChange("Finished")}
+          onClick={() => handlePageChange("Returned")}
         >
-          Finished
+          Returned
         </div>
         <div
           className={`nav-item ${activePage === "Sealed" ? "active" : ""}`}
