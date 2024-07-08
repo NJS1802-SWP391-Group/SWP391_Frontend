@@ -85,15 +85,15 @@ const AssignManager: React.FC = () => {
     ManagerAssignResponse[]
   >([]);
 
-  useEffect(() => {
-    const fetchManagerAssignList = async () => {
-      const response: any = await managerAssignsApi.getAll();
-      console.log("FetchData:", response);
-      if (response && response.length > 0) {
-        setManagerAssignList(response);
-      }
-    };
+  const fetchManagerAssignList = async () => {
+    const response: any = await managerAssignsApi.getAll();
+    console.log("FetchData:", response);
+    if (response && response.length > 0) {
+      setManagerAssignList(response);
+    }
+  };
 
+  useEffect(() => {
     const initUseEffect = async () => {
       await fetchManagerAssignList();
     };
@@ -169,8 +169,8 @@ const AssignManager: React.FC = () => {
         );
         if (selectedManager) {
           alert(`Assign ${selectedManager.userName} successfully`);
+          fetchManagerAssignList();
         }
-        fetchValuationStaffList();
       },
       (error) => {
         console.log(error);
