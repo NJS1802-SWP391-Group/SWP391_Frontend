@@ -1,9 +1,16 @@
 import {
   Box,
   Button,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
   Modal,
   Paper,
+  Select,
+  SelectChangeEvent,
+  styled,
   Table,
   TableBody,
   TableCell,
@@ -11,12 +18,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoButton from "../../assets/NoButton.png";
+import SearchButton from "../../assets/Search.png";
 import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
 import managerAssignsApi from "../../services/managerService/managerApi";
@@ -31,6 +39,8 @@ const ApprovalManager = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
 
   const handleClose = () => {
     setOpen(false);
@@ -45,7 +55,6 @@ const ApprovalManager = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -63,20 +72,19 @@ const ApprovalManager = () => {
     navigate(`/manager/approval/${resultId}`, {
       state: managerResponse,
     });
-    console.log("resultId:", resultId);
   };
 
   const [managerResponseList, setManagerResponseList] = useState<
     ManagerApprovalResponse[]
   >([]);
-  console.log("ManagerResponse:", managerResponseList);
+
   const fetchManagerApprovalList = async () => {
     const response: any = await managerAssignsApi.getAllCompledted();
-    console.log("FetchData", response);
     if (response && response.length > 0) {
       setManagerResponseList(response);
     }
   };
+
   useEffect(() => {
     const initUseEffect = async () => {
       await fetchManagerApprovalList();
@@ -88,8 +96,6 @@ const ApprovalManager = () => {
     if (orderDetailIdToReject !== null) {
       managerAssignsApi.changeStatusToReAssigning(orderDetailIdToReject).then(
         (response) => {
-          console.log("orderDetailId:", orderDetailIdToReject);
-          console.log("response:", response);
           alert("The order has been transformed to reassigning");
           fetchManagerApprovalList();
           handleClose();
@@ -121,13 +127,71 @@ const ApprovalManager = () => {
     textAlign: "center",
   }));
 
-  const paginatedManagerResponseList = managerResponseList.slice(
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleFilterChange = (event: SelectChangeEvent<string>) => {
+    setFilterStatus(event.target.value);
+  };
+
+  const filteredManagerResponseList = managerResponseList
+    .filter(
+      (response) =>
+        response.orderDetailCode
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        response.serviceName.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter(
+      (response) => filterStatus === "" || response.status === filterStatus
+    );
+
+  const paginatedManagerResponseList = filteredManagerResponseList.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   return (
     <Box sx={{ padding: 2 }}>
+      <Box sx={{ marginBottom: "15px", display: "flex", alignItems: "center" }}>
+        <TextField
+          label="🔎 Search OD Code, ServiceName"
+          variant="outlined"
+          size="small"
+          onChange={handleSearchChange}
+          value={searchQuery}
+          sx={{ marginRight: 2, width: "300px" }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <img
+                    src={SearchButton}
+                    width="25"
+                    height="25"
+                    alt="SearchButton"
+                  />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <FormControl variant="outlined" size="small">
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={filterStatus}
+            onChange={handleFilterChange}
+            label="Status"
+            sx={{ minWidth: 120 }}
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="Assigning">Assigning</MenuItem>
+            <MenuItem value="ReAssigning">ReAssigning</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
       <TableContainer component={Paper} sx={{ maxHeight: "50vh" }}>
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -173,7 +237,6 @@ const ApprovalManager = () => {
                         width="35"
                         height="35"
                         alt="NoButton"
-                        className="Nobutton"
                       />
                     </IconButton>
                     <IconButton
@@ -189,7 +252,6 @@ const ApprovalManager = () => {
                         width="35"
                         height="35"
                         alt="ViewImage"
-                        className="ViewImage"
                       />
                     </IconButton>
                   </Box>
@@ -203,7 +265,7 @@ const ApprovalManager = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={managerResponseList.length}
+        count={filteredManagerResponseList.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -230,27 +292,16 @@ const ApprovalManager = () => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "right",
+              justifyContent: "space-between",
               marginTop: "20px",
-              paddingRight: "20px",
             }}
           >
-            <Button onClick={handleReject}>
-              <Typography
-                sx={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  textTransform: "none",
-                }}
-              >
-                Yes
-              </Typography>
+            <Button variant="contained" color="primary" onClick={handleReject}>
+              Reject
             </Button>
-            <IconButton onClick={handleClose}>
-              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                No
-              </Typography>
-            </IconButton>
+            <Button variant="outlined" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
           </Box>
         </Box>
       </Modal>
