@@ -326,6 +326,7 @@ const DiamondDetail = () => {
                   <InputLabel id="clarity-label">Clarity</InputLabel>
                   <Select
                     labelId="clarity-label"
+                    defaultChecked={isFormEnabled}
                     id="clarity"
                     name="clarity"
                     value={diamondDetail.clarity}
@@ -487,6 +488,7 @@ const DiamondDetail = () => {
                       {...getInputPropsSingle()}
                       id="propotionImage"
                       name="propotionImage"
+                      defaultChecked={isFormEnabled}
                     />
                     {uploadedImage ? (
                       <Typography>{uploadedImage.name}</Typography>
@@ -520,6 +522,7 @@ const DiamondDetail = () => {
                       {...getInputPropsMultiple()}
                       id="clarityImages"
                       name="clarityImages"
+                      defaultChecked={isFormEnabled}
                     />
                     {uploadedImages ? (
                       <Typography>{uploadedImages.name}</Typography>
@@ -547,9 +550,9 @@ const DiamondDetail = () => {
             variant="contained"
             sx={{
               padding: "10px 20px",
-              backgroundColor: isButtonClicked ? "green" : "#4F46E5", // Change color on button click
+              backgroundColor: isButtonClicked ? "green" : "#4F46E5",
             }}
-            onClick={handleButtonClick} // Add the click handler
+            onClick={handleButtonClick}
           >
             Submit
           </Button>

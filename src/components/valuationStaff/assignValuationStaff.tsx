@@ -165,7 +165,7 @@ const AssignValuationStaff = () => {
 
                   <StyledTableCell>
                     <Box>
-                      {valuationStaffResponse.finalPrice == 0 ||
+                      {valuationStaffResponse.finalPrice != 0 ||
                       valuationStaffResponse.resultId == 0 ? (
                         <img
                           src={DoneButton}

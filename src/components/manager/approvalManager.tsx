@@ -25,6 +25,9 @@ const ApprovalManager = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedManagerResponse, setSelectedManagerResponse] =
     React.useState<ManagerApprovalResponse | null>(null);
+  const [orderDetailIdToReject, setOrderDetailIdToReject] = useState<
+    number | null
+  >(null);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -32,6 +35,12 @@ const ApprovalManager = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedManagerResponse(null);
+    setOrderDetailIdToReject(null);
+  };
+
+  const handleOpen = (managerResponse: ManagerApprovalResponse) => {
+    setSelectedManagerResponse(managerResponse);
+    setOpen(true);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -75,19 +84,23 @@ const ApprovalManager = () => {
     initUseEffect();
   }, []);
 
-  const handleReject = (orderDetailId: number) => {
-    managerAssignsApi.changeStatusToReAssigning(orderDetailId).then(
-      (response) => {
-        console.log("orderDetailId:", orderDetailId);
-        console.log("response:", response);
-        alert("The order is tranformed become reassigning");
-        fetchManagerApprovalList();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  const handleReject = () => {
+    if (orderDetailIdToReject !== null) {
+      managerAssignsApi.changeStatusToReAssigning(orderDetailIdToReject).then(
+        (response) => {
+          console.log("orderDetailId:", orderDetailIdToReject);
+          console.log("response:", response);
+          alert("The order has been transformed to reassigning");
+          fetchManagerApprovalList();
+          handleClose();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   };
+
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -150,9 +163,10 @@ const ApprovalManager = () => {
                 <StyledTableCell>
                   <Box>
                     <IconButton
-                      onClick={() =>
-                        handleReject(managerResponse.orderDetailId)
-                      }
+                      onClick={() => {
+                        setOrderDetailIdToReject(managerResponse.orderDetailId);
+                        handleOpen(managerResponse);
+                      }}
                     >
                       <img
                         src={NoButton}
@@ -180,53 +194,6 @@ const ApprovalManager = () => {
                     </IconButton>
                   </Box>
                 </StyledTableCell>
-                <Modal open={open} onClose={handleClose}>
-                  <Box
-                    sx={{
-                      backgroundColor: "White",
-                      borderRadius: "10px",
-                      width: "35%",
-                      margin: "auto",
-                      marginTop: "10%",
-                      padding: "20px",
-                      boxShadow: 24,
-                      outline: "none",
-                    }}
-                  >
-                    <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                      Do you want to decline Order Detail Code:{" "}
-                      {selectedManagerResponse?.orderDetailCode}?
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "right",
-                        marginTop: "20px",
-                        paddingRight: "20px",
-                      }}
-                    >
-                      <Button
-                        onClick={() =>
-                          handleReject(managerResponse.orderDetailId)
-                        }
-                      >
-                        Reject
-                        <Typography
-                          sx={{ fontSize: "20px", fontWeight: "bold" }}
-                        >
-                          Yes
-                        </Typography>
-                      </Button>
-                      <IconButton onClick={handleClose}>
-                        <Typography
-                          sx={{ fontSize: "20px", fontWeight: "bold" }}
-                        >
-                          No
-                        </Typography>
-                      </IconButton>
-                    </Box>
-                  </Box>
-                </Modal>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -242,6 +209,51 @@ const ApprovalManager = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            backgroundColor: "White",
+            borderRadius: "10px",
+            width: "35%",
+            margin: "auto",
+            marginTop: "10%",
+            padding: "20px",
+            boxShadow: 24,
+            outline: "none",
+          }}
+        >
+          <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+            Do you want to decline Order Detail Code:{" "}
+            {selectedManagerResponse?.orderDetailCode}?
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "right",
+              marginTop: "20px",
+              paddingRight: "20px",
+            }}
+          >
+            <Button onClick={handleReject}>
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  textTransform: "none",
+                }}
+              >
+                Yes
+              </Typography>
+            </Button>
+            <IconButton onClick={handleClose}>
+              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                No
+              </Typography>
+            </IconButton>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
