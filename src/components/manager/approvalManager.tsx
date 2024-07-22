@@ -23,10 +23,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DoneButton from "../../assets/DoneButton.png";
 import NoButton from "../../assets/NoButton.png";
 import SearchButton from "../../assets/Search.png";
 import ViewImage from "../../assets/ViewImage.png";
 import { ManagerApprovalResponse } from "../../interfaces/manager/managerResponse";
+import certificateApi from "../../services/certificateService/certificateApi";
 import managerAssignsApi from "../../services/managerService/managerApi";
 
 const ApprovalManager = () => {
@@ -36,6 +38,10 @@ const ApprovalManager = () => {
   const [orderDetailIdToReject, setOrderDetailIdToReject] = useState<
     number | null
   >(null);
+
+  const [orderDetailIdToDone, setOrderDetailIdToDone] = useState<number | null>(
+    null
+  );
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -107,6 +113,18 @@ const ApprovalManager = () => {
     }
   };
 
+  const handleDoneClick = async (orderDetailId: number) => {
+    try {
+      const response = await certificateApi.changeStatusToCertificated(
+        orderDetailId
+      );
+      console.log("res:", response);
+      fetchManagerApprovalList();
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
+  };
+
   const styleTableHead = {
     fontWeight: "bold",
     fontSize: "20px",
@@ -156,7 +174,7 @@ const ApprovalManager = () => {
     <Box sx={{ padding: 2 }}>
       <Box sx={{ marginBottom: "15px", display: "flex", alignItems: "center" }}>
         <TextField
-          label="🔎 Search OD Code, ServiceName"
+          label="Search OD Code, ServiceName"
           variant="outlined"
           size="small"
           onChange={handleSearchChange}
@@ -186,8 +204,8 @@ const ApprovalManager = () => {
             sx={{ minWidth: 120 }}
           >
             <MenuItem value="">All</MenuItem>
-            <MenuItem value="Assigning">Assigning</MenuItem>
-            <MenuItem value="ReAssigning">ReAssigning</MenuItem>
+            <MenuItem value="Completed">Completed</MenuItem>
+            <MenuItem value="Failed">Failed</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -226,34 +244,70 @@ const ApprovalManager = () => {
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
-                    <IconButton
-                      onClick={() => {
-                        setOrderDetailIdToReject(managerResponse.orderDetailId);
-                        handleOpen(managerResponse);
-                      }}
-                    >
-                      <img
-                        src={NoButton}
-                        width="35"
-                        height="35"
-                        alt="NoButton"
-                      />
-                    </IconButton>
-                    <IconButton
-                      onClick={() =>
-                        handleNavigateToCertificate(
-                          managerResponse.resultId,
-                          managerResponse
-                        )
-                      }
-                    >
-                      <img
-                        src={ViewImage}
-                        width="35"
-                        height="35"
-                        alt="ViewImage"
-                      />
-                    </IconButton>
+                    {managerResponse.status === "Failed" ? (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setOrderDetailIdToReject(
+                              managerResponse.orderDetailId
+                            );
+                            handleOpen(managerResponse);
+                          }}
+                        >
+                          <img
+                            src={NoButton}
+                            width="35"
+                            height="35"
+                            alt="NoButton"
+                          />
+                        </IconButton>
+                        <IconButton
+                          onClick={() =>
+                            handleDoneClick(managerResponse.orderDetailId)
+                          }
+                        >
+                          <img
+                            src={DoneButton}
+                            width="35"
+                            height="35"
+                            alt="DoneButton"
+                          />
+                        </IconButton>
+                      </>
+                    ) : (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            setOrderDetailIdToReject(
+                              managerResponse.orderDetailId
+                            );
+                            handleOpen(managerResponse);
+                          }}
+                        >
+                          <img
+                            src={NoButton}
+                            width="35"
+                            height="35"
+                            alt="NoButton"
+                          />
+                        </IconButton>
+                        <IconButton
+                          onClick={() =>
+                            handleNavigateToCertificate(
+                              managerResponse.resultId,
+                              managerResponse
+                            )
+                          }
+                        >
+                          <img
+                            src={ViewImage}
+                            width="35"
+                            height="35"
+                            alt="ViewImage"
+                          />
+                        </IconButton>
+                      </>
+                    )}
                   </Box>
                 </StyledTableCell>
               </StyledTableRow>

@@ -79,12 +79,12 @@ const AssignValuationStaff = () => {
   }, []);
   console.log("Log Asign:", assignValuationStaffResponseList);
 
-  const handleSend = (orderDetailID: number) => {
-    valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
+  const handleSend = async (orderDetailID: number) => {
+    await valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
       (response) => {
+        setOpen(false);
         console.log("response:", response);
         alert(`Send successfully`);
-
         getAccount();
       },
       (error) => {
