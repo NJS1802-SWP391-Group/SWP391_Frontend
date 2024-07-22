@@ -11,6 +11,18 @@ import userApi from "../../services/userApi";
 import AccountList from "./AccountList";
 import OrderChart from "../chart/OrderChart";
 import RevenueChart from "../chart/RevenueChart";
+import adminApi from "../../services/adminService/adminApi";
+
+export interface ChartReponse {
+  total: number;
+  trend: number;
+  adminDatas: AdminData[];
+}
+
+export interface AdminData {
+  date: string;
+  value: number;
+}
 
 const AdminSection = () => {
   const [countCustomer, setCountCustomer] = useState();
@@ -19,6 +31,15 @@ const AdminSection = () => {
   const [countConsulting, setCountConsulting] = useState();
   const [countValuation, setCountValuation] = useState();
   const [countManager, setCountManager] = useState();
+  const [chartOrderQuantity, setChartOrderQuantity] = useState<ChartReponse>();
+  const [chartRevenue, setChartRevenue] = useState<ChartReponse>();
+
+  const getChartData = async () => {
+    const getOrderQuantity: any = await adminApi.getChartOrder();
+    setChartOrderQuantity(getOrderQuantity);
+    const getRevenue: any = await adminApi.getChartRevenue();
+    setChartRevenue(getRevenue);
+  };
   useEffect(() => {
     const fechData = async () => {
       const countAccount: any = await userApi.countAccount();
@@ -36,16 +57,26 @@ const AdminSection = () => {
     };
     fechData();
   }, []);
-  const chartData = [65, 59, 80, 81, 56, 55, 40];
-  const chartLabels = [
-    "January",
-    "Febrary",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+
+  useEffect(() => {
+    getChartData();
+  }, []);
+  console.log(chartRevenue);
+
+  const chartOrderQuantityData = chartOrderQuantity?.adminDatas.map((x) => {
+    return x.value;
+  });
+  const chartOrderQuantityLabel = chartOrderQuantity?.adminDatas.map((x) => {
+    return x.date.slice(0, 10);
+  });
+
+  const chartRevenueData = chartRevenue?.adminDatas.map((x) => {
+    return x.value;
+  });
+  const chartRevenueLabel = chartRevenue?.adminDatas.map((x) => {
+    return x.date.slice(0, 10);
+  });
+
   return (
     <Card sx={{ height: "auto", margin: "20px 0", padding: "10px" }}>
       {/* <div
@@ -319,14 +350,22 @@ const AdminSection = () => {
           </div>
         </Card>
       </div>
+      <div style={{ margin: "20px 0" }}>
+        <OrderChart
+          data={chartOrderQuantityData}
+          labels={chartOrderQuantityLabel}
+          total={chartOrderQuantity?.total}
+        />
+      </div>
+      <div style={{ margin: "20px 0" }}>
+        <RevenueChart
+          data={chartRevenueData}
+          labels={chartRevenueLabel}
+          total={chartRevenue?.total}
+        />
+      </div>
       <div>
         <AccountList />
-      </div>
-      <div>
-        <OrderChart data={chartData} labels={chartLabels} />
-      </div>
-      <div>
-        <RevenueChart data={chartData} labels={chartLabels} />
       </div>
     </Card>
   );

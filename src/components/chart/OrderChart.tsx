@@ -2,11 +2,12 @@ import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import React, { useEffect, useRef } from "react";
 
 interface LineChartProps {
-  data: number[];
-  labels: string[];
+  data: number[] | undefined;
+  labels: string[] | undefined;
+  total: number | undefined;
 }
 
-const OrderChart: React.FC<LineChartProps> = ({ data, labels }) => {
+const OrderChart: React.FC<LineChartProps> = ({ data, labels, total }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart<
     keyof ChartTypeRegistry,
@@ -28,7 +29,7 @@ const OrderChart: React.FC<LineChartProps> = ({ data, labels }) => {
             labels: labels,
             datasets: [
               {
-                label: "Order",
+                label: `Order Total: ${total}`,
                 data: data,
                 borderColor: "rgba(75, 192, 192, 1)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",

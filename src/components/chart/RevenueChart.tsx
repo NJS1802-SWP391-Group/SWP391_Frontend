@@ -2,11 +2,12 @@ import Chart, { ChartTypeRegistry } from "chart.js/auto";
 import React, { useEffect, useRef } from "react";
 
 interface LineChartProps {
-  data: number[];
-  labels: string[];
+  data: number[] | undefined;
+  labels: string[] | undefined;
+  total: number | undefined;
 }
 
-const RevenueChart: React.FC<LineChartProps> = ({ data, labels }) => {
+const RevenueChart: React.FC<LineChartProps> = ({ data, labels, total }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart<
     keyof ChartTypeRegistry,
@@ -28,7 +29,7 @@ const RevenueChart: React.FC<LineChartProps> = ({ data, labels }) => {
             labels: labels,
             datasets: [
               {
-                label: "Revenue",
+                label: `Revenue Total: ${total}`,
                 data: data,
                 borderColor: "  #8A2BE2",
                 backgroundColor: "rgba(255, 228, 181, 1)",
