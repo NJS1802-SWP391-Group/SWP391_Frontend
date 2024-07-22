@@ -31,8 +31,8 @@ const RevenueChart: React.FC<LineChartProps> = ({ data, labels, total }) => {
               {
                 label: `Revenue Total: ${total}`,
                 data: data,
-                borderColor: "  #8A2BE2",
-                backgroundColor: "rgba(255, 228, 181, 1)",
+                borderColor: "rgba(200, 76, 48, 1)",
+                backgroundColor: "rgba(200, 76, 48, 0.2)",
                 fill: true,
               },
             ],
@@ -48,7 +48,7 @@ const RevenueChart: React.FC<LineChartProps> = ({ data, labels, total }) => {
         });
       }
     }
-  }, [data, labels]);
+  }, [data, labels, total]);
 
   return <canvas ref={chartRef} style={{ width: "200px", height: "100px" }} />;
 };
