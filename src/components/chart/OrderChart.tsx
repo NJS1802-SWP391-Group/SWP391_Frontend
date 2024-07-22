@@ -48,7 +48,7 @@ const OrderChart: React.FC<LineChartProps> = ({ data, labels, total }) => {
         });
       }
     }
-  }, [data, labels]);
+  }, [data, labels, total]);
 
   return <canvas ref={chartRef} style={{ width: "200px", height: "100px" }} />;
 };
