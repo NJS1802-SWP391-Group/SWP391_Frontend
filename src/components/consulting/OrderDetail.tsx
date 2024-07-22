@@ -88,7 +88,7 @@ function OrderDetail({ order, closeModal }: Props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const accountInfo: any = await accountApi.getAccountInfo();
+      const accountInfo: any = await accountApi.getAccountSystemInfo();
       setAccountInfo(accountInfo);
       const services: any = await serviceApi.getAllService();
       setServices(services);
@@ -124,7 +124,7 @@ function OrderDetail({ order, closeModal }: Props) {
 
   const orderRequest: OrderRequest = {
     orderID: order?.orderID,
-    consultingStaffName: accountInfo?.result.user.userName,
+    consultingStaffId: accountInfo?.result.user.accountId,
     time: formatDate(new Date()),
     detailValuations: detailValuations,
   };

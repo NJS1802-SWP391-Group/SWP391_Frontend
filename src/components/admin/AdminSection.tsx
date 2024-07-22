@@ -9,6 +9,8 @@ import valuationStaffImg from "../../assets/staff.png";
 import orderApi from "../../services/orderApi";
 import userApi from "../../services/userApi";
 import AccountList from "./AccountList";
+import OrderChart from "../chart/OrderChart";
+import RevenueChart from "../chart/RevenueChart";
 
 const AdminSection = () => {
   const [countCustomer, setCountCustomer] = useState();
@@ -34,9 +36,19 @@ const AdminSection = () => {
     };
     fechData();
   }, []);
+  const chartData = [65, 59, 80, 81, 56, 55, 40];
+  const chartLabels = [
+    "January",
+    "Febrary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
   return (
-    <Card sx={{ height: "auto", margin: "20px 0" }}>
-      <div
+    <Card sx={{ height: "auto", margin: "20px 0", padding: "10px" }}>
+      {/* <div
         style={{
           margin: "20px 20px",
           display: "flex",
@@ -166,7 +178,7 @@ const AdminSection = () => {
             <p style={{ fontSize: "30px", color: "black" }}>{countCustomer}</p>
           </div>
         </Card>
-      </div>
+      </div> */}
       <div
         style={{
           margin: "20px 20px",
@@ -309,6 +321,12 @@ const AdminSection = () => {
       </div>
       <div>
         <AccountList />
+      </div>
+      <div>
+        <OrderChart data={chartData} labels={chartLabels} />
+      </div>
+      <div>
+        <RevenueChart data={chartData} labels={chartLabels} />
       </div>
     </Card>
   );

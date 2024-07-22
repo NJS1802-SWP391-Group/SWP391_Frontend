@@ -53,13 +53,12 @@ const ValuationForm = () => {
     }
     const data = new FormData(event.currentTarget);
 
-    console.log("Account:", account?.result.user.customerId);
-
     const request: SendRequest = {
-      customerId: account?.result.user.customerId,
+      customerId: account?.result.customer.customerId,
       time: data.get("date") as string,
       quantity: parseInt(data.get("quantity") as string),
     };
+    console.log(request);
 
     orderApi.valuateRequest(request).then(
       (response) => {
