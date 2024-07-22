@@ -12,7 +12,7 @@ export interface OrderInterface {
 export interface OrderRequest {
   orderID: number | undefined;
   time: string;
-  consultingStaffName: string | undefined;
+  consultingStaffId: number | undefined;
   detailValuations: DetailValuation[];
 }
 

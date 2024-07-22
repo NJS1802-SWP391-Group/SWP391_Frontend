@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Card,
   Fade,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { OrderListCustomerInterface } from "../../interfaces/order/orderListCustomer";
@@ -15,6 +14,30 @@ import DiamondLogo from "../../assets/diamond.png";
 import PriceChangeOutlined from "@mui/icons-material/PriceChangeOutlined";
 import QrCode from "@mui/icons-material/QrCode";
 import SortIcon from "@mui/icons-material/Sort";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
+import MyCertificate from "./MyCertificate";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 type Props = {
   orderList: OrderListCustomerInterface[] | undefined;
@@ -28,6 +51,17 @@ const items_center = {
 
 const OrderListCustomer = ({ orderList }: Props) => {
   const [expanded, setExpanded] = useState<{ [orderID: number]: boolean }>({});
+  const [chooseOrderDetailId, setChooseOrderDetailId] = useState<number>();
+  const [openCertificate, setOpenCertificate] = React.useState(false);
+
+  const handleClose = () => {
+    setOpenCertificate(false);
+  };
+
+  const getOrderDetailId = (orderDetailId: number) => {
+    setChooseOrderDetailId(orderDetailId);
+    setOpenCertificate(true);
+  };
 
   const handleExpansion = (orderID: number) => {
     setExpanded((prevExpanded) => ({
@@ -35,6 +69,7 @@ const OrderListCustomer = ({ orderList }: Props) => {
       [orderID]: !prevExpanded[orderID],
     }));
   };
+  console.log(chooseOrderDetailId);
   return (
     <div>
       {/* Map thông tin ở đây */}
@@ -138,6 +173,20 @@ const OrderListCustomer = ({ orderList }: Props) => {
                           {detail.status}
                         </span>{" "}
                       </Typography>
+                      {detail.status === "Certificated" && (
+                        <button
+                          style={{
+                            padding: 10,
+                            backgroundColor: "green",
+                            color: "white",
+                            outline: "none",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => getOrderDetailId(detail.orderDetailId)}
+                        >
+                          View Certificated
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -145,6 +194,29 @@ const OrderListCustomer = ({ orderList }: Props) => {
             </Accordion>
           </Card>
         ))}
+      <Dialog
+        fullScreen
+        open={openCertificate}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Your Certificate
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <MyCertificate orderDetailId={chooseOrderDetailId} />
+      </Dialog>
     </div>
   );
 };

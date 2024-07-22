@@ -91,7 +91,7 @@ const RecepitBill: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const accountInfo: any = await accountApi.getAccountInfo();
+      const accountInfo: any = await accountApi.getAccountSystemInfo();
       setAccountInfo(accountInfo);
       setFetchData(data);
       const services: any = await serviceApi.getAllService();
