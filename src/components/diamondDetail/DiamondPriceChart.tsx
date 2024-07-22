@@ -6,17 +6,22 @@ interface DiamondPriceChartProps {
 }
 
 const DiamondPriceChart = ({ diamondCheckValues }: DiamondPriceChartProps) => {
-  console.log(diamondCheckValues);
+  // Sort diamondCheckValues by updateDay
+  const sortedDiamondCheckValues = diamondCheckValues.sort(
+    (a, b) => new Date(a.updateDay).getTime() - new Date(b.updateDay).getTime()
+  );
+
   // Format data for Nivo
   const formattedData = [
     {
       id: "Price History",
-      data: diamondCheckValues.map((item) => ({
+      data: sortedDiamondCheckValues.map((item) => ({
         x: item.updateDay,
         y: item.price,
       })),
     },
   ];
+
   return (
     <div style={{ height: 400 }}>
       <ResponsiveLine

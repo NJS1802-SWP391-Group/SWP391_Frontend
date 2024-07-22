@@ -79,12 +79,12 @@ const AssignValuationStaff = () => {
   }, []);
   console.log("Log Asign:", assignValuationStaffResponseList);
 
-  const handleSend = (orderDetailID: number) => {
-    valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
+  const handleSend = async (orderDetailID: number) => {
+    await valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
       (response) => {
+        setOpen(false);
         console.log("response:", response);
         alert(`Send successfully`);
-
         getAccount();
       },
       (error) => {
@@ -165,7 +165,7 @@ const AssignValuationStaff = () => {
 
                   <StyledTableCell>
                     <Box>
-                      {valuationStaffResponse.finalPrice == 0 ||
+                      {valuationStaffResponse.finalPrice != 0 ||
                       valuationStaffResponse.resultId == 0 ? (
                         <IconButton
                           onClick={() =>
