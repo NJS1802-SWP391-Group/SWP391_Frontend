@@ -8,7 +8,7 @@ const AdminPage = () => {
     <div>
       <NavBarSystem marginBottom="80px" />
       <Grid container xs={12} sx={{ display: "flex", gap: 3 }}>
-        <Grid item xs={2}>
+        <Grid item xs={2} sx={{ marginTop: "20px" }}>
           <NavigationBar />
         </Grid>
         <Grid item xs={9}>

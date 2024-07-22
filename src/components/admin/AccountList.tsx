@@ -58,7 +58,6 @@ const AccountList = () => {
             <TableRow>
               <StyledTableCell>Account ID</StyledTableCell>
               <StyledTableCell align="center">User Name</StyledTableCell>
-              <StyledTableCell align="center">Password</StyledTableCell>
               <StyledTableCell align="center">Status</StyledTableCell>
               <StyledTableCell align="center">Role</StyledTableCell>
               <StyledTableCell align="center">Customer ID</StyledTableCell>
@@ -71,7 +70,6 @@ const AccountList = () => {
                   {row.accountId}
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.userName}</StyledTableCell>
-                <StyledTableCell align="center">{row.password}</StyledTableCell>
                 <StyledTableCell align="center">{row.status}</StyledTableCell>
                 <StyledTableCell align="center">{row.roleName}</StyledTableCell>
                 <StyledTableCell align="center">
