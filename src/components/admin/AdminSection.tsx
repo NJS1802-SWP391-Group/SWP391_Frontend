@@ -12,6 +12,7 @@ import AccountList from "./AccountList";
 import OrderChart from "../chart/OrderChart";
 import RevenueChart from "../chart/RevenueChart";
 import adminApi from "../../services/adminService/adminApi";
+import ServiceChart from "../chart/ServiceChart";
 
 export interface ChartReponse {
   total: number;
@@ -24,6 +25,12 @@ export interface AdminData {
   value: number;
 }
 
+export interface ServiceChart {
+  serviceID: number;
+  serviceName: string;
+  quantity: number;
+}
+
 const AdminSection = () => {
   const [countCustomer, setCountCustomer] = useState();
   const [countAccount, setCountAccount] = useState<number>();
@@ -33,12 +40,15 @@ const AdminSection = () => {
   const [countManager, setCountManager] = useState();
   const [chartOrderQuantity, setChartOrderQuantity] = useState<ChartReponse>();
   const [chartRevenue, setChartRevenue] = useState<ChartReponse>();
+  const [chartService, setChartService] = useState<ServiceChart[]>();
 
   const getChartData = async () => {
     const getOrderQuantity: any = await adminApi.getChartOrder();
     setChartOrderQuantity(getOrderQuantity);
     const getRevenue: any = await adminApi.getChartRevenue();
     setChartRevenue(getRevenue);
+    const getService: any = await adminApi.getChartService();
+    setChartService(getService);
   };
   useEffect(() => {
     const fechData = async () => {
@@ -75,6 +85,13 @@ const AdminSection = () => {
   });
   const chartRevenueLabel = chartRevenue?.adminDatas.map((x) => {
     return x.date.slice(0, 10);
+  });
+
+  const chartServiceData = chartService?.map((x) => {
+    return x.quantity;
+  });
+  const chartServiceLabel = chartService?.map((x) => {
+    return x.serviceName;
   });
 
   return (
@@ -363,6 +380,9 @@ const AdminSection = () => {
           labels={chartRevenueLabel}
           total={chartRevenue?.total}
         />
+      </div>
+      <div>
+        <ServiceChart data={chartServiceData} labels={chartServiceLabel} />
       </div>
       <div>
         <AccountList />
