@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import signUpApi from "../../services/signUpApi";
 import { RegisterRequest } from "../../interfaces/register/RegisterRequest";
 import { useNavigate } from "react-router-dom";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 function Copyright(props: any) {
   return (
@@ -41,7 +42,7 @@ export default function RegisterForm() {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [userName, setUserName] = React.useState("");
+  // const [userName, setUserName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [cccd, setCccd] = React.useState("");
   const [dob, setDob] = React.useState("");
@@ -67,11 +68,11 @@ export default function RegisterForm() {
     setEmail(e.target.value);
   };
 
-  const onChangeUserName = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUserName(e.target.value);
-  };
+  // const onChangeUserName = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setUserName(e.target.value);
+  // };
 
   const onChangePassword = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -108,7 +109,7 @@ export default function RegisterForm() {
     const data = new FormData(event.currentTarget);
 
     const registerData: RegisterRequest = {
-      username: data.get("userName") as string,
+      // username: data.get("userName") as string,
       email: data.get("email") as string,
       password: data.get("password") as string,
       firstName: data.get("firstName") as string,
@@ -119,25 +120,37 @@ export default function RegisterForm() {
       address: data.get("address") as string,
     };
 
-    signUpApi.register(registerData).then(
-      (response: any) => {
+    signUpApi
+      .register(registerData)
+      .then((response: any) => {
         if (response == "Sign up successfully") {
-          alert(response);
-          navigate("/login");
+          toast.success("Sign up successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            onClose: () => {
+              navigate("/login");
+            },
+          });
         } else {
-          alert(response);
+          toast.warning(response, {
+            position: "top-center",
+            autoClose: 3000,
+          });
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      })
+      .catch((error) => {
+        toast.error(error, {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      });
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <ToastContainer />
         <Box
           sx={{
             marginTop: 8,
@@ -193,7 +206,7 @@ export default function RegisterForm() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   required
                   id="username"
@@ -203,7 +216,7 @@ export default function RegisterForm() {
                   name="userName"
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -275,7 +288,6 @@ export default function RegisterForm() {
                 firstName &&
                 lastName &&
                 email &&
-                userName &&
                 password &&
                 cccd &&
                 dob &&

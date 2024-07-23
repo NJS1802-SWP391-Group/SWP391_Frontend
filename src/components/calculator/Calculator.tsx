@@ -405,7 +405,7 @@ const Calculator: React.FC = () => {
             <>
               <Box>
                 <InformationCard
-                  title="Estimate Range"
+                  title="Fair Price Estimate"
                   value={`$${result?.fairPrice?.toLocaleString("en-US")}`}
                   svgIcon={svgIcon}
                   size="large"
@@ -441,10 +441,9 @@ const Calculator: React.FC = () => {
                 <Grid item xs={12} sm={6} lg={4}>
                   <InformationCard
                     title="Estimate Range"
-                    value={`$${
-                      result?.minPrice?.toLocaleString("en-US") &&
-                      result?.maxPrice?.toLocaleString("en-US")
-                    }`}
+                    value={`$${result?.minPrice?.toLocaleString(
+                      "en-US"
+                    )} - ${result.maxPrice.toLocaleString("en-US")}`}
                     svgIcon={svgIcon}
                     size="small"
                   />

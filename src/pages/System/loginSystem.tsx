@@ -6,12 +6,12 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DiavanLogo from "../../assets/Diavan.png";
 import { LOGIN_SUCCESS } from "../../constants";
 import { LoginRequest } from "../../interfaces/login/loginRequest";
@@ -300,16 +300,19 @@ export default function LoginSystem() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
+              {location.pathname == "/login" && (
+                <Grid item>
+                  <Link to="/register">
+                    <Typography
+                      color={"black"}
+                      sx={{ textDecorationLine: "underline" }}
+                    >
+                      Don't have an account? Sign Up
+                    </Typography>
+                  </Link>
+                </Grid>
+              )}
             </Grid>
           </Box>
         </Box>

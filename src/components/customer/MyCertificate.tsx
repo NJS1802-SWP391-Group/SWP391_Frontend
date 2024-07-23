@@ -8,7 +8,7 @@ import resultApi from "../../services/resultApi";
 type Props = {
   orderDetailId: number | undefined;
 };
-interface ResultResponse {
+export interface ResultResponse {
   resultId: number;
   isDiamond: boolean;
   code: string;
@@ -25,7 +25,12 @@ interface ResultResponse {
   diamondValue: number;
   status: string;
   orderDetailId: number;
-  imageUrls: string[];
+  resultImages: ResultImage[];
+}
+
+export interface ResultImage {
+  imageUrl: string;
+  imageType: string;
 }
 
 const MyCertificate = ({ orderDetailId }: Props) => {
@@ -41,7 +46,7 @@ const MyCertificate = ({ orderDetailId }: Props) => {
     getResultByOrderDetailId();
   }, [orderDetailId]);
   return (
-    <Card style={{ padding: "30px 100px", margin: "30px" }}>
+    <Card style={{ padding: "20px 100px", margin: "30px" }}>
       <div
         style={{
           display: "flex",
@@ -123,19 +128,22 @@ const MyCertificate = ({ orderDetailId }: Props) => {
           alignItems: "center",
         }}
       >
-        <Card style={{ width: "500px" }}>
-          <p
-            style={{
-              backgroundColor: "#2d5477",
-              color: "white",
-              fontWeight: "bold",
-              padding: "10px",
-            }}
-          >
-            Proportions
-          </p>
-          <img src={result?.imageUrls[0]} alt="" width={300} height={300} />
-        </Card>
+        {result?.resultImages.map((image) => (
+          <Card style={{ width: "auto" }}>
+            <p
+              style={{
+                backgroundColor: "#2d5477",
+                color: "white",
+                fontWeight: "bold",
+                padding: "10px",
+              }}
+            >
+              {image.imageType}
+            </p>
+            <img src={image.imageUrl} alt="" width={"400"} height={"200"} />
+          </Card>
+        ))}
+
         <div
           style={{
             display: "flex",
@@ -148,19 +156,6 @@ const MyCertificate = ({ orderDetailId }: Props) => {
             {result?.diamondValue} $
           </p>
         </div>
-        <Card style={{ width: "500px" }}>
-          <p
-            style={{
-              backgroundColor: "#2d5477",
-              color: "white",
-              fontWeight: "bold",
-              padding: "10px",
-            }}
-          >
-            Clarity Characteristic
-          </p>
-          <img src={result?.imageUrls[1]} alt="" width={300} height={300} />
-        </Card>
       </div>
     </Card>
   );

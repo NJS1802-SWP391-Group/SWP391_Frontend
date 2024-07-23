@@ -65,7 +65,7 @@ const AboutPage = () => {
             Latest service price list today {today.toLocaleDateString("en-Us")}
           </Typography>
           <Typography variant="h5" textAlign={"center"} fontWeight={500}>
-            Reference price list of diamonds in centimeters (mm). If you want to
+            Reference price list of diamonds in millimeter (mm). If you want to
             value your diamonds but don't know the price of Diavan's valuation
             service, please quickly refer to the latest updated price quote
             below.
@@ -113,11 +113,15 @@ const AboutPage = () => {
                     }}
                   >
                     <span style={{ fontWeight: "bold", fontSize: "20px" }}>
-                      {detail.minRange}-{detail.maxRange} mm
+                      {detail.maxRange == 0
+                        ? `More than ${detail.minRange} mm`
+                        : `${detail.minRange}-${detail.maxRange} mm`}
                     </span>
                   </Typography>
                   <Typography sx={{ fontSize: "20px", fontWeight: 900 }}>
-                    {detail.price} $
+                    {detail.maxRange == 0
+                      ? `${detail.price} $ + ${detail.extraPricePerMM} $ per mm`
+                      : `${detail.price} $`}
                   </Typography>
                 </div>
               </AccordionDetails>
