@@ -13,6 +13,7 @@ import {
   Paper,
   Select,
   SelectChangeEvent,
+  styled,
   Table,
   TableBody,
   TableCell,
@@ -21,16 +22,16 @@ import {
   TableRow,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify"; // Import toast
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import PlusAdd from "../../assets/PlusAdd.png";
 import {
   ServiceDetailCreate,
   ServiceDetailEdit,
   ServiceDetailResponse,
 } from "../../interfaces/serviceDetail/ServiceDetail";
-
 import serviceApi from "../../services/service";
 import serviceDetailApi from "../../services/serviceDetailApi";
 
@@ -56,6 +57,12 @@ const ServiceDetailNew = () => {
     padding: theme.spacing(1),
     textAlign: "center",
   }));
+
+  const styleTableHead = {
+    fontWeight: "bold",
+    fontSize: "20px",
+    color: "black",
+  };
 
   const fetchServiceDetails = async () => {
     const response: any = await serviceDetailApi.getAll();
@@ -114,8 +121,10 @@ const ServiceDetailNew = () => {
         prev.filter((detail) => detail.serviceDetailID !== serviceDetailID)
       );
       fetchServiceDetails();
+      toast.success("Service detail deleted successfully!"); // Show success toast
     } catch (error) {
       console.error(error);
+      toast.error("Failed to delete service detail!"); // Show error toast
     }
   };
 
@@ -165,14 +174,16 @@ const ServiceDetailNew = () => {
         );
         fetchServiceDetails();
         setEditServiceDetail(null);
+        toast.success("Service detail updated successfully!"); // Show success toast
       } catch (error) {
         console.log(error);
+        toast.error("Failed to update service detail!"); // Show error toast
       }
     } else if (newServiceDetail) {
-      const nextServiceDetailID =
-        serviceDetails.length > 0
-          ? serviceDetails[serviceDetails.length - 1].serviceDetailID + 1
-          : 1;
+      // const nextServiceDetailID =
+      //   serviceDetails.length > 0
+      //     ? serviceDetails[serviceDetails.length - 1].serviceDetailID + 1
+      //     : 1;
       const data: ServiceDetailCreate = {
         code: newServiceDetail.code || "",
         minRange: newServiceDetail.minRange || 0,
@@ -189,13 +200,15 @@ const ServiceDetailNew = () => {
           ...prevServiceDetail,
           {
             ...newServiceDetail,
-            serviceDetailID: nextServiceDetailID,
+            // serviceDetailID: nextServiceDetailID,
           },
         ]);
         fetchServiceDetails();
         setNewServiceDetail(null);
+        toast.success("New service detail added successfully!"); // Show success toast
       } catch (error) {
         console.log(error);
+        toast.error("Failed to add new service detail!"); // Show error toast
       }
     }
   };
@@ -256,13 +269,27 @@ const ServiceDetailNew = () => {
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: "#4F46E5" }}>
-              <StyledTableCell align="center">Service Name</StyledTableCell>
-              <StyledTableCell align="center">SD Code</StyledTableCell>
-              <StyledTableCell align="center">Min Range</StyledTableCell>
-              <StyledTableCell align="center">Max Range</StyledTableCell>
-              <StyledTableCell align="center">Price</StyledTableCell>
-              <StyledTableCell align="center">Extra Price</StyledTableCell>
-              <StyledTableCell align="center">Actions</StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Service Name
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                SD Code
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Min Range
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Max Range
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Price
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Extra Price
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={styleTableHead}>
+                Actions
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -468,6 +495,8 @@ const ServiceDetailNew = () => {
           </DialogActions>
         </Dialog>
       )}
+      {/* Add ToastContainer here */}
+      <ToastContainer />
     </Box>
   );
 };
