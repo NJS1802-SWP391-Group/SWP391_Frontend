@@ -1,7 +1,7 @@
 import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import consultingStaffImg from "../../assets/consultant.png";
 import managerImg from "../../assets/Manager.png";
@@ -367,22 +367,31 @@ const AdminSection = () => {
           </div>
         </Card>
       </div>
-      <div style={{ margin: "20px 0" }}>
+      <div style={{ margin: "40px 0" }}>
         <OrderChart
           data={chartOrderQuantityData}
           labels={chartOrderQuantityLabel}
           total={chartOrderQuantity?.total}
         />
+        <Typography variant="h6" textAlign={"center"}>
+          Total Order Chart
+        </Typography>
       </div>
-      <div style={{ margin: "20px 0" }}>
+      <div style={{ margin: "40px 0" }}>
         <RevenueChart
           data={chartRevenueData}
           labels={chartRevenueLabel}
           total={chartRevenue?.total}
         />
+        <Typography variant="h6" textAlign={"center"}>
+          Revenue Chart
+        </Typography>
       </div>
-      <div>
+      <div style={{ margin: "40px 0" }}>
         <ServiceChart data={chartServiceData} labels={chartServiceLabel} />
+        <Typography variant="h6" textAlign={"center"}>
+          Service's rate of occurrence
+        </Typography>
       </div>
       <div>
         <AccountList />

@@ -5,10 +5,12 @@ import DiamondImg from "../../assets/—Pngtree—jewellery stone diamond stone_
 import { InforEmail } from "../../interfaces/email/EmailInterface";
 import emailApi from "../../services/emailApi";
 import orderApi from "../../services/orderApi";
+import { toast, ToastContainer } from "react-toastify";
 
 const SendEmail = () => {
   const { state } = useLocation();
   const inforEmail: InforEmail = state;
+  console.log(inforEmail);
   const navigate = useNavigate();
 
   const onCLickBack = () => {
@@ -18,13 +20,16 @@ const SendEmail = () => {
   const handleSendEmail = (orderId: number) => {
     emailApi
       .sendEmail({
-        orderID: orderId,
+        orderId: orderId,
       })
       .then((response: any) => {
         console.log("Send email:", response);
         if (response === "Sent successfully") {
-          alert("Send email successfully");
-          navigate(-1);
+          toast.success("Send email successfully", {
+            onClose: () => {
+              navigate(-1);
+            },
+          });
         }
       })
       .catch((error) => {
@@ -34,14 +39,20 @@ const SendEmail = () => {
 
   const onClickSeal = async (orderId: number) => {
     const data: any = await orderApi.sealOrder(orderId);
-    alert(data);
-    navigate("/consulting-page");
+    toast.success(data, {
+      onClose: () => {
+        navigate("/consulting-page");
+      },
+    });
   };
 
   const onClickUnSeal = async (orderId: number) => {
-    const data = await orderApi.unsealOrder(orderId);
-    alert(data);
-    navigate("/consulting-page");
+    const data: any = await orderApi.unsealOrder(orderId);
+    toast.success(data, {
+      onClose: () => {
+        navigate("/consulting-page");
+      },
+    });
   };
 
   const onClickReturn = (orderId: number) => {
@@ -58,6 +69,7 @@ const SendEmail = () => {
   };
   return (
     <div>
+      <ToastContainer position="top-center" autoClose={3000} />
       <Container>
         <Card
           sx={{
@@ -237,7 +249,7 @@ const SendEmail = () => {
           sx={{ marginLeft: "5px" }}
           color="error"
           disabled={inforEmail.status === "Completed" ? false : true}
-          onClick={() => onClickSeal(inforEmail.orderID)}
+          onClick={() => onClickSeal(inforEmail.orderId)}
         >
           Seal
         </Button>
@@ -247,7 +259,7 @@ const SendEmail = () => {
           color="success"
           disabled={inforEmail.status === "Sealed" ? false : true}
           onClick={() => {
-            onClickUnSeal(inforEmail.orderID);
+            onClickUnSeal(inforEmail.orderId);
           }}
         >
           UnSeal
@@ -258,7 +270,7 @@ const SendEmail = () => {
           color="success"
           disabled={inforEmail.status === "Completed" ? false : true}
           onClick={() => {
-            onClickReturn(inforEmail.orderID);
+            onClickReturn(inforEmail.orderId);
           }}
         >
           Return
@@ -266,7 +278,7 @@ const SendEmail = () => {
         <Button
           variant="contained"
           onClick={() => {
-            handleSendEmail(inforEmail.orderID);
+            handleSendEmail(inforEmail.orderId);
           }}
         >
           Send

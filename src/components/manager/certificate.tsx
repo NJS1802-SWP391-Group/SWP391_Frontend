@@ -30,7 +30,6 @@ const Certificate = () => {
   });
 
   const handleDoneClick = () => {
-    alert(certificate?.orderDetailId);
     if (certificate?.orderDetailId) {
       certificateApi
         .changeStatusToCertificated(certificate.orderDetailId)

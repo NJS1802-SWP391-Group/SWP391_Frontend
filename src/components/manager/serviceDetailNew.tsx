@@ -256,7 +256,7 @@ const ServiceDetailNew = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: "1100px" }}
+          sx={{ marginLeft: "1000px" }}
           onClick={handleAddServiceDetail}
         >
           <img src={PlusAdd} height={20} width={20} alt="PlusAdd" />

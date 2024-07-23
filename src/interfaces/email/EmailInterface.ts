@@ -1,5 +1,5 @@
 export interface InforEmail {
-  orderID: number;
+  orderId: number;
   firstName: string;
   lastName: string;
   code: string;
@@ -25,5 +25,5 @@ export interface DetailValuation {
 }
 
 export interface SendEmail {
-  orderID: number;
+  orderId: number;
 }

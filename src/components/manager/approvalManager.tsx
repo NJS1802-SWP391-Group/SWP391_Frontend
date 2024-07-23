@@ -242,7 +242,7 @@ const ApprovalManager = () => {
                 <StyledTableCell>{managerResponse.status}</StyledTableCell>
                 <StyledTableCell>
                   <Box>
-                    {managerResponse.status === "Failed" ? (
+                    {managerResponse.valuatingPrice === 0 ? (
                       <>
                         <IconButton
                           onClick={() => {

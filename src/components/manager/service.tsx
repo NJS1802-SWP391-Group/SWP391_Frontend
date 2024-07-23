@@ -237,29 +237,31 @@ const Service = () => {
                 <StyledTableCell>{serviceResponse.description}</StyledTableCell>
                 <StyledTableCell>{serviceResponse.status}</StyledTableCell>
                 <StyledTableCell>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleEditService(serviceResponse)}
-                    sx={{
-                      marginRight: 1,
-                      backgroundColor: "lightgrey",
-                      color: "black",
-                      opacity: "90%",
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() =>
-                      handleDeleteService(serviceResponse.serviceID)
-                    }
-                    sx={{ backgroundColor: "ButtonShadow", color: "black" }}
-                  >
-                    Delete
-                  </Button>
+                  <div style={{ display: "flex", gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleEditService(serviceResponse)}
+                      sx={{
+                        marginRight: 1,
+                        backgroundColor: "lightgrey",
+                        color: "black",
+                        opacity: "90%",
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() =>
+                        handleDeleteService(serviceResponse.serviceID)
+                      }
+                      sx={{ backgroundColor: "ButtonShadow", color: "black" }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
