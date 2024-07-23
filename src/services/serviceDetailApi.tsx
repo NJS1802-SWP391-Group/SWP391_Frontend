@@ -1,4 +1,7 @@
-import { ServiceDetailCreate } from "../interfaces/serviceDetail/ServiceDetail";
+import {
+  ServiceDetailCreate,
+  ServiceDetailEdit,
+} from "../interfaces/serviceDetail/ServiceDetail";
 import { ServiceChange } from "../interfaces/services/Service";
 import axiosClient from "./axiosClient";
 
@@ -13,7 +16,7 @@ const serviceDetailApi = {
     return axiosClient.post(url, data);
   },
 
-  editServiceDetail(serviceId: number, data: ServiceDetailCreate) {
+  editServiceDetail(serviceId: number, data: ServiceDetailEdit) {
     const url = `/ServiceDetail/Update-Service-Detail/${serviceId}`;
     return axiosClient.put(url, data);
   },

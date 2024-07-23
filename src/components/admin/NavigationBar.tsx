@@ -60,7 +60,7 @@ const NavigationBar = () => {
             </li>
           </button>
           <button
-            onClick={() => navigate("/admin/serviceDetail")}
+            onClick={() => navigate("/admin/serviceDetailNew")}
             style={{
               display: "flex",
               alignItems: "center",

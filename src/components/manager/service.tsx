@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   Paper,
+  styled,
   Table,
   TableBody,
   TableCell,
@@ -16,9 +17,10 @@ import {
   TableRow,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PlusAdd from "../../assets/PlusAdd.png";
 import {
   ServiceChange,
@@ -28,13 +30,9 @@ import serviceApi from "../../services/service";
 
 const Service = () => {
   const [serviceList, setServiceList] = useState<ServiceResponse[]>([]);
-  console.log("service:", serviceList);
   const [newService, setNewService] = useState<ServiceResponse | null>(null);
   const [editService, setEditService] = useState<ServiceResponse | null>(null);
-  const [changeService, setChangeService] = useState<ServiceResponse | null>(
-    null
-  );
-  console.log("first", setChangeService);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -58,10 +56,13 @@ const Service = () => {
   }));
 
   const fetchServiceList = async () => {
-    const response: any = await serviceApi.getAllService();
-    console.log("FetchData", response);
-    if (response && response.length > 0) {
-      setServiceList(response);
+    try {
+      const response: any = await serviceApi.getAllService();
+      if (response && response.length > 0) {
+        await setServiceList(response);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch services.");
     }
   };
 
@@ -75,31 +76,30 @@ const Service = () => {
   const handleEditService = (service: ServiceResponse) => {
     setEditService(service);
   };
+
   const handleDeleteService = async (serviceId: number) => {
-    console.log("id", serviceId);
     const data: ServiceChange = {
-      status: changeService?.status ?? "",
+      status: "inActive",
     };
     try {
-      const response = await serviceApi.changeService(serviceId, data);
-      console.log("resDe:", response);
-      console.log("ids", serviceId);
+      await serviceApi.changeService(serviceId, data);
       setServiceList((prevService) =>
         prevService.filter((m) => m.serviceID !== serviceId)
       );
       fetchServiceList();
+      toast.success("Service deleted successfully.");
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to delete the service.");
     }
   };
 
-  const handleAddService = () => {
-    const nextServiceID =
-      serviceList.length > 0
-        ? serviceList[serviceList.length - 1].serviceID + 1
-        : 1;
-    setNewService({
-      serviceID: nextServiceID,
+  const handleAddService = async () => {
+    // const nextServiceID =
+    //   serviceList.length > 0
+    //     ? serviceList[serviceList.length - 1].serviceID + 1
+    //     : 1;
+    await setNewService({
+      serviceID: 0,
       name: "",
       description: "",
       status: "Active",
@@ -116,28 +116,25 @@ const Service = () => {
       };
 
       try {
-        const response = await serviceApi.editService(
-          editService.serviceID,
-          data
-        );
-        console.log("resEdit:", response);
+        await serviceApi.editService(editService.serviceID, data);
         setServiceList((prevService) =>
           prevService.map((m) =>
             m.serviceID === editService.serviceID ? { ...m, ...data } : m
           )
         );
         setEditService(null);
+        toast.success("Service updated successfully.");
       } catch (error) {
-        console.log(error);
+        toast.error("Failed to update the service.");
       }
     } else if (newService) {
-      const nextServiceID =
-        serviceList.length > 0
-          ? serviceList[serviceList.length - 1].serviceID + 1
-          : 1;
+      // const nextServiceID =
+      //   serviceList.length > 0
+      //     ? serviceList[serviceList.length - 1].serviceID + 1
+      //     : 1;
 
       const data: ServiceResponse = {
-        serviceID: nextServiceID,
+        serviceID: newService.serviceID,
         name: newService.name,
         description: newService.description,
         status: "Active",
@@ -145,17 +142,18 @@ const Service = () => {
 
       try {
         const response = await serviceApi.createService(data);
-        console.log("res:", response);
+        console.log("first", response);
         setServiceList((prevService) => [
           ...prevService,
           {
             ...newService,
-            serviceID: nextServiceID,
           },
         ]);
         setNewService(null);
+        toast.success("New service added successfully.");
+        fetchServiceList();
       } catch (error) {
-        console.log(error);
+        toast.error("Failed to add the new service.");
       }
     }
   };
@@ -181,8 +179,8 @@ const Service = () => {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log("first", event);
     setPage(newPage);
-    console.log("event", event);
   };
 
   const handleChangeRowsPerPage = (
@@ -208,10 +206,10 @@ const Service = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 120 }}
+          sx={{ marginLeft: 130 }}
           onClick={handleAddService}
         >
-          <img src={PlusAdd} height={20} width={20} alt="PLusAdd" />
+          <img src={PlusAdd} height={20} width={20} alt="PlusAdd" />
           <Typography sx={{ paddingLeft: "4px", fontSize: "10px" }}>
             New service
           </Typography>
@@ -289,7 +287,7 @@ const Service = () => {
 
             <TextField
               margin="dense"
-              label="Service name"
+              label="Service Name"
               type="text"
               fullWidth
               id="name"
@@ -345,15 +343,13 @@ const Service = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleSaveService} color="primary">
-              Save
-            </Button>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleSaveService}>Save</Button>
           </DialogActions>
         </Dialog>
       )}
+
+      <ToastContainer />
     </Box>
   );
 };
