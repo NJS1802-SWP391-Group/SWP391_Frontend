@@ -65,7 +65,7 @@ const AssignValuationStaff = () => {
   };
 
   const getAccount = async () => {
-    const account: any = await accountApi.getAccountInfo();
+    const account: any = await accountApi.getAccountSystemInfo();
     console.log("account api: ", account);
 
     const list: any = await valuationStaffApi.getOrderDetailByValuationStaffId(
@@ -80,9 +80,9 @@ const AssignValuationStaff = () => {
   console.log("Log Asign:", assignValuationStaffResponseList);
 
   const handleSend = async (orderDetailID: number) => {
+    setOpen(false);
     await valuationStaffApi.changeStatusToCompleted(orderDetailID).then(
       (response) => {
-        setOpen(false);
         console.log("response:", response);
         alert(`Send successfully`);
         getAccount();
@@ -165,8 +165,15 @@ const AssignValuationStaff = () => {
 
                   <StyledTableCell>
                     <Box>
-                      {valuationStaffResponse.finalPrice != 0 ||
-                      valuationStaffResponse.resultId == 0 ? (
+                      {valuationStaffResponse.resultID != 0 ? (
+                        <img
+                          src={DoneButton}
+                          width="30"
+                          height="30"
+                          alt="DoneButton"
+                          className="DoneButton"
+                        />
+                      ) : (
                         <IconButton
                           onClick={() =>
                             handlePlusButtonClick(
@@ -183,14 +190,6 @@ const AssignValuationStaff = () => {
                             className="Plusbutton"
                           />
                         </IconButton>
-                      ) : (
-                        <img
-                          src={DoneButton}
-                          width="30"
-                          height="30"
-                          alt="DoneButton"
-                          className="DoneButton"
-                        />
                       )}
                     </Box>
                   </StyledTableCell>
