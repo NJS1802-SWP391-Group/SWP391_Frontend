@@ -19,6 +19,7 @@ import ManageDiamondPage from "../pages/manager/manageDiamondPage";
 import ManagerNavbarPage from "../pages/manager/manageNavbarPage";
 import ManagerApprovalPage from "../pages/manager/managerApprovalPage";
 import ManagerAssignPage from "../pages/manager/managerAssignPage";
+import ServiceDetailNewPage from "../pages/manager/serviceDetailNewPage";
 import ServiceDetailPage from "../pages/manager/serviceDetailPage";
 import ServicePage from "../pages/manager/servicePage";
 import RegisterPage from "../pages/register/RegisterPage";
@@ -66,6 +67,10 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/service" element={<ServicePage />} />
       <Route path="/admin/serviceDetail" element={<ServiceDetailPage />} />
+      <Route
+        path="/admin/serviceDetailNew"
+        element={<ServiceDetailNewPage />}
+      />
 
       <Route path="/manager/diamond" element={<ManageDiamondPage />} />
 

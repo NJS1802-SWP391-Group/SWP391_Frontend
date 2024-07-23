@@ -86,6 +86,7 @@ const ApprovalManager = () => {
 
   const fetchManagerApprovalList = async () => {
     const response: any = await managerAssignsApi.getAllCompledted();
+    console.log("review list", response);
     if (response && response.length > 0) {
       setManagerResponseList(response);
     }
