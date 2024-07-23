@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
-import Navbar from "../../components/navbar/Navbar";
+import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Navbar from "../../components/navbar/Navbar";
 import serviceApi from "../../services/service";
 
 export interface AllService {
@@ -36,6 +36,7 @@ const AboutPage = () => {
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      console.log("first", event);
       setExpanded(isExpanded ? panel : false);
     };
 
