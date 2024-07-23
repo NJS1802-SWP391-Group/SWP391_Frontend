@@ -39,6 +39,7 @@ const ServiceDetailNew = () => {
   const [serviceDetails, setServiceDetails] = useState<ServiceDetailResponse[]>(
     []
   );
+  console.log("serviceDetails", serviceDetails);
   const [groupedServiceDetails, setGroupedServiceDetails] = useState<{
     [key: string]: ServiceDetailResponse[];
   }>({});
@@ -46,11 +47,13 @@ const ServiceDetailNew = () => {
     [key: string]: boolean;
   }>({});
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  console.log("first", selectedService);
   const [editServiceDetail, setEditServiceDetail] =
     useState<ServiceDetailResponse | null>(null);
   const [newServiceDetail, setNewServiceDetail] =
     useState<ServiceDetailResponse | null>(null);
   const [serviceNames, setServiceNames] = useState<string[]>([]);
+  console.log("serviceName:", serviceNames);
   const [serviceIds, setServiceIds] = useState<number[]>([]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({

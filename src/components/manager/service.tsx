@@ -32,9 +32,7 @@ const Service = () => {
   const [serviceList, setServiceList] = useState<ServiceResponse[]>([]);
   const [newService, setNewService] = useState<ServiceResponse | null>(null);
   const [editService, setEditService] = useState<ServiceResponse | null>(null);
-  const [changeService, setChangeService] = useState<ServiceResponse | null>(
-    null
-  );
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const styleTableHead = {
@@ -181,6 +179,7 @@ const Service = () => {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log("first", event);
     setPage(newPage);
   };
 

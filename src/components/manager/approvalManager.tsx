@@ -39,10 +39,6 @@ const ApprovalManager = () => {
     number | null
   >(null);
 
-  const [orderDetailIdToDone, setOrderDetailIdToDone] = useState<number | null>(
-    null
-  );
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -60,6 +56,7 @@ const ApprovalManager = () => {
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log("first", event);
     setPage(newPage);
   };
 
@@ -102,7 +99,7 @@ const ApprovalManager = () => {
   const handleReject = () => {
     if (orderDetailIdToReject !== null) {
       managerAssignsApi.changeStatusToReAssigning(orderDetailIdToReject).then(
-        (response) => {
+        () => {
           alert("The order has been transformed to reassigning");
           fetchManagerApprovalList();
           handleClose();
