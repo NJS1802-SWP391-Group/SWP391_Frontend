@@ -138,7 +138,7 @@ const Profile = () => {
                     width: "auto",
                   }}
                 >
-                  {accoutInfo?.dob}
+                  {accoutInfo?.dob.slice(0, 10)}
                 </p>
               </div>
               <div
