@@ -7,7 +7,7 @@ export interface ServiceDetailResponse {
   extraPricePerMM: number;
   status: string;
   serviceName: string;
-  // serviceID: number;
+  serviceID: number;
 }
 
 export interface ServiceDetailCreate {

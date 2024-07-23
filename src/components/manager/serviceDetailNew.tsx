@@ -7,8 +7,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -21,7 +25,13 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PlusAdd from "../../assets/PlusAdd.png";
-import { ServiceDetailResponse } from "../../interfaces/serviceDetail/ServiceDetail";
+import {
+  ServiceDetailCreate,
+  ServiceDetailEdit,
+  ServiceDetailResponse,
+} from "../../interfaces/serviceDetail/ServiceDetail";
+
+import serviceApi from "../../services/service";
 import serviceDetailApi from "../../services/serviceDetailApi";
 
 const ServiceDetailNew = () => {
@@ -39,6 +49,8 @@ const ServiceDetailNew = () => {
     useState<ServiceDetailResponse | null>(null);
   const [newServiceDetail, setNewServiceDetail] =
     useState<ServiceDetailResponse | null>(null);
+  const [serviceNames, setServiceNames] = useState<string[]>([]);
+  const [serviceIds, setServiceIds] = useState<number[]>([]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -51,8 +63,14 @@ const ServiceDetailNew = () => {
     groupServiceDetails(response);
   };
 
+  const fetchServiceIds = async () => {
+    const response: any = await serviceApi.getAllService(); // Assuming this fetches all services
+    setServiceIds(response.map((service: any) => service.serviceID));
+  };
+
   useEffect(() => {
     fetchServiceDetails();
+    fetchServiceIds();
   }, []);
 
   const groupServiceDetails = (details: ServiceDetailResponse[]) => {
@@ -67,6 +85,7 @@ const ServiceDetailNew = () => {
     setExpandedGroups(
       Object.keys(grouped).reduce((acc, key) => ({ ...acc, [key]: true }), {})
     );
+    setServiceNames(Object.keys(grouped));
   };
 
   const handleAddServiceDetail = () => {
@@ -78,7 +97,8 @@ const ServiceDetailNew = () => {
       price: 0,
       extraPricePerMM: 0,
       status: "Active",
-      serviceName: selectedService || "",
+      serviceName: "",
+      serviceID: 0,
     });
   };
 
@@ -86,16 +106,114 @@ const ServiceDetailNew = () => {
     setEditServiceDetail(serviceDetail);
   };
 
+  const handleDeleteServiceDetail = async (serviceDetailID: number) => {
+    const data = { status: "inActive" };
+    try {
+      await serviceDetailApi.deleteServiceDetail(serviceDetailID, data);
+      setServiceDetails((prev) =>
+        prev.filter((detail) => detail.serviceDetailID !== serviceDetailID)
+      );
+      fetchServiceDetails();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
+    const parsedValue =
+      name === "price" || name === "extraPricePerMM"
+        ? parseFloat(value)
+        : name === "minRange" || name === "maxRange"
+        ? parseInt(value, 10)
+        : value;
+
     if (editServiceDetail) {
       setEditServiceDetail((prev) =>
-        prev ? { ...prev, [name]: value } : null
+        prev ? { ...prev, [name]: parsedValue } : null
       );
     } else if (newServiceDetail) {
-      setNewServiceDetail((prev) => (prev ? { ...prev, [name]: value } : null));
+      setNewServiceDetail((prev) =>
+        prev ? { ...prev, [name]: parsedValue } : null
+      );
+    }
+  };
+
+  const handleSaveServiceDetail = async () => {
+    if (editServiceDetail) {
+      const data: ServiceDetailEdit = {
+        minRange: editServiceDetail.minRange || 0,
+        maxRange: editServiceDetail.maxRange || 0,
+        price: editServiceDetail.price || 0,
+        extraPricePerMM: editServiceDetail.extraPricePerMM || 0,
+      };
+
+      try {
+        const response = await serviceDetailApi.editServiceDetail(
+          editServiceDetail.serviceDetailID,
+          data
+        );
+        console.log("resEdit:", response);
+        setServiceDetails((prevServiceDetail) =>
+          prevServiceDetail.map((m) =>
+            m.serviceDetailID === editServiceDetail.serviceDetailID
+              ? editServiceDetail
+              : m
+          )
+        );
+        fetchServiceDetails();
+        setEditServiceDetail(null);
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (newServiceDetail) {
+      const nextServiceDetailID =
+        serviceDetails.length > 0
+          ? serviceDetails[serviceDetails.length - 1].serviceDetailID + 1
+          : 1;
+      const data: ServiceDetailCreate = {
+        code: newServiceDetail.code || "",
+        minRange: newServiceDetail.minRange || 0,
+        maxRange: newServiceDetail.maxRange || 0,
+        price: newServiceDetail.price || 0,
+        extraPricePerMM: newServiceDetail.extraPricePerMM || 0,
+        serviceID: newServiceDetail.serviceID || 0,
+      };
+      console.log("dtaa", data);
+      try {
+        const response = await serviceDetailApi.createServiceDetail(data);
+        console.log("res:", response);
+        setServiceDetails((prevServiceDetail) => [
+          ...prevServiceDetail,
+          {
+            ...newServiceDetail,
+            serviceDetailID: nextServiceDetailID,
+          },
+        ]);
+        fetchServiceDetails();
+        setNewServiceDetail(null);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const { value } = event.target;
+    const numericValue = Number(value); // Convert string to number if needed
+
+    if (editServiceDetail) {
+      setEditServiceDetail((prev) =>
+        prev ? { ...prev, serviceID: numericValue } : null
+      );
+    } else if (newServiceDetail) {
+      setNewServiceDetail((prev) =>
+        prev ? { ...prev, serviceID: numericValue } : null
+      );
+    } else {
+      setSelectedService(value);
     }
   };
 
@@ -122,7 +240,7 @@ const ServiceDetailNew = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 2 }}
+          sx={{ marginLeft: "1100px" }}
           onClick={handleAddServiceDetail}
         >
           <img src={PlusAdd} height={20} width={20} alt="PlusAdd" />
@@ -133,7 +251,7 @@ const ServiceDetailNew = () => {
       </Box>
       <TableContainer
         component={Paper}
-        sx={{ maxHeight: "50vh", marginTop: "25px" }}
+        sx={{ maxHeight: "60vh", marginTop: "25px" }}
       >
         <Table>
           <TableHead>
@@ -151,41 +269,46 @@ const ServiceDetailNew = () => {
             {Object.keys(groupedServiceDetails).map((serviceName) => {
               const details = groupedServiceDetails[serviceName];
               const isExpanded = expandedGroups[serviceName];
+
               return (
                 <React.Fragment key={serviceName}>
                   <TableRow>
-                    <TableCell
-                      align="center"
-                      rowSpan={isExpanded ? details.length + 1 : 1}
-                      sx={{ backgroundColor: "#f5f5f5", fontWeight: "bold" }}
-                    >
+                    <StyledTableCell colSpan={7} align="left">
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
+                          cursor: "pointer",
                         }}
+                        onClick={() => toggleGroupExpansion(serviceName)}
                       >
-                        <Typography>{serviceName}</Typography>
-                        <IconButton
-                          onClick={() => toggleGroupExpansion(serviceName)}
-                        >
-                          {isExpanded ? <ExpandLess /> : <ExpandMore />}
-                        </IconButton>
+                        <Typography variant="h6">{serviceName}</Typography>
+                        {isExpanded ? <ExpandLess /> : <ExpandMore />}
                       </Box>
-                    </TableCell>
+                    </StyledTableCell>
                   </TableRow>
                   {isExpanded &&
                     details.map((detail) => (
                       <TableRow key={detail.serviceDetailID}>
-                        <TableCell align="center">{detail.code}</TableCell>
-                        <TableCell align="center">{detail.minRange}</TableCell>
-                        <TableCell align="center">{detail.maxRange}</TableCell>
-                        <TableCell align="center">{detail.price}</TableCell>
-                        <TableCell align="center">
+                        <StyledTableCell align="center">
+                          {detail.serviceName}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {detail.code}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {detail.minRange}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {detail.maxRange}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {detail.price}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
                           {detail.extraPricePerMM}
-                        </TableCell>
-                        <TableCell align="center">
+                        </StyledTableCell>
+                        <StyledTableCell align="center" sx={{ width: "180px" }}>
                           <Button
                             variant="contained"
                             size="small"
@@ -202,7 +325,9 @@ const ServiceDetailNew = () => {
                           <Button
                             variant="contained"
                             size="small"
-                            // onClick={() => handleDeleteService(detail.serviceDetailID)}
+                            onClick={() =>
+                              handleDeleteServiceDetail(detail.serviceDetailID)
+                            }
                             sx={{
                               backgroundColor: "ButtonShadow",
                               color: "black",
@@ -210,7 +335,7 @@ const ServiceDetailNew = () => {
                           >
                             Delete
                           </Button>
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     ))}
                 </React.Fragment>
@@ -222,39 +347,68 @@ const ServiceDetailNew = () => {
       {(editServiceDetail || newServiceDetail) && (
         <Dialog open={true} onClose={handleCloseDialog}>
           <DialogTitle>
-            {editServiceDetail ? "Edit ServiceDetail" : "New ServiceDetail"}
+            {editServiceDetail ? "Edit Service Detail" : "New Service Detail"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
               {editServiceDetail
-                ? "Update the details of the ServiceDetail."
-                : "Enter the details of the new ServiceDetail."}
+                ? "Edit the details of the service."
+                : "Enter the details of the new service."}
             </DialogContentText>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="service-select-label">Service</InputLabel>
+              <Select
+                labelId="service-select-label"
+                value={
+                  editServiceDetail
+                    ? editServiceDetail.serviceID.toString()
+                    : newServiceDetail
+                    ? newServiceDetail.serviceID.toString()
+                    : ""
+                }
+                onChange={handleSelectChange}
+                name="serviceID"
+                disabled={!!editServiceDetail} // Disabled when editing
+              >
+                {serviceIds.map((id) => (
+                  <MenuItem key={id} value={id}>
+                    {id}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
+              autoFocus
               margin="dense"
-              label="Code"
+              label="Service Detail Code"
               type="text"
               fullWidth
               id="code"
               name="code"
               value={
-                editServiceDetail
+                (editServiceDetail
                   ? editServiceDetail.code
-                  : newServiceDetail?.code || ""
+                  : newServiceDetail
+                  ? newServiceDetail.code
+                  : "") || ""
               }
               onChange={handleInputChange}
+              InputProps={{
+                readOnly: !!editServiceDetail,
+              }}
             />
             <TextField
               margin="dense"
               label="Min Range"
               type="number"
               fullWidth
-              id="minRange"
               name="minRange"
               value={
-                editServiceDetail
-                  ? editServiceDetail.minRange
-                  : newServiceDetail?.minRange || 0
+                (editServiceDetail
+                  ? editServiceDetail.minRange?.toString()
+                  : newServiceDetail
+                  ? newServiceDetail.minRange?.toString()
+                  : "") || ""
               }
               onChange={handleInputChange}
             />
@@ -263,12 +417,13 @@ const ServiceDetailNew = () => {
               label="Max Range"
               type="number"
               fullWidth
-              id="maxRange"
               name="maxRange"
               value={
-                editServiceDetail
-                  ? editServiceDetail.maxRange
-                  : newServiceDetail?.maxRange || 0
+                (editServiceDetail
+                  ? editServiceDetail.maxRange?.toString()
+                  : newServiceDetail
+                  ? newServiceDetail.maxRange?.toString()
+                  : "") || ""
               }
               onChange={handleInputChange}
             />
@@ -277,35 +432,39 @@ const ServiceDetailNew = () => {
               label="Price"
               type="number"
               fullWidth
-              id="price"
               name="price"
               value={
-                editServiceDetail
-                  ? editServiceDetail.price
-                  : newServiceDetail?.price || 0
+                (editServiceDetail
+                  ? editServiceDetail.price?.toString()
+                  : newServiceDetail
+                  ? newServiceDetail.price?.toString()
+                  : "") || ""
               }
               onChange={handleInputChange}
             />
             <TextField
               margin="dense"
-              label="Extra PricePerMM"
+              label="Extra Price per MM"
               type="number"
               fullWidth
-              id="extraPricePerMM"
               name="extraPricePerMM"
               value={
-                editServiceDetail
-                  ? editServiceDetail.extraPricePerMM
-                  : newServiceDetail?.extraPricePerMM || 0
+                (editServiceDetail
+                  ? editServiceDetail.extraPricePerMM?.toString()
+                  : newServiceDetail
+                  ? newServiceDetail.extraPricePerMM?.toString()
+                  : "") || ""
               }
               onChange={handleInputChange}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog} color="secondary">
+            <Button onClick={handleCloseDialog} color="primary">
               Cancel
             </Button>
-            {/* <Button onClick={handleSaveServiceDetail} color="primary">Save</Button> */}
+            <Button onClick={handleSaveServiceDetail} color="primary">
+              Save
+            </Button>
           </DialogActions>
         </Dialog>
       )}

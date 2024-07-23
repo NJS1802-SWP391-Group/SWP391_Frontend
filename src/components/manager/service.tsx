@@ -208,7 +208,7 @@ const Service = () => {
       >
         <Button
           variant="contained"
-          sx={{ marginLeft: 120 }}
+          sx={{ marginLeft: 130 }}
           onClick={handleAddService}
         >
           <img src={PlusAdd} height={20} width={20} alt="PLusAdd" />
