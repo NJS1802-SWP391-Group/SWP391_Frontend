@@ -2,343 +2,133 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import serviceApi from "../../services/service";
-import serviceDetailApi from "../../services/serviceDetailApi";
 
-const DescriptionCell = ({ value }: { value: string }) => {
-  return (
-    <Typography variant="body2" whiteSpace="pre-line">
-      {value}
-    </Typography>
-  );
-};
-
-export interface ServiceInterface {
+export interface AllService {
   serviceID: number;
   name: string;
   description: string;
   status: string;
+  serviceDetails: ServiceDetail[];
 }
 
-export interface ServiceDetailInterFace {
+export interface ServiceDetail {
   serviceDetailID: number;
   code: string;
   minRange: number;
   maxRange: number;
   price: number;
   extraPricePerMM: number;
-  status: Status;
-  serviceName: string;
-}
-
-export enum Status {
-  Active = "Active",
+  status: string;
 }
 
 const AboutPage = () => {
-  const [services, setServices] = useState<ServiceInterface[]>([]);
-  const [serviceDetails, setServiceDetails] = useState<
-    ServiceDetailInterFace[]
-  >([]);
-  useEffect(() => {
-    const fectServices = async () => {
-      try {
-        const serviceList: any = await serviceApi.getAllService();
-        setServices(serviceList);
-        const serviceDetailList: any = await serviceDetailApi.getAll();
-        setServiceDetails(serviceDetailList);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fectServices();
-  }, [services, serviceDetails]);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const [serviceList, setServiceList] = useState<AllService[]>();
+  const today = new Date();
 
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
+
+  const fetchService = async () => {
+    const services: any = await serviceApi.getAllService();
+    setServiceList(services);
+  };
+  useEffect(() => {
+    fetchService();
+  }, [serviceList]);
   return (
-    <React.Fragment>
+    <div>
       <Box mb={8}>
         <Navbar />
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginBottom: 4,
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
-          Our Services
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: "80%", textAlign: "center" }}
-        >
-          At our company, we offer a range of valuation services to meet your
-          needs. Our team of experts uses the latest technology and industry
-          best practices to ensure accurate and reliable results.
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: "80%", textAlign: "center" }}
-        >
-          Below, you'll find a summary of our service offerings and the key
-          details about each option.
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          height: "auto",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "hidden",
-        }}
-      >
-        <TableContainer
-          sx={{
-            width: "80%",
-            height: "100%",
-            border: "1px solid #e0e0e0",
+      <div style={{ padding: "0px 100px", margin: "0 100px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: 10,
+            marginBottom: "30px",
           }}
         >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
+          <Typography variant="h5" textAlign={"center"} fontWeight={700}>
+            Latest service price list today {today.toLocaleDateString("en-Us")}
+          </Typography>
+          <Typography variant="h5" textAlign={"center"} fontWeight={500}>
+            Reference price list of diamonds in centimeters (mm). If you want to
+            value your diamonds but don't know the price of Diavan's valuation
+            service, please quickly refer to the latest updated price quote
+            below.
+          </Typography>
+          <Typography variant="h5" textAlign={"center"}>
+            (Currency: USD)
+          </Typography>
+        </div>
+
+        {serviceList?.map((service) => (
+          <Accordion
+            expanded={expanded === service.serviceID.toString()}
+            onChange={handleChange(service.serviceID.toString())}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                {service.name}
+              </Typography>
+              <Typography sx={{ color: "text.secondary" }}>
+                Click to view detail
+              </Typography>
+            </AccordionSummary>
+            {service.serviceDetails.map((detail) => (
+              <AccordionDetails>
+                <div
+                  style={{
+                    padding: "5px 30px",
+                    borderRadius: "25px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    backgroundColor: "#4F46E5",
+                    color: "white",
                   }}
                 >
-                  No
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Service Type
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Description
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {services.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell
-                    align="center"
+                  <Typography
                     sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      fontWeight: "thin",
                     }}
                   >
-                    {row.serviceID}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <DescriptionCell value={row.description} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
-      <Box
-        mt={8}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginBottom: 4,
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
-          Our Services
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: "80%", textAlign: "center" }}
-        >
-          At our company, we offer a range of valuation services to meet your
-          needs. Our team of experts uses the latest technology and industry
-          best practices to ensure accurate and reliable results.
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ maxWidth: "80%", textAlign: "center" }}
-        >
-          Below, you'll find a summary of our service offerings and the key
-          details about each option.
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          height: 400,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "hidden",
-        }}
-      >
-        <TableContainer
-          sx={{
-            width: "80%",
-            height: "100%",
-            border: "1px solid #e0e0e0",
-          }}
-        >
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  No
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Service Type
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Range
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Price per MM
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent" },
-                    border: "1px solid #e0e0e0",
-                  }}
-                >
-                  Extra price per MM
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {serviceDetails.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    {row.code}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    {row.serviceName}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <DescriptionCell
-                      value={
-                        row.maxRange == 0
-                          ? `More than ${row.minRange}mm`
-                          : row.minRange + "-" + row.maxRange + "mm"
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <DescriptionCell value={row.price + "$"} />
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" },
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <DescriptionCell value={row.extraPricePerMM + "$"} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+                    <span style={{ fontWeight: "bold", fontSize: "20px" }}>
+                      {detail.minRange}-{detail.maxRange} mm
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontSize: "20px", fontWeight: 900 }}>
+                    {detail.price} $
+                  </Typography>
+                </div>
+              </AccordionDetails>
+            ))}
+          </Accordion>
+        ))}
+      </div>
       <Box mt={8}>
         <Footer />
       </Box>
-    </React.Fragment>
+    </div>
   );
 };
 

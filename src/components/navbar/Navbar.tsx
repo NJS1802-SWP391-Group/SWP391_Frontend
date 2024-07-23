@@ -8,13 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DiavanImage from "../../assets/Diavan.png";
 import AvatarBoy from "../../assets/boy_12894580.png";
 import "./Navbar.css";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 function Navbar() {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -80,19 +81,74 @@ function Navbar() {
       </Link>
       <ul>
         <Link to="/">
-          <li>Home</li>
+          <li
+            style={
+              location.pathname == "/"
+                ? {
+                    backgroundColor: "#4F46E5",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Home
+          </li>
         </Link>
         <Link to="/diamond-check">
-          <li>Diamond Check</li>
+          <li
+            style={
+              location.pathname == "/diamond-check"
+                ? {
+                    backgroundColor: "#4F46E5",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Diamond Check
+          </li>
         </Link>
         <Link to="/calculate">
-          <li>Calculate</li>
+          <li
+            style={
+              location.pathname == "/calculate"
+                ? {
+                    backgroundColor: "#4F46E5",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Calculate
+          </li>
         </Link>
         <Link to="/about">
-          <li>Our Services</li>
+          <li
+            style={
+              location.pathname == "/about"
+                ? {
+                    backgroundColor: "#4F46E5",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Our Services
+          </li>
         </Link>
         <Link to="/contact">
-          <li>Valuate Diamond</li>
+          <li
+            style={
+              location.pathname == "/contact"
+                ? {
+                    backgroundColor: "#4F46E5",
+                    color: "white",
+                  }
+                : {}
+            }
+          >
+            Valuate Diamond
+          </li>
         </Link>
       </ul>
 

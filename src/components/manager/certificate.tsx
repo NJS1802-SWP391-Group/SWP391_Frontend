@@ -20,6 +20,7 @@ const Certificate = () => {
   const { resultId } = useParams<{ resultId: string }>();
 
   const [certificate, setCertificate] = useState<CertificateResponse>();
+  console.log("certificate:", certificate);
   const [loading, setLoading] = useState<boolean>(true);
   const [isDone, setIsDone] = useState<boolean>(false);
 
@@ -29,10 +30,12 @@ const Certificate = () => {
   });
 
   const handleDoneClick = () => {
+    alert(certificate?.orderDetailId);
     if (certificate?.orderDetailId) {
       certificateApi
         .changeStatusToCertificated(certificate.orderDetailId)
-        .then(() => {
+        .then((response) => {
+          console.log("res", response);
           setIsDone(true);
         });
     }

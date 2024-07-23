@@ -20,6 +20,10 @@ const serviceApi = {
     const url = `/Service/Change-Status/${serviceId}`;
     return axiosClient.put(url, data);
   },
+  getAllServiceForCustomer() {
+    const url = "/Service/Get-All";
+    return axiosClient.get(url);
+  },
 };
 
 export default serviceApi;
